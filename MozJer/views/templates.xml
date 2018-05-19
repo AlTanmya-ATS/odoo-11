@@ -12,6 +12,20 @@
           </t>
         </t>
       </template>
+        
+ <report
+    id="mozjer_id"
+    model="account.invoice"
+    string="Invoices"
+    report_type="qweb-pdf"
+    report_name="Mouaz first report"
+    name="mozjer.account.report_invoice"
+    file="account.report_invoice"
+    attachment_use="True"
+    attachment="(object.state in ('open','paid')) and
+        ('INV'+(object.number or '').replace('/','')+'.pdf')"
+ />
+
         <!-- <template id="listing"> -->
         <!--   <ul> -->
         <!--     <li t-foreach="objects" t-as="object"> -->
