@@ -45,7 +45,7 @@
     
     
     <menuitem id="location_menu" name="Location" parent="asset_management_menu"
-                  action="asset_list_action"/>
+                  action="asset_location_list_action"/>
 
     </data>
 </odoo>
