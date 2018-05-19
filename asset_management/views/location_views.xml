@@ -22,7 +22,7 @@
 
     <record model="ir.ui.view" id="asset_location_search_view">
 		     <field name="name">asset_location.search</field>
-			 <field name="model">asset_management.locaation</field>
+			 <field name="model">asset_management.location</field>
 			 <field name="arch" type="xml">
 			     <search>
 				     <field name="name"/>
