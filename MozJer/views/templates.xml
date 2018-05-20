@@ -1,27 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-<template id="my_module.book_loans_template">
-<t t-call="web.html_container">
-<t t-foreach="docs" t-as="doc">
-<t t-call="web.internal_layout">
-<div class="page">
-<div class="oe_structure">
-<h1>Book Loans for <t t-esc="doc.name"/></h1>
-
-</div>
-</div>
-</t>
-</t>
-</t>
-</template>
-        
-        
-<report id="report_book_loans"
-name="my_module.book_loans_template"
-model="account.invoice"
-string="Book Loans"
-report_type="qweb-pdf" />
-</odoo>
 
 
         <!-- <template id="listing"> -->
