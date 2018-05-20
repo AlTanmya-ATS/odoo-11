@@ -1,30 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-      <template id="report_invoice">
-        <t t-call="web.html_container">
-          <t t-foreach="docs" t-as="o">
-             <t t-call="web.external_layout">
-                <div class="page">
-                    <h2>Report title</h2>
-                    <p>This object's name is <span t-field="o.name"/></p>
-                </div>
-              </t>
-          </t>
-        </t>
-      </template>
-        
- <report
-    id="mozjer_id"
-    model="account.invoice"
-    string="Invoices"
-    report_type="qweb-pdf"
-    report_name="Mouaz first report"
-    name="mozjer.account.report_invoice"
-    file="account.report_invoice"
-    attachment_use="True"
-    attachment="(object.state in ('open','paid')) and
-        ('INV'+(object.number or '').replace('/','')+'.pdf')"
- />
+<template id="my_module.book_loans_template">
+<t t-call="web.html_container">
+<t t-foreach="docs" t-as="doc">
+<t t-call="web.internal_layout">
+<div class="page">
+<div class="oe_structure">
+<h1>Book Loans for <t t-esc="doc.name"/></h1>
+
+</div>
+</div>
+</t>
+</t>
+</t>
+</template>
+</odoo>
+
+#<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<report id="report_book_loans"
+name="my_module.book_loans_template"
+model="account.invoice"
+string="Book Loans"
+report_type="qweb-pdf" />
+</odoo>
+
 
         <!-- <template id="listing"> -->
         <!--   <ul> -->
