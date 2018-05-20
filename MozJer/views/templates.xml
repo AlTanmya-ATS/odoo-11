@@ -14,9 +14,8 @@
 </t>
 </t>
 </template>
-</odoo>
-
-<odoo>
+        
+        
 <report id="report_book_loans"
 name="my_module.book_loans_template"
 model="account.invoice"
