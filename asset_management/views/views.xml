@@ -275,7 +275,7 @@
                                         <field name="asset_cost_account"/>
                                         <field name="asset_clearing_account"/>
                                         <field name="depreciation_expense_account"/>
-                                        <field name="accumulated_expense_account"/>
+                                        <field name="accumulated_depreciation_account"/>
                                         <field name="journal_id"/>
                                     </tree>
                                 </field>
@@ -347,12 +347,17 @@
                           </button>
                       </div>
                         <group>
+                        <group>
                             <!--<field name="proceeds_of_sale_gain_account" attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
                             <!--<field name="proceeds_of_sale_loss_account" attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
                             <!--<field name="proceeds_of_loss_clearing_account" attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
                             <field name="cost_of_removal_gain_account"  attrs="{'readonly':[('book_with_cate','=',True)]}" />
                             <field name="cost_of_removal_loss_account"  attrs="{'readonly':[('book_with_cate','=',True)]}" />
                              <field name="book_with_cate" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="company_id"/>
+                        </group>
                         </group>
                         <!--<group>-->
                             <!--<field name="cost_of_removal_clearing_account"  attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
@@ -677,15 +682,15 @@
                         <group>
 						    <field name="name"/>
                             <field name="asset_id"/>
-							<field name="book_id" attrs="{'invisible':['|',('trx_type','=','re_class'),('trx_type','=','transfer')]}"/>
+							<field name="book_id" attrs="{'invisible':[('trx_type','=','re_class')]}"/>
                             <field name="trx_date"/>
                             <field name="trx_type"/>
-							<field name="trx_details"/>
+
                         </group>
 						<group>
-						    <field name="cost"/>
-						    <field name="period"/>
+						    <!--<field name="period"/>-->
                             <field name= "category_id"/>
+                            <field name="trx_details"/>
 						</group>
 					  </group>						
                     </sheet>
