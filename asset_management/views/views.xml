@@ -346,7 +346,7 @@
                                 <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;active&quot;}"/>
                           </button>
                       </div>
-                        <group>
+                        <!--<group>-->
                         <group>
                             <!--<field name="proceeds_of_sale_gain_account" attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
                             <!--<field name="proceeds_of_sale_loss_account" attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
@@ -355,10 +355,10 @@
                             <field name="cost_of_removal_loss_account"  attrs="{'readonly':[('book_with_cate','=',True)]}" />
                              <field name="book_with_cate" invisible="1"/>
                         </group>
-                        <group>
-                            <field name="company_id"/>
-                        </group>
-                        </group>
+                        <!--<group>-->
+                            <!--<field name="company_id"/>-->
+                        <!--</group>-->
+                        <!--</group>-->
                         <!--<group>-->
                             <!--<field name="cost_of_removal_clearing_account"  attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
                             <!--<field name="net_book_value_retired_gain_account"  attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
