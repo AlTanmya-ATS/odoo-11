@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "asset_management",
+    'name': "ATS Asset Management",
 
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
