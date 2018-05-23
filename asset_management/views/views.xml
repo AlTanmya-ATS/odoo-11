@@ -243,17 +243,16 @@
             <field name="arch" type="xml">
                 <form string="Category Form">
                     <sheet>
-                        <div class="oe_left oe_title">
-                            <label for="name"/>
-                            <h1>
-                                <field name="name" attrs="{'readonly':[('asset_with_category','=',True)]}"/>
-                            </h1>
-                        </div>
-                        <div class="oe_right oe_button_box" name="button_box">
+                        <div class="oe_button_box" name="button_box">
                           <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-check">
                                 <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;active&quot;}"/>
                           </button>
                       </div>
+                        <div class="oe_left oe_title">
+                            <h1>
+                                <field name="name" placeholder="Category Name" attrs="{'readonly':[('asset_with_category','=',True)]}"/>
+                            </h1>
+                        </div>
 					 <group>
                         <group>
                             <field name="asset_with_category" invisible="1"/>
@@ -335,18 +334,17 @@
             <field name="arch" type="xml">
                 <form string="Book Form" >
                     <sheet>
-                        <div class="oe_left oe_title">
-                            <h1>
-                            <label for="name"/>
-                                <field name="name"/>
-                             </h1>
-                        </div>
-                        <div class="oe_right oe_button_box" name="button_box">
+                        <div class="oe_button_box" name="button_box">
                           <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-check">
                                 <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;active&quot;}"/>
                           </button>
                       </div>
-                        <!--<group>-->
+                        <div class="oe_left oe_title">
+                            <h1>
+                                <field name="name" placeholder="Book Name"/>
+                             </h1>
+                        </div>
+                        <group>
                         <group>
                             <!--<field name="proceeds_of_sale_gain_account" attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
                             <!--<field name="proceeds_of_sale_loss_account" attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
@@ -355,10 +353,10 @@
                             <field name="cost_of_removal_loss_account"  attrs="{'readonly':[('book_with_cate','=',True)]}" />
                              <field name="book_with_cate" invisible="1"/>
                         </group>
-                        <!--<group>-->
-                            <!--<field name="company_id"/>-->
-                        <!--</group>-->
-                        <!--</group>-->
+                        <group>
+                            <field name="company_id"/>
+                        </group>
+                        </group>
                         <!--<group>-->
                             <!--<field name="cost_of_removal_clearing_account"  attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
                             <!--<field name="net_book_value_retired_gain_account"  attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->

@@ -41,6 +41,9 @@ class Asset(models.Model):
                                 "If a Book , an Assignment and a Source Line are added the statues goes in 'Capitalized' and the depreciation can be computed\n"
                                 "You can manually close an asset by pressing 'Set To Retire' button ")
     gross_value=fields.Float(required=True)
+    currency_id = fields.Many2one('res.currency', string='Currency', required=True, readonly=True,
+                                  states={'draft': [('readonly', False)]},
+                                  default=lambda self: self.env.user.company_id.currency_id.id)
 
 
     @api.onchange('assignment_id','source_line_id','book_assets_id','description')
@@ -191,7 +194,7 @@ class Asset(models.Model):
 
 class Category(models.Model):
     _name = 'asset_management.category'
-    name = fields.Char(string='Category Name',index=True)
+    name = fields.Char(string='Category Name',index=True,required=True)
     description = fields.Text()
     ownership_type = fields.Selection(selection=[('owned', 'Owned')],default='owned')
     is_in_physical_inventory = fields.Boolean()
@@ -206,13 +209,15 @@ class Category(models.Model):
 
 class Book(models.Model):
     _name = 'asset_management.book'
-    name = fields.Char(index=True)
+    name = fields.Char(index=True,required=True)
     description = fields.Text()
+    company_id=fields.Many2one('res.company', string='Company',required=True)
+    currency_id=fields.Many2one('')
     # proceeds_of_sale_gain_account = fields.Many2one('account.account', on_delete='set_null')
     # proceeds_of_sale_loss_account = fields.Many2one('account.account', on_delete='set_null')
     # proceeds_of_loss_clearing_account = fields.Many2one('account.account', on_delete='set_null')
     cost_of_removal_gain_account = fields.Many2one('account.account', on_delete='set_null',domain=[('user_type_id','=','income')])
-    cost_of_removal_loss_account = fields.Many2one('account.account', on_delete='set_null',domain=[('user_type_id','=','')])
+    cost_of_removal_loss_account = fields.Many2one('account.account', on_delete='set_null',domain=[('user_type_id','=','expense')])
     # cost_of_removal_clearing_account = fields.Many2one('account.account', on_delete='set_null')
     # net_book_value_retired_gain_account = fields.Many2one('account.account', on_delete='set_null')
     # net_book_value_retired_loss_account = fields.Many2one('account.account', on_delete='set_null')
@@ -222,13 +227,17 @@ class Book(models.Model):
     # depreciation_adjustment_account = fields.Many2one('account.account', on_delete='set_null')
     book_with_cate = fields.Boolean()
     active=fields.Boolean(default=True)
+    currency_id = fields.Many2one('res.currency', string='Currency', required=True,compute="_compute_currency")
 
+
+    @api.depends('company_id')
+    def _compute_currency(self):
+        self.currency_id=self.company_id.currency_id.id
 
     # @api.model
     # def create(self, values):
     #     values['name']=self.env['ir.sequence'].next_by_code('asset_management.book.Book')
     #     return super(Book, self).create(values)
-
 
 
 class BookAssets (models.Model):
@@ -271,6 +280,7 @@ class BookAssets (models.Model):
                                   "If the asset is confirmed, the status goes in 'Running' and the depreciation lines can be posted in the accounting.\n"
                                   "You can manually close an asset when the depreciation is over. If the last line of depreciation is posted, the asset automatically goes in that status.")
     asset_state=fields.Selection(related='asset_id.state')
+
 
 
     @api.model
@@ -471,9 +481,10 @@ class BookAssets (models.Model):
                 sequence = x + 1
                 amount = self._compute_board_amount(sequence, residual_amount, amount_to_depr, undone_dotation_number,
                                                     posted_depreciation_line_ids)
-                current_currency = self.env['res.company'].search([('id', '=', 1)])[0].currency_id
-                amount = current_currency.round(amount)
-                if float_is_zero(amount, precision_rounding=current_currency.rounding):
+                currency_id=self.asset_id.currency_id.id
+                # current_currency = self.env['res.company'].search([('id', '=', 1)])[0].currency_id
+                amount = currency_id.round(amount)
+                if float_is_zero(amount, precision_rounding=currency_id.rounding):
                     continue
                 residual_amount -= amount
                 vals = {
@@ -693,6 +704,7 @@ class Assignment(models.Model):
             if  self.responsible_id != old_responsible :
                 self.env['asset_management.transaction'].create({
                     'asset_id':self.asset_id.id,
+                    'book_id':self.book_id.id,
                     'category_id':self.asset_id.category_id.id,
                     'trx_type':'transfer',
                     'trx_date':datetime.today(),
@@ -702,6 +714,7 @@ class Assignment(models.Model):
             if self.location_id != old_location :
                 self.env['asset_management.transaction'].create({
                     'asset_id': self.asset_id.id,
+                    'book_id':self.book_id.id,
                     'category_id': self.asset_id.category_id.id,
                     'trx_type': 'transfer',
                     'trx_date': datetime.today(),
@@ -787,31 +800,33 @@ class Depreciation(models.Model):
     def create_move(self, post_move=True):
         created_moves = self.env['account.move']
         prec = self.env['decimal.precision'].precision_get('Account')
-        current_currency = self.env['res.company'].search([('id','=',1)])[0].currency_id
+        # current_currency = self.env['res.company'].search([('id','=',1)])[0].currency_id
         journal_id=self.env['asset_management.category_books'].search([('book_id', '=', self.book_id.id),('category_id', '=', self.asset_id.category_id.id)]).journal_id
         for line in self:
             if line.move_id:
                 raise UserError(
                     _('This depreciation is already linked to a journal entry! Please post or delete it.'))
-            category_id = line.asset_id.category_id
+            # category_id = line.asset_id.category_id
+            company_currency=line.book_id.company_id.currency_id.id
+            current_currency=line.asset_id.currency_id.id
             depreciation_date = self.env.context.get('depreciation_date') or line.depreciation_date or fields.Date.context_today(self)
-            accumulated_expense_account = line.env['asset_management.category_books'].search( [('book_id', '=', self.book_id.id), ('category_id', '=', self.asset_id.category_id.id)])[0].accumulated_expense_account
+            accumulated_depreciation_account = line.env['asset_management.category_books'].search( [('book_id', '=', self.book_id.id), ('category_id', '=', self.asset_id.category_id.id)])[0].accumulated_depreciation_account
             depreciation_expense_account=line.env['asset_management.assignment'].search([('asset_id','=',self.asset_id.id),('book_id','=',self.book_id.id)]).depreciation_expense_account
             partner_id=line.env['asset_management.source_line'].search([('asset_id','=',self.asset_id.id)])[0].invoice_id.partner_id
             if partner_id is None:
                 raise ValidationError ("Source Line must be entered")
-            amount = current_currency.with_context(date=depreciation_date).compute(line.amount, current_currency)
+            amount = current_currency.with_context(date=depreciation_date).compute(line.amount, company_currency)
             asset_name = line.asset_id.name + ' (%s/%s)' % (line.sequence, len(line.asset_id.depreciation_line_ids))
             move_line_1 = {
                 'name': asset_name,
-                'account_id':accumulated_expense_account.id,
+                'account_id':accumulated_depreciation_account.id,
                 'debit': 0.0 if float_compare(amount, 0.0, precision_digits=prec) > 0 else -amount,
                 'credit': amount if float_compare(amount, 0.0, precision_digits=prec) > 0 else 0.0,
                 'journal_id':journal_id.id,
                 'partner_id': partner_id.id,
                 'analytic_account_id': False,
-                'currency_id':  current_currency.id or False,
-                'amount_currency':   - 1.0 * line.amount or 0.0,
+                'currency_id': company_currency != current_currency and current_currency.id or False,
+                'amount_currency': company_currency != current_currency and - 1.0 * line.amount or 0.0,
             }
             move_line_2 = {
                 'name': asset_name,
@@ -821,8 +836,8 @@ class Depreciation(models.Model):
                 'journal_id': journal_id.id,
                 'partner_id': partner_id.id,
                 'analytic_account_id':  False,
-                'currency_id': current_currency.id or False,
-                'amount_currency':  line.amount or 0.0,
+                'currency_id': company_currency != current_currency and current_currency.id or False,
+                'amount_currency': company_currency != current_currency and - 1.0 * line.amount or 0.0,
             }
             move_vals = {
                 'ref': line.asset_id.name,
@@ -850,7 +865,7 @@ class Depreciation(models.Model):
     #     for line in self:
     #         category_id = line.asset_id.category_id
     #         depreciation_date = self.env.context.get('depreciation_date') or line.depreciation_date or fields.Date.context_today(self)
-    #         asset_cost_account = line.env['assset_management.category_books'].search([('book_id', '=', self.book_id.id), ('category_id', '=', self.asset_id.category_id.id)])[0].accumulated_expense_account
+    #         asset_cost_account = line.env['assset_management.category_books'].search([('book_id', '=', self.book_id.id), ('category_id', '=', self.asset_id.category_id.id)])[0].accumulated_depreciation_account
     #         depreciation_expense_account = line.env['assset_management.category_books'].search([('book_id', '=', self.book_id.id), ('category_id', '=', self.asset_id.category_id.id)])[0].depreciation_expense_account
     #         partner_id = line.env['asset_management.source_line'].search([('asset_id', '=', self.asset_id.id)])[0].invoice_id.partner_id
     #         amount = current_currency.compute(line.amount, current_currency)
@@ -1019,13 +1034,12 @@ class Transaction (models.Model):
         ]
     )
     trx_date = fields.Date('Transaction Date')
-    cost = fields.Float('Cost')
     trx_details = fields.Text('Transaction Details')
-    period = fields.Selection(
-        [('1','JAN'),
-         ('2','FEB'),
-         ('3','MAR')]
-    )
+    # period = fields.Selection(
+    #     [('1','JAN'),
+    #      ('2','FEB'),
+    #      ('3','MAR')]
+    # )
 
 
     @api.model
