@@ -51,29 +51,6 @@ class Asset(models.Model):
         if self.source_line_id  and self.assignment_id and self.book_assets_id:
             self.state='capitalize'
 
-        # if self.description and self.id is False:
-        #
-        #     message = ('Save the record to be able to  continue\n')
-        #     result={'warning':{'title':'Guideline',
-        #                        'message':message }}
-        #     return result
-        #
-        # if self.book_assets_id:
-        #    for x in self.book_assets_id:
-        #        for y in self.assignment_id:
-        #            if x.book_id.id != y.book_id.id:
-        #                 message= ('You should assign the asset in this book to a location to be able to compute deprecation')
-        #                 result = {'warning': {'title': 'Guideline',
-        #                                       'message': message}}
-        #                 return result
-        #
-        # if self.assignment_id and self.source_line_id == [[6, False, []]]:
-        #     message=('Add source line so the state change to Capitalize to be able to compute deprecation')
-        #     result = {'warning': {'title': 'Guideline',
-        #                           'message': message}}
-        #
-        #     return result
-
 
     @api.onchange('description')
     def guidelines(self):
@@ -98,6 +75,7 @@ class Asset(models.Model):
                             'message': message ,
                         }
                         return {'warning': warning}
+
 
     @api.onchange('assignment_id')
     def guideline2(self):
@@ -212,7 +190,6 @@ class Book(models.Model):
     name = fields.Char(index=True,required=True)
     description = fields.Text()
     company_id=fields.Many2one('res.company', string='Company',required=True,default=lambda self: self.env['res.company']._company_default_get('asset_management.book'))
-    currency_id=fields.Many2one('')
     # proceeds_of_sale_gain_account = fields.Many2one('account.account', on_delete='set_null')
     # proceeds_of_sale_loss_account = fields.Many2one('account.account', on_delete='set_null')
     # proceeds_of_loss_clearing_account = fields.Many2one('account.account', on_delete='set_null')
@@ -481,7 +458,7 @@ class BookAssets (models.Model):
                 sequence = x + 1
                 amount = self._compute_board_amount(sequence, residual_amount, amount_to_depr, undone_dotation_number,
                                                     posted_depreciation_line_ids)
-                currency_id=self.asset_id.currency_id.id
+                currency_id=self.book_id.currency_id.id
                 # current_currency = self.env['res.company'].search([('id', '=', 1)])[0].currency_id
                 amount = currency_id.round(amount)
                 if float_is_zero(amount, precision_rounding=currency_id.rounding):
@@ -1025,7 +1002,7 @@ class CategoryBooks(models.Model):
                                    help="Choose the method to use to compute the dates and number of entries.\n"
                                         "  * Number of Entries: Fix the number of entries and the time between 2 depreciations.\n"
                                         "  * Ending Date: Choose the time between 2 depreciations and the date the depreciations won't go beyond.")
-    method_number=fields.Integer(string='Number of Depreciation',help="The number of depreciations needed to depreciate your asset")
+    method_number=fields.Integer(string='Number of Depreciation',requried=True,help="The number of depreciations needed to depreciate your asset")
 
 
 
