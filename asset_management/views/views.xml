@@ -429,7 +429,7 @@
             <field name="name">book_assets.form</field>
             <field name="model">asset_management.book_assets</field>
             <field name="arch" type="xml">
-                <form string="Book Asset Form" create="false" edit="false">
+                <form string="Book Asset Form" create="false">
                     <header>
                         <button name="%(asset_dep_modify_action)d" string="Modify Depreciation" type="action" class="oe_highlight" attrs="{'invisible':['|',('depreciated_flag','=',False),('state','!=','open')]}"/>
                         <button name="validate"  type="object" string="confirm" class="oe_highlight" attrs="{'invisible':['|',('asset_state','!=','capitalize'),('state','!=','draft')]}"/>
@@ -545,7 +545,7 @@
             <field name="name">assignment.form</field>
             <field name="model">asset_management.assignment</field>
             <field name="arch" type="xml">
-                <form string="Assignment Form" create="false" edit="false">
+                <form string="Assignment Form" create="false">
                     <sheet>
 					  <group>
                         <group>
@@ -613,7 +613,7 @@
             <field name="name">source_line.form</field>
             <field name="model">asset_management.source_line</field>
             <field name="arch" type="xml">
-                <form string="Source_Line Form" create="false" edit="false">
+                <form string="Source_Line Form" create="false" >
                     <sheet>
 					  <group>
                         <group>
@@ -810,7 +810,7 @@
             <field name="name">category_books.form</field>
             <field name="model">asset_management.category_books</field>
             <field name="arch" type="xml">
-                <form string="Category Books Form" create="false" edit="false">
+                <form string="Category Books Form" create="false">
                     <sheet>
 					  <group>
                         <group>

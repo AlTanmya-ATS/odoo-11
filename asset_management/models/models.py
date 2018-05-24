@@ -458,10 +458,10 @@ class BookAssets (models.Model):
                 sequence = x + 1
                 amount = self._compute_board_amount(sequence, residual_amount, amount_to_depr, undone_dotation_number,
                                                     posted_depreciation_line_ids)
-                currency_id=self.book_id.currency_id.id
+                currency=self.book_id.company_id.currency_id.id
                 # current_currency = self.env['res.company'].search([('id', '=', 1)])[0].currency_id
-                amount = currency_id.round(amount)
-                if float_is_zero(amount, precision_rounding=currency_id.rounding):
+                amount = currency.round(amount)
+                if float_is_zero(amount, precision_rounding=currency.rounding):
                     continue
                 residual_amount -= amount
                 vals = {
