@@ -211,13 +211,13 @@ class Book(models.Model):
     _name = 'asset_management.book'
     name = fields.Char(index=True,required=True)
     description = fields.Text()
-    company_id=fields.Many2one('res.company', string='Company',required=True)
+    company_id=fields.Many2one('res.company', string='Company',required=True,default=lambda self: self.env['res.company']._company_default_get('asset_management.book'))
     currency_id=fields.Many2one('')
     # proceeds_of_sale_gain_account = fields.Many2one('account.account', on_delete='set_null')
     # proceeds_of_sale_loss_account = fields.Many2one('account.account', on_delete='set_null')
     # proceeds_of_loss_clearing_account = fields.Many2one('account.account', on_delete='set_null')
-    cost_of_removal_gain_account = fields.Many2one('account.account', on_delete='set_null',domain=[('user_type_id','=','income')])
-    cost_of_removal_loss_account = fields.Many2one('account.account', on_delete='set_null',domain=[('user_type_id','=','expense')])
+    cost_of_removal_gain_account = fields.Many2one('account.account', on_delete='set_null',domain=[('user_type_id','=','Income')])
+    cost_of_removal_loss_account = fields.Many2one('account.account', on_delete='set_null',domain=[('user_type_id','=','Expenses')])
     # cost_of_removal_clearing_account = fields.Many2one('account.account', on_delete='set_null')
     # net_book_value_retired_gain_account = fields.Many2one('account.account', on_delete='set_null')
     # net_book_value_retired_loss_account = fields.Many2one('account.account', on_delete='set_null')
@@ -815,8 +815,8 @@ class Depreciation(models.Model):
             partner_id=line.env['asset_management.source_line'].search([('asset_id','=',self.asset_id.id)])[0].invoice_id.partner_id
             if partner_id is None:
                 raise ValidationError ("Source Line must be entered")
-            amount = current_currency.with_context(date=depreciation_date).compute(line.amount, company_currency)
             asset_name = line.asset_id.name + ' (%s/%s)' % (line.sequence, len(line.asset_id.depreciation_line_ids))
+            amount = current_currency.with_context(date=depreciation_date).compute(line.amount, company_currency)
             move_line_1 = {
                 'name': asset_name,
                 'account_id':accumulated_depreciation_account.id,
@@ -828,23 +828,48 @@ class Depreciation(models.Model):
                 'currency_id': company_currency != current_currency and current_currency.id or False,
                 'amount_currency': company_currency != current_currency and - 1.0 * line.amount or 0.0,
             }
-            move_line_2 = {
-                'name': asset_name,
-                'account_id':depreciation_expense_account.id,
-                'credit': 0.0 if float_compare(amount, 0.0, precision_digits=prec) > 0 else -amount,
-                'debit': amount if float_compare(amount, 0.0, precision_digits=prec) > 0 else 0.0,
-                'journal_id': journal_id.id,
-                'partner_id': partner_id.id,
-                'analytic_account_id':  False,
-                'currency_id': company_currency != current_currency and current_currency.id or False,
-                'amount_currency': company_currency != current_currency and - 1.0 * line.amount or 0.0,
-            }
-            move_vals = {
-                'ref': line.asset_id.name,
-                'date': depreciation_date or False,
-                'journal_id': journal_id.id,
-                'line_ids': [(0, 0, move_line_1), (0, 0, move_line_2)],
-            }
+            if len(self.asset_id.assignment_id) == 1:
+                move_line_2 = {
+                    'name': asset_name,
+                    'account_id':depreciation_expense_account.id,
+                    'credit': 0.0 if float_compare(amount, 0.0, precision_digits=prec) > 0 else -amount,
+                    'debit': amount if float_compare(amount, 0.0, precision_digits=prec) > 0 else 0.0,
+                    'journal_id': journal_id.id,
+                    'partner_id': partner_id.id,
+                    'analytic_account_id':  False,
+                    'currency_id': company_currency != current_currency and current_currency.id or False,
+                    'amount_currency': company_currency != current_currency and - 1.0 * line.amount or 0.0,
+                }
+                move_vals = {
+                    'ref': line.asset_id.name,
+                    'date': depreciation_date or False,
+                    'journal_id': journal_id.id,
+                    'line_ids': [(0, 0, move_line_1), (0, 0, move_line_2)],
+                }
+            else:
+                line_ids=[]
+                line_ids.append((0,False,move_line_1))
+                for assignment in self.asset_id.assignment_id:
+                    amount=(line.amount * assignment.percentage)/100
+                    amount = current_currency.with_context(date=depreciation_date).compute(amount,company_currency)
+                    move_line_2 = {
+                        'name': asset_name,
+                        'account_id': depreciation_expense_account.id,
+                        'credit': 0.0 if float_compare(amount, 0.0, precision_digits=prec) > 0 else -amount,
+                        'debit': amount if float_compare(amount, 0.0, precision_digits=prec) > 0 else 0.0,
+                        'journal_id': journal_id.id,
+                        'partner_id': partner_id.id,
+                        'analytic_account_id': False,
+                        'currency_id': company_currency != current_currency and current_currency.id or False,
+                        'amount_currency': company_currency != current_currency and - 1.0 * line.amount or 0.0,
+                    }
+                    line_ids.append((0,False,move_line_2))
+                move_vals = {
+                    'ref': line.asset_id.name,
+                    'date': depreciation_date or False,
+                    'journal_id': journal_id.id,
+                    'line_ids': line_ids,
+                }
             move = self.env['account.move'].create(move_vals)
             line.write({'move_id': move.id, 'move_check': True})
             created_moves |= move
@@ -986,10 +1011,10 @@ class CategoryBooks(models.Model):
     name = fields.Char(string="Category Books Num",index=True)
     category_id = fields.Many2one('asset_management.category',readonly=True,on_delete='cascade',string='Category')
     book_id = fields.Many2one('asset_management.book',on_delete='cascade',string='Book Num',required=True,domain=[('active','=',True)])
-    asset_cost_account = fields.Many2one('account.account',on_delete='set_null',required=True,domain=[('user_type_id','=','fixed_assets')])
-    asset_clearing_account = fields.Many2one('account.account', on_delete='set_null',required=True,domain=[('user_type_id','=','fixed_assets')])
-    depreciation_expense_account = fields.Many2one('account.account', on_delete='set_null',required=True,domain=[('user_type_id','=','depreciation')])
-    accumulated_depreciation_account = fields.Many2one('account.account', on_delete='set_null',required=True,domain=[('user_type_id','=','fixed_assets')])
+    asset_cost_account = fields.Many2one('account.account',on_delete='set_null',required=True,domain=[('user_type_id','=','Fixed Assets')])
+    asset_clearing_account = fields.Many2one('account.account', on_delete='set_null',required=True,domain=[('user_type_id','=','Fixed Assets')])
+    depreciation_expense_account = fields.Many2one('account.account', on_delete='set_null',required=True,domain=[('user_type_id','=','Depreciation')])
+    accumulated_depreciation_account = fields.Many2one('account.account', on_delete='set_null',required=True,domain=[('user_type_id','=','Fixed Assets')])
     book_with_cate=fields.Boolean(related='book_id.book_with_cate')
     group_entries=fields.Boolean(deafult=True)
     journal_id = fields.Many2one('account.journal', string='Journal', required=True)
