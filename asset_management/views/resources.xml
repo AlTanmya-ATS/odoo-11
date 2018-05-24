@@ -6,7 +6,7 @@
             <xpath expr="." position="inside">
 		         <!-- All links to CSS and JS files should be added in here. -->
                  <script type="text/javascript" src="/asset_management/static/src/js/mapsapi.js"></script>
-                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD01cfDp-1TDrS4Pd4syZlVcjNO2shs6Qw&callback=initMap"
+                <script src="/asset_management/static/src/js/callapi.js"
                     async defer type="text/javascript">
                 </script>
                 <link rel="stylesheet" href="/asset_management/static/src/css/mapsstyle.css"/>
