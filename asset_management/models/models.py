@@ -469,11 +469,15 @@ class BookAssets (models.Model):
                                                     posted_depreciation_line_ids)
                 if not amount:
                     raise ValidationError('amount is empty')
-                currency=self.book_id.company_id.currency_id.id
-                if not currency:
+                # currency=self.book_id.company_id.currency_id.id
+                current_currency = self.env['res.company'].search([('id', '=', self.book_id.company_id.id)])[
+                    0].currency_id
+                if not current_currency:
                     raise ValidationError('currency is empty')
-                # current_currency = self.env['res.company'].search([('id', '=', 1)])[0].currency_id
-                amount = currency.round(amount)
+
+                amount = current_currency.round(amount)
+                if not amount:
+                    raise ValidationError('amount 2 is empty')
                 if float_is_zero(amount, precision_rounding=currency.rounding):
                     continue
                 residual_amount -= amount
