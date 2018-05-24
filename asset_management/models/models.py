@@ -60,15 +60,15 @@ class Asset(models.Model):
             raise ValidationError('Assignment should be added')
 
 
-    @api.onchange('description')
-    def guidelines(self):
-        if self.description:
-            if not self.name:
-                warning = {
-                    'title': _('Guideline!'),
-                    'message': _('Save the record to be able to  continue!'),
-                 }
-                return {'warning': warning}
+    # @api.onchange('description')
+    # def guidelines(self):
+    #     if self.description:
+    #         if not self.name:
+    #             warning = {
+    #                 'title': _('Guideline!'),
+    #                 'message': _('Save the record to be able to  continue!'),
+    #              }
+    #             return {'warning': warning}
 
 
     @api.onchange('book_assets_id')
@@ -229,7 +229,7 @@ class BookAssets (models.Model):
     _name='asset_management.book_assets'
     name=fields.Char( string="Book Asset Number",index=True)
     book_id = fields.Many2one('asset_management.book',on_delete= 'cascade',required=True,)
-    asset_id = fields.Many2one('asset_management.asset',on_delete = 'cascade',readonly=True)
+    asset_id = fields.Many2one('asset_management.asset',on_delete = 'cascade',readonly=True,string='Asset')
     depreciation_line_ids=fields.One2many(comodel_name='asset_management.depreciation',inverse_name='book_assets_id')
     depreciation_line_length=fields.Integer(compute="_depreciation_line_length")
     current_cost = fields.Float(string = "Residual Value",compute='_amount_residual',required=True)
@@ -467,17 +467,8 @@ class BookAssets (models.Model):
                 sequence = x + 1
                 amount = self._compute_board_amount(sequence, residual_amount, amount_to_depr, undone_dotation_number,
                                                     posted_depreciation_line_ids)
-                if not amount:
-                    raise ValidationError('amount is empty')
-                # currency=self.book_id.company_id.currency_id.id
-                current_currency = self.env['res.company'].search([('id', '=', self.book_id.company_id.id)])[
-                    0].currency_id
-                if not current_currency:
-                    raise ValidationError('currency is empty')
-
-                amount = current_currency.round(amount)
-                if not amount:
-                    raise ValidationError('amount 2 is empty')
+                currency=self.book_id.company_id.currency_id
+                amount = currency.round(amount)
                 if float_is_zero(amount, precision_rounding=currency.rounding):
                     continue
                 residual_amount -= amount
@@ -619,7 +610,7 @@ class Assignment(models.Model):
     book_id = fields.Many2one("asset_management.book", string="Book",on_delete = 'cascade',required=True,)
     asset_id = fields.Many2one("asset_management.asset", string="Asset", on_delete='cascade',readonly=True)
     #expence_Acc_ID = fields.Many2one('account.account', on_delete='set_null')
-    depreciation_expense_account=fields.Many2one('account.account',on_delete='set_null')
+    depreciation_expense_account=fields.Many2one('account.account',on_delete='set_null',required=True)
     responsible_id = fields.Many2one('hr.employee', on_delete='set_null')
     location_id = fields.Many2one('asset_management.location',required=True)
     is_not_used = fields.Boolean( defult = False )
@@ -801,11 +792,11 @@ class Depreciation(models.Model):
                 raise UserError(
                     _('This depreciation is already linked to a journal entry! Please post or delete it.'))
             # category_id = line.asset_id.category_id
-            company_currency=line.book_id.company_id.currency_id.id
-            current_currency=line.asset_id.currency_id.id
+            company_currency=line.book_id.company_id.currency_id
+            current_currency=line.asset_id.currency_id
             depreciation_date = self.env.context.get('depreciation_date') or line.depreciation_date or fields.Date.context_today(self)
             accumulated_depreciation_account = line.env['asset_management.category_books'].search( [('book_id', '=', self.book_id.id), ('category_id', '=', self.asset_id.category_id.id)])[0].accumulated_depreciation_account
-            depreciation_expense_account=line.env['asset_management.assignment'].search([('asset_id','=',self.asset_id.id),('book_id','=',self.book_id.id)]).depreciation_expense_account
+            #depreciation_expense_account=line.env['asset_management.assignment'].search([('asset_id','=',self.asset_id.id),('book_id','=',self.book_id.id)]).depreciation_expense_account
             partner_id=line.env['asset_management.source_line'].search([('asset_id','=',self.asset_id.id)])[0].invoice_id.partner_id
             if partner_id is None:
                 raise ValidationError ("Source Line must be entered")
@@ -822,49 +813,29 @@ class Depreciation(models.Model):
                 'currency_id': company_currency != current_currency and current_currency.id or False,
                 'amount_currency': company_currency != current_currency and - 1.0 * line.amount or 0.0,
             }
-            if len(self.asset_id.assignment_id) == 1:
+            move_vals = {
+            'ref': line.asset_id.name,
+            'date': depreciation_date or False,
+            'journal_id': journal_id.id,
+            'line_ids': [(0, 0, move_line_1)],
+            }
+            for assignment in self.asset_id.assignment_id:
+                amount=(line.amount * assignment.percentage)/100.0
+                amount = current_currency.with_context(date=depreciation_date).compute(amount,company_currency)
+                depreciation_expense_account=assignment.depreciation_expense_account.id
                 move_line_2 = {
                     'name': asset_name,
-                    'account_id':depreciation_expense_account.id,
+                    'account_id': depreciation_expense_account,
                     'credit': 0.0 if float_compare(amount, 0.0, precision_digits=prec) > 0 else -amount,
                     'debit': amount if float_compare(amount, 0.0, precision_digits=prec) > 0 else 0.0,
                     'journal_id': journal_id.id,
                     'partner_id': partner_id.id,
-                    'analytic_account_id':  False,
+                    'analytic_account_id': False,
                     'currency_id': company_currency != current_currency and current_currency.id or False,
                     'amount_currency': company_currency != current_currency and - 1.0 * line.amount or 0.0,
-                }
-                move_vals = {
-                    'ref': line.asset_id.name,
-                    'date': depreciation_date or False,
-                    'journal_id': journal_id.id,
-                    'line_ids': [(0, 0, move_line_1), (0, 0, move_line_2)],
-                }
-            else:
-                line_ids=[]
-                line_ids.append((0,False,move_line_1))
-                for assignment in self.asset_id.assignment_id:
-                    amount=(line.amount * assignment.percentage)/100
-                    amount = current_currency.with_context(date=depreciation_date).compute(amount,company_currency)
-                    depreciation_expense_account=assignment.depreciation_expense_account.id
-                    move_line_2 = {
-                        'name': asset_name,
-                        'account_id': depreciation_expense_account.id,
-                        'credit': 0.0 if float_compare(amount, 0.0, precision_digits=prec) > 0 else -amount,
-                        'debit': amount if float_compare(amount, 0.0, precision_digits=prec) > 0 else 0.0,
-                        'journal_id': journal_id.id,
-                        'partner_id': partner_id.id,
-                        'analytic_account_id': False,
-                        'currency_id': company_currency != current_currency and current_currency.id or False,
-                        'amount_currency': company_currency != current_currency and - 1.0 * line.amount or 0.0,
                     }
-                    line_ids.append((0,False,move_line_2))
-                move_vals = {
-                    'ref': line.asset_id.name,
-                    'date': depreciation_date or False,
-                    'journal_id': journal_id.id,
-                    'line_ids': line_ids,
-                }
+                sumdebit+=move_line_2['debit']
+                move_vals['line_ids'].append((0,0,move_line_2))
             move = self.env['account.move'].create(move_vals)
             line.write({'move_id': move.id, 'move_check': True})
             created_moves |= move

@@ -137,6 +137,7 @@
                                         <field name="current_cost"/>
                                         <field name="original_cost"/>
                                         <field name="method"/>
+                                        <field name="life_months"/>
                                         <field name="salvage_value_type"/>
                                         <field name="salvage_value_amount"/>
                                         <field name="date_in_service"/>
@@ -345,7 +346,7 @@
                         <div class="oe_left oe_title">
                         <lable for="name" class="oe_edit_only"/>
                             <h1>
-                                <field name="name" placeholder="Book's Name"/>
+                                <field name="name" placeholder="Book's Name" attrs="{'readonly':[('book_with_cate','=',True)]}"/>
                              </h1>
                         </div>
                         <group>
@@ -358,8 +359,8 @@
                              <field name="book_with_cate" invisible="1"/>
                         </group>
                         <group>
-                            <field name="company_id"/>
-                            <field name="currency_id" invisible="1"/>
+                            <field name="company_id" attrs="{'readonly':[('book_with_cate','=',True)]}"/>
+                            <field name="currency_id" invisible="1" attrs="{'readonly':[('book_with_cate','=',True)]}"/>
                         </group>
                         </group>
                         <!--<group>-->
@@ -449,9 +450,10 @@
                             <group>
 						        <field name="name" invisible="1"/>
                                 <field name="book_id"/>
+                                <label for="asset_id"/>
                                 <dive>
 							        <field name="asset_id" class="oe_inline"/>
-                                    <label string="Not Validate" class="oe_inline" attrs="{'invisible':[('asset_state','!=','draft')]}"/>
+                                    <label string="  Not Validate" class="oe_inline" attrs="{'invisible':[('asset_state','!=','draft')]}"/>
                                 </dive>
                                 <field name="original_cost"/>
                                 <field name="salvage_value_type"/>
