@@ -35,21 +35,29 @@ class Asset(models.Model):
     ]
     asset_with_category=fields.Boolean(related='category_id.asset_with_category')
     source_line_id=fields.One2many('asset_management.source_line',string='Source Line',inverse_name='asset_id')
-    default_book=fields.Many2one('asset_management.book',required=True)
+    # default_book=fields.Many2one('asset_management.book',required=True)
     state=fields.Selection([('draft','Draft'),('capitalize','Capitalize'),('retired','Retired')] ,default="draft",string='Status',required=True,copy=False,
                            help="When an asset is created the status is Draft\n"
                                 "If a Book , an Assignment and a Source Line are added the statues goes in 'Capitalized' and the depreciation can be computed\n"
                                 "You can manually close an asset by pressing 'Set To Retire' button ")
-    gross_value=fields.Float(required=True)
-    currency_id = fields.Many2one('res.currency', string='Currency', required=True, readonly=True,
-                                  states={'draft': [('readonly', False)]},
-                                  default=lambda self: self.env.user.company_id.currency_id.id)
+    # gross_value=fields.Float(required=True)
+    currency_id = fields.Many2one('res.currency', string='Currency', required=True, readonly=True,states={'draft': [('readonly', False)]},default=lambda self: self.env.user.company_id.currency_id.id)
 
 
-    @api.onchange('assignment_id','source_line_id','book_assets_id','description')
-    def asset_state_changes(self):
-        if self.source_line_id  and self.assignment_id and self.book_assets_id:
+    # @api.onchange('assignment_id','source_line_id','book_assets_id','description')
+    # def asset_state_changes(self):
+    #     if self.source_line_id  and self.assignment_id and self.book_assets_id:
+    #         self.state='capitalize'
+    @api.multi
+    def validation(self):
+        if self.book_assets_id !=[] and self.assignment_id !=[] and self.source_line_id !=[]:
             self.state='capitalize'
+        elif  self.book_assets_id == [(6,False,[])]:
+            raise ValidationError ('Asset should be added to a Book')
+        elif  self.source_line_id is False:
+            raise ValidationError('Source Line should be added')
+        elif not self.assignment_id == []:
+            raise ValidationError('Assignment should be added')
 
 
     @api.onchange('description')
@@ -94,19 +102,19 @@ class Asset(models.Model):
     def create(self, values):
         values['name'] = self.env['ir.sequence'].next_by_code('asset_management.asset.Asset')
         record=super(Asset, self).create(values)
-        book_category=self.env['asset_management.category_books'].search([('book_id','=',record.default_book.id),('category_id','=',record.category_id.id)])
-        vals={
-            'asset_id': record.id,
-            'book_id': record.default_book.id,
-            'method_time': book_category.method_time,
-            'life_months': book_category.life_months,
-            'method': book_category.depreciation_method,
-            'original_cost': record.gross_value,
-            'date_in_service':datetime.today()
-        }
-        record.env['asset_management.book_assets'].create(vals)
-        if record.source_line_id  and record.assignment_id and record.book_assets_id:
-            record.state='capitalize'
+        # book_category=self.env['asset_management.category_books'].search([('book_id','=',record.default_book.id),('category_id','=',record.category_id.id)])
+        # vals={
+        #     'asset_id': record.id,
+        #     'book_id': record.default_book.id,
+        #     'method_time': book_category.method_time,
+        #     'life_months': book_category.life_months,
+        #     'method': book_category.depreciation_method,
+        #     'original_cost': record.gross_value,
+        #     'date_in_service':datetime.today()
+        # }
+        # record.env['asset_management.book_assets'].create(vals)
+        # if record.source_line_id  and record.assignment_id and record.book_assets_id:
+        #     record.state='capitalize'
         return record
 
 
@@ -127,17 +135,17 @@ class Asset(models.Model):
                 return record
 
 
-    @api.onchange('category_id')
-    def onchange_category_id(self):
-        if self.category_id:
-            self.asset_with_category = True
-            res=[]
-            default_book_domain=self.env['asset_management.category_books'].search([('category_id','=',self.category_id.id)])
-            for x in default_book_domain:
-                if x.book_id.active is True:
-                    res.append(x.book_id.id)
-            return {'domain': {'default_book': [('id', 'in', res)]
-                    }}
+    # @api.onchange('category_id')
+    # def onchange_category_id(self):
+    #     if self.category_id:
+    #         self.asset_with_category = True
+    #         res=[]
+    #         default_book_domain=self.env['asset_management.category_books'].search([('category_id','=',self.category_id.id)])
+    #         for x in default_book_domain:
+    #             if x.book_id.active is True:
+    #                 res.append(x.book_id.id)
+    #         return {'domain': {'default_book': [('id', 'in', res)]
+    #                 }}
 
 
     @api.multi
@@ -245,7 +253,7 @@ class BookAssets (models.Model):
     depreciated_flag = fields.Boolean(string='Depreciated',default =True)
     method_progress_factor = fields.Float(string='Degressive Factor',default=0.3,)
     method_number=fields.Integer(string='Number of Depreciation',help="The number of depreciations needed to depreciate your asset")
-    company_id = fields.Many2one('res.company', string='Company',default=lambda self: self.env['res.company']._company_default_get('asset_management.category'))
+    # company_id = fields.Many2one('res.company', string='Company',default=lambda self: self.env['res.company']._company_default_get('asset_management.book_assets'))
     entry_count = fields.Integer(compute='_entry_count', string='# Asset Entries')
     method_time = fields.Selection([('number', 'Number of Entries'), ('end', 'Ending Date')], string='Time Method',required=True,default= 'number',
                                    help="Choose the method to use to compute the dates and number of entries.\n"
@@ -318,8 +326,9 @@ class BookAssets (models.Model):
     def domain_for_book_id(self):
         if self._context.get('category_id'):
             res=[]
-            default_book=self._context.get('default_book')
-            book_domain=self.env['asset_management.category_books'].search([('category_id','=',self._context.get('category_id')),('book_id','!=',default_book)])
+            # default_book=self._context.get('default_book')
+            book_domain=self.env['asset_management.category_books'].search([('category_id','=',self._context.get('category_id'))])
+                                                                               # ,('book_id','!=',default_book)])
             for x in book_domain:
                 if x.book_id.active is True:
                     res.append(x.book_id.id)
@@ -458,7 +467,11 @@ class BookAssets (models.Model):
                 sequence = x + 1
                 amount = self._compute_board_amount(sequence, residual_amount, amount_to_depr, undone_dotation_number,
                                                     posted_depreciation_line_ids)
+                if not amount:
+                    raise ValidationError('amount is empty')
                 currency=self.book_id.company_id.currency_id.id
+                if not currency:
+                    raise ValidationError('currency is empty')
                 # current_currency = self.env['res.company'].search([('id', '=', 1)])[0].currency_id
                 amount = currency.round(amount)
                 if float_is_zero(amount, precision_rounding=currency.rounding):
@@ -531,7 +544,7 @@ class BookAssets (models.Model):
                 'method': category_book.depreciation_method,
                 'method_time':category_book.method_time,
                 'life_months':category_book.life_months,
-                'method_number':category_book.method_number
+                'method_number':category_book.method_number,
 
                     }
                 }
@@ -829,6 +842,7 @@ class Depreciation(models.Model):
                 for assignment in self.asset_id.assignment_id:
                     amount=(line.amount * assignment.percentage)/100
                     amount = current_currency.with_context(date=depreciation_date).compute(amount,company_currency)
+                    depreciation_expense_account=assignment.depreciation_expense_account.id
                     move_line_2 = {
                         'name': asset_name,
                         'account_id': depreciation_expense_account.id,
@@ -1002,7 +1016,7 @@ class CategoryBooks(models.Model):
                                    help="Choose the method to use to compute the dates and number of entries.\n"
                                         "  * Number of Entries: Fix the number of entries and the time between 2 depreciations.\n"
                                         "  * Ending Date: Choose the time between 2 depreciations and the date the depreciations won't go beyond.")
-    method_number=fields.Integer(string='Number of Depreciation',requried=True,help="The number of depreciations needed to depreciate your asset")
+    method_number=fields.Integer(string='Number of Depreciation',help="The number of depreciations needed to depreciate your asset")
 
 
 

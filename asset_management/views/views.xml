@@ -93,8 +93,9 @@
                 <form string="Asset Form">
                     <header>
                         <field name="state" widget="statusbar" statusbar_visible="draft,capitalize"/>
-                        <button string="Set to Retire" type="action" name="%(set_asset_to_retire)d" class="oe_highlight"/>
-                        <button string="Retirement" type="object" name="open_retired_window" class="oe_highlight"/>
+                        <button string="Set to Retire" type="action" name="%(set_asset_to_retire)d" class="oe_highlight" attrs="{'invisible':[('state','=','draft')]}"/>
+                        <button string="Retirement" type="object" name="open_retired_window" class="oe_highlight" attrs="{'invisible':[('state','=','draft')]}"/>
+                        <button string="Validate" name="validation" type="object" class="oe_highlight" states="draft"/>
                     </header>
                     <sheet>
                         <div name="oe_left oe_title">
@@ -108,8 +109,8 @@
                                 <field name="item_id"/>
                                 <field name="category_id"/>
                                 <field name="parent_asset"/>
-                                <field name="default_book"/>
-                                <field name="gross_value" placeholder="Asset Gross Value in default book" attrs="{'readonly':[('id','!=',False)]}"/>
+                                <!--<field name="default_book"/>-->
+                                <!--<field name="gross_value" placeholder="Asset Gross Value in default book" attrs="{'readonly':[('id','!=',False)]}"/>-->
                                 <field name="asset_with_category" invisible="1"/>
                                 <field name="currency_id" invisible="1"/>
                             </group>
@@ -130,7 +131,7 @@
                             </page>
 
                             <page name="book" string="Book">
-                                <field name="book_assets_id"  widget="One2many_list" context="{'category_id':category_id,'default_book':default_book}">
+                                <field name="book_assets_id"  widget="One2many_list" context="{'category_id':category_id}">
                                     <tree string="Book Num" editable="bottom">
                                         <field name="book_id"/>
                                         <field name="current_cost"/>
@@ -448,7 +449,10 @@
                             <group>
 						        <field name="name" invisible="1"/>
                                 <field name="book_id"/>
-							    <field name="asset_id"/>
+                                <dive>
+							        <field name="asset_id" class="oe_inline"/>
+                                    <label string="Not Validate" class="oe_inline" attrs="{'invisible':[('asset_state','!=','draft')]}"/>
+                                </dive>
                                 <field name="original_cost"/>
                                 <field name="salvage_value_type"/>
                                 <label for="salvage_value_amount"/>
@@ -819,7 +823,7 @@
 							<field name="book_id"/>
                             <field name="depreciation_method"/>
                             <field name="method_time"/>
-                            <field name="method_number" attrs="{'invisible':[('method_time','!=','number')]}"/>
+                            <field name="method_number" attrs="{'invisible':[('method_time','!=','number')],'required':[('method_time','=','number')]}"/>
                             <field name="life_months"/>
                             <field name="group_entries"/>
                             <field name="book_with_cate" invisible="1"/>
