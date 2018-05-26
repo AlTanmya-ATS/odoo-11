@@ -45,7 +45,7 @@ var GMapMarker = Widget.extend({
             var self = this;
             if (typeof google== 'undefined') {
                 window.ginit = this.on_ready;
-                $.getScript('http://maps.googleapis.com/maps/api/js?sensor=false&callback=ginit');
+                $.getScript('https://maps.googleapis.com/maps/api/js?sensor=false&callback=ginit');
             }
             else {
                 setTimeout(function () { self.on_ready(); }, 1000);
@@ -158,7 +158,7 @@ var GMapRoute =  Widget.extend({
             var self = this;
             if (typeof google== 'undefined') {
                 window.ginit = this.on_ready;
-                $.getScript('http://maps.googleapis.com/maps/api/js?&sensor=false&callback=ginit');        	 
+                $.getScript('https://maps.googleapis.com/maps/api/js?&sensor=false&callback=ginit');        	 
             }
             else {
            	 setTimeout(function () { self.on_ready(); }, 1000);
@@ -430,7 +430,7 @@ var GMaps = BasicView.extend({
         Renderer: GMapsRenderer,
      }),
      viewType: 'gmaps',
-     jsLibs: ['http://maps.googleapis.com/maps/api/js?&sensor=false'],
+     jsLibs: ['https://maps.googleapis.com/maps/api/js?&sensor=false'],
 
 
      init: function (viewInfo, params) {

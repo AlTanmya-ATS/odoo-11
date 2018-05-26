@@ -21,13 +21,13 @@ openerp.web_widget_google_maps = function (instance) {
 
             if (typeof google== 'undefined') {
                 window.ginit = this.on_ready;
-                $.getScript('http://maps.googleapis.com/maps/api/js?sensor=false&callback=ginit');        	 
+                $.getScript('https://maps.googleapis.com/maps/api/js?sensor=false&callback=ginit');        	 
             }
             else {
                 setTimeout(function () { self.on_ready(); }, 1000);
 
                 //window.ginit = this.on_ready;
-                //$.getScript('http://maps.googleapis.com/maps/api/js?sensor=false&callback=ginit');
+                //$.getScript('https://maps.googleapis.com/maps/api/js?sensor=false&callback=ginit');
             }
            var self = this;
            self.on("change:effective_readonly", self, function() {
@@ -127,7 +127,7 @@ openerp.web_widget_google_maps = function (instance) {
             var self = this;
             if (typeof google== 'undefined') {
                 window.ginit = this.on_ready;
-                $.getScript('http://maps.googleapis.com/maps/api/js?&sensor=false&callback=ginit');        	 
+                $.getScript('https://maps.googleapis.com/maps/api/js?&sensor=false&callback=ginit');        	 
             }
             else {
            	 setTimeout(function () { self.on_ready(); }, 1000);
@@ -288,7 +288,7 @@ instance.web_widget_google_maps.gmaps = instance.web.View.extend({
          
          if (typeof google== 'undefined') {
              window.ginit = this.on_ready;
-             $.getScript('http://maps.googleapis.com/maps/api/js?&sensor=false&callback=ginit');        	 
+             $.getScript('https://maps.googleapis.com/maps/api/js?&sensor=false&callback=ginit');        	 
          }
          else {
         	 setTimeout(function () { self.on_ready(); }, 1000);
