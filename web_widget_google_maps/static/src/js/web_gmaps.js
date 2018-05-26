@@ -331,7 +331,7 @@ var GMapsRenderer = BasicRenderer.extend({
 
     start: function () {
         var self = this;
-        var myLatlng = new google.maps.LatLng(46, 25);
+        var myLatlng = new google.maps.LatLng(33.512101,  36.294756);
         var mapOptions = {
             zoom: 8,
             center: myLatlng
