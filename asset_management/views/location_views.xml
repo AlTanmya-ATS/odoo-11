@@ -24,27 +24,14 @@
     <record model="ir.ui.view" id="asset_location_search_view">
 		     <field name="name">asset_location.search</field>
 			 <field name="model">asset_management.location</field>
-           <!--  <field name="type">gmaps</field>-->
+             <field name="type">gmaps</field>
 			 <field name="arch" type="xml">
-             <search>
 			     <field name="name"/>
                  <field name="latitude"/>
                  <field name="longitude"/>
-                 </search>
+                 <widget name="gmap_marker" lat="latitude" lng="longitude" description="name"/>
 		     </field>
 	</record>
-
-    <record model="ir.ui.view" id ="asset_location_gmap">
-        <field name="name">asset_location.gmap</field>
-        <field name="model">asset_management.location</field>
-        <field name="type">gmaps</field>
-        <field name="arch" type="xml">
-            <field name="latitude"/>
-            <field name="longitude"/>
-            <field name="name"/>
-            <widget name="gmap_marker" lat="latitude" lng="longitude" description="name"/>
-        </field>
-    </record>
 
     <record model="ir.actions.act_window" id="asset_location_list_action">
             <field name="name">Asset Location</field>
@@ -58,12 +45,7 @@
             </field>
     </record>
 
-    <record id="action_asset_location_gmap_view" model="ir.actions.act_window.view">
-            <field name="sequence" eval="1"/>
-            <field name="view_mode">gmaps</field>
-            <field name="view_id" ref="asset_location_gmap"/>
-            <field name="act_window_id" ref="asset_location_list_action"/>
-    </record>
+    
     
     <menuitem id="location_menu" name="Location" parent="asset_management_menu"
                   action="asset_location_list_action"/>
