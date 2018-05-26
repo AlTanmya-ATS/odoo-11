@@ -23,6 +23,7 @@
     'depends': ['base',
                'account' ,
                 'stock',
+                'web_widget_google_maps',
                 ],
 
     # always loaded
