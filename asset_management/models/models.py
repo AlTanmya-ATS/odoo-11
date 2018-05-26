@@ -791,5 +791,7 @@ class AssetTag(models.Model):
 class AssetLocation(models.Model):
     _name = 'asset_management.location'
     name = fields.Char()
+    latitude = fields.Char(default="33.512888")
+    longitude = fields.Char(defual="36.298101")
 
 
