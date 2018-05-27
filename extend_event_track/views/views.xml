@@ -8,20 +8,17 @@
           <field name="inherit_id" ref="website_event_track.view_event_track_form"/>
           <field name="arch" type="xml">
               <xpath expr="//header" position="inside">
-                <button type="object" name="attendee_name" string="Get Attendee" attrs="{'invisible':[('invisible_button','=',True)]}"/>
+                <button type="object" name="attendee_name" string="Get Attendee" />
               </xpath>
               <xpath expr="/form/sheet/group[1]" position="after">
                   <notebook>
                       <page string="Attendance">
-                        <field name="invisible_button" invisible="1"/>
-                        <field name="attendee_id_len"  invisible="1"/>
-                        <field name="attendee_id" attrs="{}">
-                            <tree string="track.attendee" create="false" edite="true">
+                        <field name="attendee_id" context="{'default_event_id':event_id,'default_track_id':id}">
+                            <tree string="track.attendee">
                                 <field name="name" modifiers="{}"/>
                                 <field name="partner_id"/>
                                 <field name="email"/>
                                 <field name="state"/>
-                                <!--<button name="confirm_registration" string="Confirm Registration" states="draft" type="object" icon="fa-check text-success"/>-->
                                 <button name="button_reg_close" string="Present" states="open" type="object" icon="fa-level-down text-success"/>
                                 <button name="button_reg_absent" string="Absent" states="open" type="object" icon="fa-times-circle text-danger"/>
                             </tree>
@@ -44,8 +41,8 @@
                         <field name="email"/>
                       </group>
                       <group name="Event Information">
-                        <field name="event_id"/>
-                         <field name="track_id"/>
+                        <field name="event_id" readonly="1"/>
+                         <field name="track_id" readonly="1"/>
                         <field name="date_open"/>
                         <field name="state"/>
                         <field name="date_closed"/>

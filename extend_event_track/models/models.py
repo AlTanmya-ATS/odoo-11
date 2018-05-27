@@ -12,6 +12,8 @@ class TrackAttendee(models.Model):
             ('present', 'Present'), ('absent', 'Absent'),
              ('late', 'Late'),('excused','Excused'),('compensated','Compensated'),('left_early','Left Early')],default='open',
             string='Status', readonly = False )
+        event_id = fields.Many2one('event.event', string='Event', required=False,
+            readonly=False, states={'draft': [('readonly', False)]})
 
 
         @api.one
@@ -34,8 +36,6 @@ class TrackAttendee(models.Model):
 class EventTrack(models.Model):
     _inherit='event.track'
     attendee_id = fields.One2many(comodel_name="track.attendee", inverse_name="track_id",)
-    invisible_button=fields.Boolean(default=False)
-    attendee_id_len=fields.Integer(compute='_attendee_length')
     notes = fields.Text(string="Notes")
 
 
@@ -46,25 +46,22 @@ class EventTrack(models.Model):
             raise UserError(_('NO attendance in the event !'))
         else:
             for attendee in partner_ids:
-                values = {
-                    'partner_id': attendee.partner_id.id,
-                    'name': attendee.name,
-                    'email': attendee.email,
-                    'phone': attendee.phone,
-                    'event_id': self.event_id.id,
-                    'state': attendee.state,
-                }
-                self.write({'attendee_id': [(0, False, values)]})
-        self.invisible_button=True
-        return True
+                for ss in self.attendee_id:
+                  if attendee.partner_id.id == ss.partner_id.id:
+                    break
+                else:
+                  values = {
+                          'partner_id': attendee.partner_id.id,
+                          'name': attendee.name,
+                          'email': attendee.email,
+                          'phone': attendee.phone,
+                          'event_id': self.event_id.id,
+                          'state': 'present',
+                      }
+                  self.write({'attendee_id': [(0, False, values)]})
+            self.invisible_button=True
+            return True
 
-    @api.depends('attendee_id')
-    def _attendee_length(self):
-        self.attendee_id_len = len(self.attendee_id)
-        if self.attendee_id_len == 0:
-            self.invisible_button = False
-        # else:
-        #     self.invisible_button = False
 
 
 

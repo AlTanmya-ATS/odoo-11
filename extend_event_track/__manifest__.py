@@ -3,11 +3,11 @@
     'name': "extend_event_track",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+     Adding attendance to tracks in Events """,
 
     'description': """
-        Long description of module's purpose
+      adding attendance to each tracks in Event ,
+     and note field to 'event.track' model    
     """,
 
     'author': "My Company",
