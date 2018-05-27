@@ -13,7 +13,7 @@
               <xpath expr="/form/sheet/group[1]" position="after">
                   <notebook>
                       <page string="Attendance">
-                        <field name="attendee_id" context="{'default_event_id':event_id,'default_track_id':id}">
+                        <field name="attendee_id" context="{'default_track_id':id}">
                             <tree string="track.attendee">
                                 <field name="name" modifiers="{}"/>
                                 <field name="partner_id"/>

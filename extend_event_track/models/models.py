@@ -13,7 +13,7 @@ class TrackAttendee(models.Model):
              ('late', 'Late'),('excused','Excused'),('compensated','Compensated'),('left_early','Left Early')],default='open',
             string='Status', readonly = False )
         event_id = fields.Many2one('event.event', string='Event', required=False,
-            readonly=False, states={'draft': [('readonly', False)]})
+            readonly=False, states={'draft': [('readonly', False)]},compute="_get_event_name")
 
 
         @api.one
@@ -30,6 +30,13 @@ class TrackAttendee(models.Model):
         def button_reg_absent(self):
             today = fields.Datetime.now()
             self.write({'state': 'absent', 'date_closed': today})
+
+
+        @api.depends('track_id')
+        def _get_event_name(self):
+            event=self.track_id.event_id.id
+            self.event_id=event
+            return self.event_id
 
 
 
