@@ -30,6 +30,7 @@
         'wizard/asset_modify_view.xml',
         'views/views.xml',
         'views/templates.xml',
+        'wizard/mas_entries.xml',
 
     ],
     # only loaded in demonstration mode

@@ -115,14 +115,12 @@
                                 <field name="currency_id" invisible="1"/>
                             </group>
                             <group>
-                             <!--   <field name="units"/> -->
                                 <field name="in_use_flag"/>
                                 <field name="is_in_physical_inventory"/>
                                 <field name="is_new"/>
                                 <field name="ownership_type"/>
                                 <field name="asset_serial_number"/>
                                 <field name="asset_tag_number" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                                <!--'no_create_edit': True/>-->
                             </group>
 					    </group>
                         <notebook>
@@ -143,18 +141,6 @@
                                         <field name="date_in_service"/>
                                         <field name="asset_id" invisible="1"/>
                                         <button name="move_to_book_asset" type="object" string="Details" class="oe_highlight"/>
-                                    </tree>
-                                </field>
-                            </page>
-
-                            <page name="assignment" string="Assignment">
-                                <field name="assignment_id" widget="One2many_list" context="{'category_id':category_id}">
-                                    <tree string="Assignment">
-                                        <field name="book_id"/>
-                                        <field name="responsible_id"/>
-                                        <field name="location_id"/>
-                                        <field name="transfer_date"/>
-                                        <field name = "percentage"/>
                                     </tree>
                                 </field>
                             </page>
@@ -351,9 +337,6 @@
                         </div>
                         <group>
                         <group>
-                            <!--<field name="proceeds_of_sale_gain_account" attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
-                            <!--<field name="proceeds_of_sale_loss_account" attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
-                            <!--<field name="proceeds_of_loss_clearing_account" attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
                             <field name="cost_of_removal_gain_account"  attrs="{'readonly':[('book_with_cate','=',True)]}" />
                             <field name="cost_of_removal_loss_account"  attrs="{'readonly':[('book_with_cate','=',True)]}" />
                              <field name="book_with_cate" invisible="1"/>
@@ -363,16 +346,6 @@
                             <field name="currency_id" invisible="1" attrs="{'readonly':[('book_with_cate','=',True)]}"/>
                         </group>
                         </group>
-                        <!--<group>-->
-                            <!--<field name="cost_of_removal_clearing_account"  attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
-                            <!--<field name="net_book_value_retired_gain_account"  attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
-                            <!--<field name="net_book_value_retired_loss_account"  attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
-                            <!--<field name="reval_reserve_retire_gain_account"  attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
-							<!--<field name="reval_reserve_retire_loss_account"  attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
-							<!--<field name="deferred_depreciation_reserve_account"  attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
-							<!--<field name="depreciation_adjustment_account"  attrs="{'readonly':[('book_with_cate','=',True)]}"/>-->
-                            <!--<field name="book_with_cate"/>-->
-                        <!--</group>-->
                      <notebook>
                             <page string="Description">
                                 <field name="description"/>
@@ -481,8 +454,20 @@
                                 <field name="end_date" attrs="{'invisible':[('method_time','=','number')]}"/>
 						    </group>
 					    </group>
+
                         <notebook>
-                        <page name="depreciation" string="Depreciation">
+                            <page name="assignment" string="Assignment">
+                                <field name="assignment_id" widget="One2many_list" context="{'default_book_assets_id':id}">
+                                    <tree string="Assignment">
+                                        <field name="responsible_id"/>
+                                        <field name="location_id"/>
+                                        <field name="transfer_date"/>
+                                        <field name = "percentage"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page name="depreciation" string="Depreciation">
                                 <field name="depreciation_line_ids" widget="One2many_list">
                                     <tree string="Depreciation" edit="false" create="false">
                                         <field name="depreciation_date"/>
@@ -500,7 +485,7 @@
                 </form>     
             </field>
         </record>
-
+            <!--Book Assets Tree-->
          <record model="ir.ui.view" id="book_asset_tree_view">
 	         <field name="name">book_asset.tree</field>
 			 <field name="model">asset_management.book_assets</field>
@@ -529,19 +514,6 @@
         </record>
 
 
-        <!--<record model="ir.actions.act_window.view" id="book_assets_list_action_form">-->
-            <!--<field name="name">Book Asset </field>-->
-            <!--<field name="act_window_id" ref="asset_list_action"/>-->
-            <!--<field name="view_id" ref="asset_form_view" />-->
-            <!--<field name="view_mode">form</field>-->
-        <!--</record>-->
-         <!--<record model="ir.actions.act_window.view" id="book_assets_list_action_tree">-->
-            <!--<field name="name">Book Asset </field>-->
-            <!--<field name="act_window_id" ref="book_assets_list_action"/>-->
-            <!--<field name="view_mode">tree</field>-->
-        <!--</record>-->
-
-
         <menuitem id="book_assets_menu" name="Book Assets" parent="asset_management_menu"
                   action="book_assets_list_action"/>
 
@@ -555,8 +527,8 @@
                     <sheet>
 					  <group>
                         <group>
-                             <field name="asset_id"/>
-                             <field name="book_id"/>
+                             <field name="asset_id" readonly="1"/>
+                             <field name="book_id" readonly="1"/>
                              <field name="depreciation_expense_account"/>
 							 <field name="responsible_id"/>
 							 <field name="location_id"/>
@@ -564,6 +536,7 @@
 						<group>
 						  <!-- <field name="units"/> 
 						   <field name="units_to_assign"/> -->
+                            <field name="book_assets_id" invisible="1"/>
                            <field name="percentage"/>
 						   <field name="transfer_date"/>
                            <!--<field name="end_use_date"/>-->
@@ -873,9 +846,9 @@
         <menuitem id="category_books_menu" name="Category Books" parent="asset_management_menu"
                   action="category_books_list_action"/>
 
-
-         <record id="location_form_view" model="ir.ui.view">
-             <field name="name">>Location Form</field>
+                    <!--Asset Location Form-->
+         <record id="asset_management_location_view_form" model="ir.ui.view">
+             <field name="name">Asset Location  Form</field>
              <field name="model">asset_management.location</field>
              <field name="arch" type="xml">
                  <form string="Location Form">
@@ -894,6 +867,34 @@
              </field>
          </record>
      </data>
+                 <!--Asset Location tree-->
+    <record id="asset_management_location_view_list" model="ir.ui.view">
+        <field name="name">Asset.Location.tree</field>
+        <field name="model">asset_management.location</field>
+        <field name="arch" type="xml">
+            <tree string="Location Tree">
+                <field name="street"/>
+                <field name="city"/>
+                <field name="country_id"/>
+            </tree>
+        </field>
+    </record>
+     <!--Asset Location action-->
+    <record id="asset_management_location_action" model="ir.actions.act_window">
+        <field name="name">Asset.Location.Action</field>
+        <field name="model">asset_management.location</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context" eval="{'search_default_my_location': 1}"/>
+        <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first category books
+                </p>
+        </field>
+    </record>
+
+
+    <menuitem id="asset_management_location_meun" name="Location" action="asset_management_location_action" parent="asset_management_menu"/>
+
 
 
     <data>
