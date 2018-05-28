@@ -652,7 +652,7 @@ class Assignment(models.Model):
 
     @api.depends('book_assets_id')
     def _get_book_name(self):
-        self.asset_id=self.book_assets_id.book_id.id
+        self.book_id=self.book_assets_id.book_id.id
         return self.book_id
 
 
