@@ -853,6 +853,11 @@
              <field name="arch" type="xml">
                  <form string="Location Form">
                      <sheet>
+                         <div class="oe_button_box" name="button_box">
+                          <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-check">
+                                <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;active&quot;}"/>
+                          </button>
+                        </div>
                          <group>
                              <label for="name" string="Address"/>
                              <dive>
@@ -873,7 +878,7 @@
         <field name="model">asset_management.location</field>
         <field name="arch" type="xml">
             <tree string="Location Tree">
-                <field name="street"/>
+                <field name="name"/>
                 <field name="city"/>
                 <field name="country_id"/>
             </tree>

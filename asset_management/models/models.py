@@ -592,7 +592,7 @@ class Assignment(models.Model):
     asset_id = fields.Many2one("asset_management.asset", string="Asset", on_delete='cascade',required=True,compute="_get_asset_name")
     depreciation_expense_account=fields.Many2one('account.account',on_delete='set_null',required=True)
     responsible_id = fields.Many2one('hr.employee', on_delete='set_null')
-    location_id = fields.Many2one('asset_management.location',required=True)
+    location_id = fields.Many2one('asset_management.location',required=True,domain=[('active','=',True)])
     is_not_used = fields.Boolean( defult = False )
     # end_use_date = fields.Date()
     transfer_date = fields.Date()
@@ -1042,5 +1042,6 @@ class AssetLocation(models.Model):
     city=fields.Char(required=True)
     state_id=fields.Many2one('res.country.state')
     country_id=fields.Many2one('res.country',required=True)
+    active=fields.Boolean(default=True)
 
 

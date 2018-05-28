@@ -11,21 +11,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="767">
-              <caret line="130" column="0" lean-forward="false" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
+            <state relative-caret-position="566">
+              <caret line="1044" column="10" lean-forward="false" selection-start-line="1044" selection-start-column="4" selection-end-line="1044" selection-end-column="10" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.xml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/views.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="851">
-              <caret line="887" column="64" lean-forward="false" selection-start-line="887" selection-start-column="64" selection-end-line="887" selection-end-column="64" />
+            <state relative-caret-position="269">
+              <caret line="856" column="53" lean-forward="false" selection-start-line="856" selection-start-column="47" selection-end-line="856" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -34,8 +34,8 @@
       <file leaf-file-name="mas_entries.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wizard/mas_entries.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="690">
-              <caret line="30" column="36" lean-forward="false" selection-start-line="30" selection-start-column="36" selection-end-line="30" selection-end-column="36" />
+            <state relative-caret-position="483">
+              <caret line="21" column="36" lean-forward="false" selection-start-line="21" selection-start-column="32" selection-end-line="21" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -44,8 +44,18 @@
       <file leaf-file-name="mas_entries.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wizard/mas_entries.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="506">
-              <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+            <state relative-caret-position="552">
+              <caret line="24" column="50" lean-forward="false" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="account.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/account.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="368">
+              <caret line="16" column="12" lean-forward="false" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -72,12 +82,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>view_asset_depreciation_confirmation_wizard</find>
-      <find>_cron_generate_entries</find>
-      <find>action</find>
-      <find>sql_constraint</find>
-      <find>_compute_prorate_date</find>
-      <find>prorata</find>
       <find>One2many</find>
       <find>percentage</find>
       <find>class book</find>
@@ -102,6 +106,12 @@
       <find>class ass</find>
       <find>location for</find>
       <find>domain</find>
+      <find>sql</find>
+      <find>create_move</find>
+      <find>move_check</find>
+      <find>depreciation</find>
+      <find>toggle</find>
+      <find>active</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -154,14 +164,14 @@
         <option value="$PROJECT_DIR$/wizard/asset_modify.py" />
         <option value="$PROJECT_DIR$/wizard/__init__.py" />
         <option value="$PROJECT_DIR$/__manifest__.py" />
-        <option value="$PROJECT_DIR$/wizard/mas_entries.py" />
         <option value="$PROJECT_DIR$/wizard/mas_entries.xml" />
-        <option value="$PROJECT_DIR$/views/views.xml" />
+        <option value="$PROJECT_DIR$/wizard/mas_entries.py" />
         <option value="$PROJECT_DIR$/models/models.py" />
+        <option value="$PROJECT_DIR$/views/views.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-9" />
     <option name="y" value="-9" />
     <option name="width" value="1400" />
@@ -294,10 +304,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1048" extended-state="7" />
+    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.058854166" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.128125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928178" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -390,13 +400,6 @@
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/chart_template.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/sale_order_line.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/account_analytic_default.py" />
-    <entry file="file://$PROJECT_DIR$/models/account.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="6" column="74" lean-forward="false" selection-start-line="6" selection-start-column="45" selection-end-line="6" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/account.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/account_portal_templates.xml" />
     <entry file="file://$PROJECT_DIR$/../asset-odoo/account_asset_views.xml" />
@@ -428,10 +431,26 @@
     <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.011/views.xml" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.018/views.xml" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/account_invoice.py" />
+    <entry file="file://$PROJECT_DIR$/wizard/mas_entries.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="21" column="36" lean-forward="false" selection-start-line="21" selection-start-column="32" selection-end-line="21" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/wizard/mas_entries.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+        <state relative-caret-position="552">
+          <caret line="24" column="50" lean-forward="false" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/account.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="16" column="12" lean-forward="false" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="12" />
           <folding />
         </state>
       </provider>
@@ -444,26 +463,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wizard/mas_entries.xml">
+    <entry file="file://$PROJECT_DIR$/models/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="30" column="36" lean-forward="false" selection-start-line="30" selection-start-column="36" selection-end-line="30" selection-end-column="36" />
+        <state relative-caret-position="566">
+          <caret line="1044" column="10" lean-forward="false" selection-start-line="1044" selection-start-column="4" selection-end-line="1044" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/views.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="851">
-          <caret line="887" column="64" lean-forward="false" selection-start-line="887" selection-start-column="64" selection-end-line="887" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="767">
-          <caret line="130" column="0" lean-forward="false" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
+        <state relative-caret-position="269">
+          <caret line="856" column="53" lean-forward="false" selection-start-line="856" selection-start-column="47" selection-end-line="856" selection-end-column="53" />
           <folding />
         </state>
       </provider>
