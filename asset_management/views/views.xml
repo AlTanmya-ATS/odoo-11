@@ -886,13 +886,13 @@
     </record>
      <!--Asset Location action-->
     <record id="asset_management_location_action" model="ir.actions.act_window">
-        <field name="name">Asset.Location.Action</field>
+        <field name="name">Asset Location Action</field>
         <field name="model">asset_management.location</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="context" eval="{'search_default_my_location': 1}"/>
         <field name="help" type="html">
-                <p class="oe_view_nocontent_create">Create the first category books
+                <p class="oe_view_nocontent_create">Create the first Asset Location
                 </p>
         </field>
     </record>
