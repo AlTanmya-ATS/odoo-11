@@ -195,7 +195,7 @@ class Category(models.Model):
     asset_with_category=fields.Boolean()
     active = fields.Boolean(default=True)
 
-    _sql_constraint=[('name','UNIQE(name)','Category name already exist..!')]
+    _sql_constraints=[('name','UNIQE(name)','Category name already exist..!')]
 
 
 
@@ -219,7 +219,7 @@ class Book(models.Model):
     book_with_cate = fields.Boolean()
     active=fields.Boolean(default=True)
     currency_id = fields.Many2one('res.currency', string='Currency', required=True,compute="_compute_currency")
-    _sql_constraint=[('name','UNIQUE(name)','Book name already exist..!')]
+    _sql_constraints=[('name','UNIQUE(name)','Book name already exist..!')]
 
 
     @api.depends('company_id')
@@ -588,7 +588,7 @@ class Assignment(models.Model):
     _name = 'asset_management.assignment'
     name = fields.Char(string="Assignment",readonly='True',index=True)
     book_assets_id = fields.Many2one('asset_management.book_assets',on_delete = 'cascade',required=True)
-    book_id = fields.Many2one("asset_management.book", string="Book",on_delete = 'cascade',required=True,compute="get_book_name")
+    book_id = fields.Many2one("asset_management.book", string="Book",on_delete = 'cascade',required=True,compute="_get_book_name")
     asset_id = fields.Many2one("asset_management.asset", string="Asset", on_delete='cascade',required=True,compute="_get_asset_name")
     depreciation_expense_account=fields.Many2one('account.account',on_delete='set_null',required=True)
     responsible_id = fields.Many2one('hr.employee', on_delete='set_null')
@@ -707,7 +707,10 @@ class SourceLine(models.Model):
     @api.onchange('invoice_id')
     def _onchange_invoice_id(self):
         if self.invoice_id:
-            return{'domain':{'invoice_line_ids':[('id','in',self.invoice_id.invoice_line_ids.id)]
+            invoice_line=[]
+            for line in self.invoice_id.invoice_line_ids:
+                invoice_line.append(line.id)
+            return{'domain':{'invoice_line_ids':[('id','in',invoice_line)]
             }}
 
     # @api.one

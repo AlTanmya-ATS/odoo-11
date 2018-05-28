@@ -898,7 +898,14 @@
     </record>
 
 
-    <menuitem id="asset_management_location_meun" name="Location" action="asset_management_location_action" parent="asset_management_menu"/>
+    <menuitem id="asset_location_menu" name="Location"
+                  parent="main_assetmanagement_menu"/>
+
+    <menuitem name="Location" action="asset_management_location_action"
+        id="asset_management_location_meun"
+        parent="asset_location_menu"/>
+
+
 
 
 

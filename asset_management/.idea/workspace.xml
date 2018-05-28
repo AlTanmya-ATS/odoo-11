@@ -11,31 +11,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="566">
-              <caret line="1044" column="10" lean-forward="false" selection-start-line="1044" selection-start-column="4" selection-end-line="1044" selection-end-column="10" />
+            <state relative-caret-position="96">
+              <caret line="142" column="27" lean-forward="false" selection-start-line="142" selection-start-column="8" selection-end-line="142" selection-end-column="27" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/views.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="856" column="53" lean-forward="false" selection-start-line="856" selection-start-column="47" selection-end-line="856" selection-end-column="53" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mas_entries.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wizard/mas_entries.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="21" column="36" lean-forward="false" selection-start-line="21" selection-start-column="32" selection-end-line="21" selection-end-column="36" />
+            <state relative-caret-position="1612">
+              <caret line="898" column="0" lean-forward="false" selection-start-line="898" selection-start-column="0" selection-end-line="898" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -44,8 +34,18 @@
       <file leaf-file-name="mas_entries.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wizard/mas_entries.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="552">
-              <caret line="24" column="50" lean-forward="false" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
+            <state relative-caret-position="529">
+              <caret line="23" column="17" lean-forward="false" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mas_entries.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wizard/mas_entries.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="414">
+              <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -82,15 +82,10 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>One2many</find>
-      <find>percentage</find>
-      <find>class book</find>
-      <find>prec</find>
       <find>class boo</find>
       <find>asset_management.assignment</find>
       <find>asset_management.book_assets</find>
       <find>context</find>
-      <find>location</find>
       <find>book_assets_id</find>
       <find>product_id</find>
       <find>you should assign the asset to a location</find>
@@ -105,13 +100,18 @@
       <find>assignment for</find>
       <find>class ass</find>
       <find>location for</find>
-      <find>domain</find>
       <find>sql</find>
       <find>create_move</find>
       <find>move_check</find>
       <find>depreciation</find>
       <find>toggle</find>
       <find>active</find>
+      <find>_sql_constraint</find>
+      <find>location</find>
+      <find>domain</find>
+      <find>menuitem</find>
+      <find>title</find>
+      <find>view_type</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -165,9 +165,9 @@
         <option value="$PROJECT_DIR$/wizard/__init__.py" />
         <option value="$PROJECT_DIR$/__manifest__.py" />
         <option value="$PROJECT_DIR$/wizard/mas_entries.xml" />
-        <option value="$PROJECT_DIR$/wizard/mas_entries.py" />
         <option value="$PROJECT_DIR$/models/models.py" />
         <option value="$PROJECT_DIR$/views/views.xml" />
+        <option value="$PROJECT_DIR$/wizard/mas_entries.py" />
       </list>
     </option>
   </component>
@@ -431,18 +431,10 @@
     <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.011/views.xml" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.018/views.xml" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/account_invoice.py" />
-    <entry file="file://$PROJECT_DIR$/wizard/mas_entries.xml">
+    <entry file="file://$PROJECT_DIR$/views/views.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="21" column="36" lean-forward="false" selection-start-line="21" selection-start-column="32" selection-end-line="21" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wizard/mas_entries.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="24" column="50" lean-forward="false" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
+        <state relative-caret-position="1612">
+          <caret line="898" column="0" lean-forward="false" selection-start-line="898" selection-start-column="0" selection-end-line="898" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -463,18 +455,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/models.py">
+    <entry file="file://$PROJECT_DIR$/wizard/mas_entries.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="566">
-          <caret line="1044" column="10" lean-forward="false" selection-start-line="1044" selection-start-column="4" selection-end-line="1044" selection-end-column="10" />
+        <state relative-caret-position="414">
+          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/views.xml">
+    <entry file="file://$PROJECT_DIR$/wizard/mas_entries.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="856" column="53" lean-forward="false" selection-start-line="856" selection-start-column="47" selection-end-line="856" selection-end-column="53" />
+        <state relative-caret-position="529">
+          <caret line="23" column="17" lean-forward="false" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="142" column="27" lean-forward="false" selection-start-line="142" selection-start-column="8" selection-end-line="142" selection-end-column="27" />
           <folding />
         </state>
       </provider>

@@ -16,7 +16,7 @@ class MasEntriesWizard(models.TransientModel):
                 record.move_id.post()
 
         return {
-            'title':_('Created Assets Move'),
+            'name':_('Created Assets Move'),
             'model':'account.move',
             'view_type':'form',
             'view_mode':'tree,form',
