@@ -11,21 +11,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="69">
-              <caret line="485" column="0" lean-forward="false" selection-start-line="485" selection-start-column="0" selection-end-line="485" selection-end-column="0" />
+            <state relative-caret-position="303">
+              <caret line="349" column="24" lean-forward="false" selection-start-line="349" selection-start-column="24" selection-end-line="349" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.xml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/views.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9591">
-              <caret line="417" column="77" lean-forward="false" selection-start-line="417" selection-start-column="65" selection-end-line="417" selection-end-column="77" />
+            <state relative-caret-position="729">
+              <caret line="370" column="47" lean-forward="false" selection-start-line="370" selection-start-column="47" selection-end-line="370" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -44,8 +44,8 @@
       <file leaf-file-name="mas_entries.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wizard/mas_entries.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="69">
-              <caret line="3" column="45" lean-forward="false" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="45" />
+            <state relative-caret-position="667">
+              <caret line="29" column="52" lean-forward="false" selection-start-line="29" selection-start-column="52" selection-end-line="29" selection-end-column="52" />
               <folding />
             </state>
           </provider>
@@ -63,6 +63,16 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="account_move.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/account_move.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="338">
+              <caret line="216" column="25" lean-forward="false" selection-start-line="216" selection-start-column="25" selection-end-line="216" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -74,28 +84,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>view_type</find>
-      <find>location</find>
-      <find>_get_book_name</find>
-      <find>category</find>
-      <find>tag</find>
-      <find>product_id</find>
-      <find>class</find>
-      <find>assignment</find>
-      <find>book ass</find>
-      <find>class assi</find>
-      <find>class book</find>
-      <find>Cannot create unbalanced journal entry.</find>
-      <find>append</find>
-      <find>class boo</find>
-      <find>depreciation_line_length</find>
-      <find>class ass</find>
-      <find>locat</find>
-      <find>create_move</find>
-      <find>assert_balanced</find>
-      <find>%s</find>
-      <find>generate_</find>
-      <find>class dep</find>
       <find>move_posted_check</find>
       <find>target</find>
       <find>depreciation form</find>
@@ -104,6 +92,28 @@
       <find>generate_mas_entries</find>
       <find>open_entries</find>
       <find>book asset</find>
+      <find>class assignment</find>
+      <find>location</find>
+      <find>uniq</find>
+      <find>data</find>
+      <find>sequ</find>
+      <find>_sql_constraints</find>
+      <find>create</find>
+      <find>asset_name</find>
+      <find>company_currency</find>
+      <find>today</find>
+      <find>_get_move_check</find>
+      <find>created_moves</find>
+      <find>transac</find>
+      <find>h1</find>
+      <find>location form</find>
+      <find>class ass</find>
+      <find>class transaction</find>
+      <find>balanced</find>
+      <find>create_move</find>
+      <find>assert_balanced</find>
+      <find>transaction form</find>
+      <find>book_domain</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -155,11 +165,11 @@
         <option value="$PROJECT_DIR$/wizard/asset_modify.py" />
         <option value="$PROJECT_DIR$/wizard/__init__.py" />
         <option value="$PROJECT_DIR$/__manifest__.py" />
-        <option value="$PROJECT_DIR$/views/views.xml" />
-        <option value="$PROJECT_DIR$/models/models.py" />
         <option value="$USER_HOME$/AppData/Local/Temp/fz3temp-2/asset_depreciation_confirmation_wizard.py" />
-        <option value="$PROJECT_DIR$/wizard/mas_entries.xml" />
         <option value="$PROJECT_DIR$/wizard/mas_entries.py" />
+        <option value="$PROJECT_DIR$/wizard/mas_entries.xml" />
+        <option value="$PROJECT_DIR$/models/models.py" />
+        <option value="$PROJECT_DIR$/views/views.xml" />
       </list>
     </option>
   </component>
@@ -354,8 +364,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/account.xml" />
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/report_journal.xml" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/report_invoice.xml" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/account_analytic_view.xml" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/account_analytic_line.py" />
@@ -542,14 +550,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/account_move.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15502">
-          <caret line="683" column="79" lean-forward="false" selection-start-line="683" selection-start-column="73" selection-end-line="683" selection-end-column="79" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wizard/asset_modify.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="92">
@@ -575,14 +575,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wizard/mas_entries.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="3" column="45" lean-forward="false" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wizard/mas_entries.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="276">
@@ -591,18 +583,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/views.xml">
+    <entry file="file://$PROJECT_DIR$/wizard/mas_entries.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9591">
-          <caret line="417" column="77" lean-forward="false" selection-start-line="417" selection-start-column="65" selection-end-line="417" selection-end-column="77" />
+        <state relative-caret-position="667">
+          <caret line="29" column="52" lean-forward="false" selection-start-line="29" selection-start-column="52" selection-end-line="29" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/res_currency_data 2.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/res_currency_data.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="36" lean-forward="true" selection-start-line="0" selection-start-column="36" selection-end-line="0" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/account_move.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="216" column="25" lean-forward="false" selection-start-line="216" selection-start-column="25" selection-end-line="216" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="485" column="0" lean-forward="false" selection-start-line="485" selection-start-column="0" selection-end-line="485" selection-end-column="0" />
+        <state relative-caret-position="303">
+          <caret line="349" column="24" lean-forward="false" selection-start-line="349" selection-start-column="24" selection-end-line="349" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/views.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="729">
+          <caret line="370" column="47" lean-forward="false" selection-start-line="370" selection-start-column="47" selection-end-line="370" selection-end-column="47" />
           <folding />
         </state>
       </provider>
