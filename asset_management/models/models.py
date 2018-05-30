@@ -27,6 +27,7 @@ class Asset(models.Model):
     depreciation_line_ids = fields.One2many(comodel_name="asset_management.depreciation", inverse_name="asset_id", string="depreciation",on_delete='cascade')
     asset_serial_number = fields.Char(string ='Serial Number' )
     asset_tag_number = fields.Many2many('asset_management.tag')
+    color = fields.Integer('Color Index', default=10)
     #percentage = fields.Float(compute='_modify_percentage')
     # assignment_id = fields.One2many('asset_management.assignment', inverse_name='asset_id')
     _sql_constraints=[
@@ -61,16 +62,7 @@ class Asset(models.Model):
     @api.onchange('book_assets_id')
     def guideline1(self):
         if self.book_assets_id:
-            category=self.category_id
-            if not category:
-                message="You must first select a category"
-                warning={
-                    'title':_('Guidelines'),
-                    'message':message,
-                }
-                return {'warning':warning}
-
-            elif not self.source_line_id:
+            if not self.source_line_id:
                 message="You should add a Source Line to be able to compute deprecation"
                 warning = {
                             'title': _('Guideline!'),
@@ -169,16 +161,24 @@ class Asset(models.Model):
 
 
     @api.multi
-    def generate_mas_entries(self,date):
-        move_lines=[]
+    def generate_mas_entries(self,date,post_entries):
+        new_moved_lines=[]
+        old_moved_lines=[]
         capitalized_asset=self.env['asset_management.asset'].search([('state','=','capitalize')])
         for entries in capitalized_asset:
             dep_line = self.env['asset_management.depreciation'].search(
-                [('asset_id', '=', entries.id), ('depreciation_date', '<=', date),('move_check','=',False)])
+                [('asset_id', '=', entries.id), ('depreciation_date', '<=', date),('move_posted_check','=',False)])
             for deprecation in dep_line:
-                deprecation.create_move()
-                move_lines+=deprecation
-        return move_lines
+                if deprecation.move_check is False:
+                    deprecation.create_move()
+                    new_moved_lines +=deprecation
+                else:
+                    old_moved_lines +=deprecation
+        if post_entries is False:
+          return new_moved_lines
+        else:
+            new_moved_lines += old_moved_lines
+            return new_moved_lines
 
 
 
@@ -328,14 +328,27 @@ class BookAssets (models.Model):
 
     @api.onchange('book_id')
     def domain_for_book_id(self):
-        if self._context.get('category_id'):
+        if not self.asset_id:
+            return
+
+        category = self.asset_id.category_id
+        if not category:
+            warning = {
+                'title': _('Warning!'),
+                'message': _('You must first select a category!'),
+            }
+            return {'warning': warning}
+        else:
+        # if self._context.get('category_id'):
             res=[]
             # default_book=self._context.get('default_book')
             book_domain=self.env['asset_management.category_books'].search([('category_id','=',self._context.get('category_id'))])
                                                                                # ,('book_id','!=',default_book)])
-            for x in book_domain:
-                if x.book_id.active is True:
-                    res.append(x.book_id.id)
+            for book in book_domain:
+                if book.book_id.active is True:
+                    for existbook in self:
+                        if existbook.book_id.id != book.book_id.id:
+                            res.append(book.book_id.id)
             return {'domain': {'book_id': [('id', 'in', res)]
                     }}
 
@@ -608,25 +621,28 @@ class Assignment(models.Model):
 
 
 #get default value from CategoryBook
-    @api.onchange('book_id')
-    def onchange_book_id(self):
+    @api.onchange('responsible_id')
+    def onchange_id(self):
+        # if not self.book_assets_id:
+        #     return
+
         category_book = self.env['asset_management.category_books'].search(
-            [('book_id', '=', self._context.get('book_id')), ('category_id', '=', self.asset_id.category_id.id)])
+            [('book_id','=', self.book_id.id), ('category_id','=', self.asset_id.category_id.id)])
         value = {
             'depreciation_expense_account':category_book.depreciation_expense_account
         }
         for k, v in value.items():
             setattr(self, k, v)
 
-        category=self.asset_id.category_id.id
-        res = []
-        book_domain = self.env['asset_management.category_books'].search(
-                    [('category_id', '=', category)])
-        for x in book_domain:
-            if x.book_id.active is True:
-                    res.append(x.book_id.id)
-        return {'domain': {'book_id': [('id', 'in', res)]
-                                   }}
+        # category=self.asset_id.category_id.id
+        # res = []
+        # book_domain = self.env['asset_management.category_books'].search(
+        #             [('category_id', '=', category)])
+        # for x in book_domain:
+        #     if x.book_id.active is True:
+        #             res.append(x.book_id.id)
+        # return {'domain': {'book_id': [('id', 'in', res)]
+        #                            }}
 
 
 #creat transaction record when adding a new assignment and location
@@ -800,7 +816,8 @@ class Depreciation(models.Model):
             'journal_id': journal_id.id,
             'line_ids': [(0, 0, move_line_1)],
             }
-            assignment_in_book=line.env['asset_management.assignment'].search([('asset_id','=',line.asset_id.id),('book_id','=',line.book_id.s)])
+
+            assignment_in_book=line.env['asset_management.assignment'].search([('book_assets_id','=',line.book_assets_id.id)])
             for assignment in assignment_in_book:
                 amount=(line.amount * assignment.percentage)/100.00
                 amount = current_currency.with_context(date=depreciation_date).compute(amount,company_currency)
@@ -808,15 +825,15 @@ class Depreciation(models.Model):
                 move_line_2 = {
                     'name': asset_name,
                     'account_id': depreciation_expense_account,
-                    'credit': 0.0 if float_compare(amount, 0.00, precision_digits=prec) > 0 else -amount,
-                    'debit': amount if float_compare(amount, 0.00, precision_digits=prec) > 0 else 0.0,
+                    'credit': 0.0 if float_compare(amount, 0.0, precision_digits=prec) > 0 else -amount,
+                    'debit': amount if float_compare(amount, 0.0, precision_digits=prec) > 0 else 0.0,
                     'journal_id': journal_id.id,
                     'partner_id': partner_id.id,
                     'analytic_account_id': False,
                     'currency_id': company_currency != current_currency and current_currency.id or False,
                     'amount_currency': company_currency != current_currency and - 1.0 * line.amount or 0.0,
                     }
-                move_vals['line_ids'].append((0,0,move_line_2))
+                move_vals['line_ids'].append((0, 0, move_line_2))
 
             move = self.env['account.move'].create(move_vals)
             line.write({'move_id': move.id, 'move_check': True})

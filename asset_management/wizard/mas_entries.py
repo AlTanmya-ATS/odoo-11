@@ -10,18 +10,20 @@ class MasEntriesWizard(models.TransientModel):
 
     @api.multi
     def moves_compute(self):
-        asset_move_ids=self.env['asset_management.asset'].generate_mas_entries(self.date)
+        asset_move_ids=self.env['asset_management.asset'].generate_mas_entries(self.date,self.post_entries)
         if self.post_entries is True:
             for record in asset_move_ids:
                 record.move_id.post()
+        moved_lines=[]
+        for record in asset_move_ids:
+            moved_lines.append(record.move_id.id)
 
         return {
             'name':_('Created Assets Move'),
-            'model':'account.move',
+            'res_model':'account.move',
             'view_type':'form',
             'view_mode':'tree,form',
             'view_id':False,
             'type': 'ir.actions.act_window',
-            'domain':[('id','in',asset_move_ids)],
-            'target':'current'
+            'domain':[('id','in',moved_lines)],
         }

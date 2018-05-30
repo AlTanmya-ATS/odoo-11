@@ -7,6 +7,7 @@
             <form string="Compute Asset">
                 <group>
                     <field name="date"/>
+                    <field name="post_entries"/>
                 </group>
                 <footer>
                     <button string="Generate Entries" name="moves_compute" type="object" class="btn-primary"/>

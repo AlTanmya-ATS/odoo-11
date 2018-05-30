@@ -730,6 +730,7 @@
 					  <group>
                         <group>
 						    <field name="name"/>
+                            <field name="book_assets_id" invisible="1"/>
                             <field name="book_id"/>
                             <field name="asset_id"/>
                             <field name="sequence"/>
@@ -860,11 +861,14 @@
                         </div>
                          <group>
                              <label for="name" string="Address"/>
-                             <dive>
-                                <field name="name" placeholder="Street"/>
-                                 <field name="city" placeholder="City"/>
-                                 <field name="state_id" context="{'country_id': country_id}" placeholder="State"/>
-                                  <field name="country_id" placeholder="Country"/>
+                             <dive class="oe_address_format">
+                                <field name="name" placeholder="Street" class="oe_address_street"/>
+                                <n></n>
+                                 <field name="city" placeholder="City" class="oe_address_city"/>
+                                <n></n>
+                                 <field name="state_id" context="{'country_id': country_id}" placeholder="State" class="oe_address_state"/>
+                                 <n></n>
+                                 <field name="country_id" placeholder="Country" class="oe_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
                              </dive>
                          </group>
                      </sheet>
