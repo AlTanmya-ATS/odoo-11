@@ -6,7 +6,7 @@
             <field name="arch" type="xml">
                 <form string="Asset Location">
                     <field name="name"/>
-                    <widget name="gmap_marker" lat="latitude" lng="longitude" />
+                 <!--   <widget name="gmap_marker" lat="latitude" lng="longitude" /> -->
                 </form>
             </field>
     </record>
@@ -42,7 +42,7 @@
             <field name="latitude"/>
             <field name="longitude"/>
             <field name="name"/>
-            <widget name="gmap_marker" lat="latitude" lng="longitude" description="name"/>
+       <!--     <widget name="gmap_marker" lat="latitude" lng="longitude" description="name"/> -->
         </field>
     </record>
 
@@ -58,13 +58,13 @@
             </field>
     </record>
 
-    <record id="action_asset_location_gmap_view" model="ir.actions.act_window.view">
+  <!--  <record id="action_asset_location_gmap_view" model="ir.actions.act_window.view">
             <field name="sequence" eval="1"/>
             <field name="view_mode">gmaps</field>
             <field name="view_id" ref="asset_location_gmap"/>
             <field name="act_window_id" ref="asset_location_list_action"/>
     </record>
-    
+    -->
     <menuitem id="location_menu" name="Location" parent="asset_management_menu"
                   action="asset_location_list_action"/>
 
