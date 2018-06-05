@@ -21,7 +21,7 @@
 			 </field>
 	</record>
 
-    <record model="ir.ui.view" id="asset_location_search_view">
+  <!--  <record model="ir.ui.view" id="asset_location_search_view">
 		     <field name="name">asset_location.search</field>
 			 <field name="model">asset_management.location</field>
              <field name="type">gmaps</field>
@@ -29,11 +29,10 @@
 			     <field name="name"/>
                  <field name="latitude"/>
                  <field name="longitude"/>
-                 <widget name="gmap_marker" lat="latitude" lng="longitude" description="name"/>
+                <widget name="gmap_marker" lat="latitude" lng="longitude" description="name"/> 
 		     </field>
 	</record>
 
-<<<<<<< HEAD
     <record model="ir.ui.view" id ="asset_location_gmap">
         <field name="name">asset_location.gmap</field>
         <field name="model">asset_management.location</field>
@@ -42,12 +41,10 @@
             <field name="latitude"/>
             <field name="longitude"/>
             <field name="name"/>
-       <!--     <widget name="gmap_marker" lat="latitude" lng="longitude" description="name"/> -->
+         <widget name="gmap_marker" lat="latitude" lng="longitude" description="name"/> 
         </field>
     </record>
-
-=======
->>>>>>> parent of 6a2a569... commit map list
+-->
     <record model="ir.actions.act_window" id="asset_location_list_action">
             <field name="name">Asset Location</field>
             <field name="res_model">asset_management.location</field>
@@ -60,7 +57,6 @@
             </field>
     </record>
 
-<<<<<<< HEAD
   <!--  <record id="action_asset_location_gmap_view" model="ir.actions.act_window.view">
             <field name="sequence" eval="1"/>
             <field name="view_mode">gmaps</field>
@@ -68,10 +64,6 @@
             <field name="act_window_id" ref="asset_location_list_action"/>
     </record>
     -->
-=======
-    
-    
->>>>>>> parent of 6a2a569... commit map list
     <menuitem id="location_menu" name="Location" parent="asset_management_menu"
                   action="asset_location_list_action"/>
 
