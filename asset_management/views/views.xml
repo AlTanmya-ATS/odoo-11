@@ -98,6 +98,11 @@
                         <button string="Validate" name="validation" type="object" class="oe_highlight" states="draft"/>
                     </header>
                     <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="open_asset_entries"  type="object" icon="fa-pencil">
+                                <field string="Items" name="entry_asset_count" widget="statinfo" />
+                             </button>
+                        </div>
                         <div name="oe_left oe_title">
                             <label for="name" class="oe_edit_only"/>
                             <h1>
@@ -107,7 +112,7 @@
 					    <group>
                             <group>
                                 <field name="item_id"/>
-                                <field name="category_id"/>
+                                <field name="category_id" attrs="{'invisible':[('id','!=',False)]}"/>
                                 <field name="parent_asset"/>
                                 <!--<field name="default_book"/>-->
                                 <!--<field name="gross_value" placeholder="Asset Gross Value in default book" attrs="{'readonly':[('id','!=',False)]}"/>-->
@@ -132,6 +137,7 @@
                                 <field name="book_assets_id"  widget="One2many_list" context="{'category_id':category_id}">
                                     <tree string="Book Num" editable="bottom">
                                         <field name="book_id"/>
+                                        <field name="category_id" invisible="1"/>
                                         <field name="current_cost"/>
                                         <field name="original_cost"/>
                                         <field name="method"/>
@@ -142,17 +148,6 @@
                                         <field name="asset_id" invisible="1"/>
                                         <button name="move_to_book_asset" type="object" string="Details" class="oe_highlight"/>
                                     </tree>
-                                </field>
-                            </page>
-
-                            <page name=" SourceLine" string="Source Line">
-                                <field name="source_line_id" widget="One2many_list">
-                                        <tree string="Source Line">
-                                                <field name="source_type"/>
-                                                <field name="invoice_id"/>
-                                                <field name="invoice_line_ids"/>
-                                                <field name="amount"/>
-                                        </tree>
                                 </field>
                             </page>
 
@@ -167,6 +162,16 @@
                                         <field name="parent_state" invisible="1"/>
                                         <field name="move_check" widget="deprec_lines_toggler" attrs="{'invisible':[('parent_state','!=','open')]}"/>
                                         <field name="move_posted_check" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page name="Transaction" string="Transactions">
+                                <field name="transaction_id" widget="one2many_list" readonly="1">
+                                    <tree string="Transaction" create="false" edit="false">
+                                        <field name="book_id"/>
+                                        <field name="trx_type"/>
+                                        <field name="trx_date"/>
                                     </tree>
                                 </field>
                             </page>
@@ -251,10 +256,11 @@
 					 <group>
                         <group>
                             <field name="asset_with_category" invisible="1"/>
+
                             <field name="depreciation_method" attrs="{'readonly':[('asset_with_category','=',True)]}"/>
                         </group>
                         <group>
-                            <field name="ownership_type" attrs="{'readonly':[('asset_with_category','=',True)]}"/>
+                             <field name="ownership_type" attrs="{'readonly':[('asset_with_category','=',True)]}"/>
                             <field name="is_in_physical_inventory" attrs="{'readonly':[('asset_with_category','=',True)]}"/>
                         </group>
 					 </group>
@@ -434,7 +440,8 @@
 							        <field name="asset_id" class="oe_inline"/>
                                     <label string="  Not Validate" class="oe_inline" attrs="{'invisible':[('asset_state','!=','draft')]}"/>
                                 </dive>
-                                <field name="original_cost"/>
+                                <field name="category_id"/>
+                                <field name="original_cost" />
                                 <field name="salvage_value_type"/>
                                 <label for="salvage_value_amount"/>
                                 <dive>
@@ -458,6 +465,7 @@
                                 <field name="method_number" attrs="{'invisible':[('method_time','=','end')],'required':[('method_time','=','number')]}"/>
 							    <field name="life_months"/>
                                 <field name="end_date" attrs="{'invisible':[('method_time','=','number')]}"/>
+                                <field name="amount"/>
 						    </group>
 					    </group>
 
@@ -469,6 +477,17 @@
                                         <field name="location_id"/>
                                         <field name="transfer_date"/>
                                         <field name = "percentage"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                             <page name="source line" string="Source Line">
+                                <field name="source_line_ids" widget="One2many_list" >
+                                    <tree string="Source Line">
+                                        <field name="source_type"/>
+                                        <field name="invoice_id"/>
+                                        <field name="invoice_line_ids"/>
+                                        <field name="amount"/>
                                     </tree>
                                 </field>
                             </page>
@@ -605,9 +624,10 @@
 					  <group>
                         <group>
 						    <!--<field name="name"/>-->
+                            <field name="book_assets_id" invisible="1"/>
                             <field name="asset_id"/>
+                            <field name="book_id"/>
                             <field name="source_type"/>
-
                         </group>
 						<group>
                             <field name="invoice_id"/>
@@ -672,17 +692,18 @@
                         <group>
 						    <field name="name"/>
                             <field name="asset_id"/>
-							<field name="book_id" attrs="{'invisible':[('trx_type','=','re_class')]}"/>
-                            <field name="trx_date"/>
-                            <field name="trx_type"/>
-
+							<field name="book_id"/>
+                            <field name="old_category" invisible="1"/>
+                            <field name= "category_id"/>
                         </group>
 						<group>
                             <field name="move_id"/>
                             <field name="move_check"/>
                             <field name="move_posted_check"/>
-						    <!--<field name="period"/>-->
-                            <field name= "category_id"/>
+                        </group>
+                          <group>
+                            <field name="trx_date"/>
+                            <field name="trx_type"/>
                             <field name="trx_details"/>
 						</group>
 					  </group>						
@@ -744,8 +765,13 @@
                             <field name="book_assets_id" invisible="1"/>
                             <field name="book_id"/>
                             <field name="asset_id"/>
-                            <field name="sequence"/>
                         </group>
+                         <group>
+                            <field name="move_id"/>
+                            <field name="move_check"/>
+                            <field name="move_posted_check"/>
+                            <field name="sequence"/>
+                         </group>
 						<group>
                             <field name="depreciation_date"/>
                             <field name="amount"/>
@@ -806,6 +832,7 @@
                 <form string="Category Books Form" create="false">
                     <sheet>
 					  <group>
+
                         <group>
 						    <field name="name" invisible="1"/>
                             <field name="category_id"/>
@@ -817,6 +844,7 @@
                             <field name="group_entries"/>
                             <field name="book_with_cate" invisible="1"/>
                         </group>
+
 						<group>
                             <field name="journal_id"/>
 						    <field name="asset_cost_account"/>
@@ -824,6 +852,7 @@
 							<field name="depreciation_expense_account"/>
 							<field name="accumulated_depreciation_account"/>
 						</group>
+
 					  </group>						  
                     </sheet>
                 </form>     
@@ -873,13 +902,13 @@
                           </button>
                         </div>
                          <group>
-                             <label for="street" string="Address"/>
-                             <dive class="oe_address_format">
-                                <field name="street" placeholder="Street" class="oe_address_street"/>
+                             <label for="name" string="Address"/>
+                             <div class="oe_address_format">
+                                <field name="name" placeholder="Street" class="oe_address_street"/>
                                  <field name="city" placeholder="City" class="oe_address_city"/>
                                  <field name="state_id" placeholder="State" context="{'country_id': country_id}" class="oe_address_state"/>
                                  <field name="country_id" placeholder="Country" class="oe_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
-                             </dive>
+                             </div>
                          </group>
                      </sheet>
                  </form>

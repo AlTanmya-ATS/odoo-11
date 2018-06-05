@@ -14,6 +14,7 @@ class MasEntriesWizard(models.TransientModel):
         if self.post_entries is True:
             for record in asset_move_ids:
                 record.move_id.post()
+
         moved_lines=[]
         for record in asset_move_ids:
             moved_lines.append(record.move_id.id)
