@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "asset_management",
+    'name': "ATS Asset Management",
 
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
@@ -17,22 +17,21 @@
     # Check https://github.com/odoo/odoo/blob/master/odoo/addons/base/module/module_data.xml
     # for the full list
     'category': 'Uncategorized',
-    'version': '0.2',
+    'version': '0.1',
 
     # any module necessary for this one to work correctly
     'depends': ['base',
                'account' ,
-                'stock',
-               # 'web_widget_google_maps',
                 ],
 
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
+        'wizard/asset_modify_view.xml',
         'views/views.xml',
-		'views/location_views.xml',
         'views/templates.xml',
-        'views/resources.xml',
+        'wizard/mas_entries.xml',
+
     ],
     # only loaded in demonstration mode
     'demo': [
