@@ -27,10 +27,12 @@
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
+        'views/resources.xml',
         'wizard/asset_modify_view.xml',
         'views/views.xml',
         'views/templates.xml',
         'wizard/mas_entries.xml',
+        'wizard/re_class.xml',
 
     ],
     # only loaded in demonstration mode

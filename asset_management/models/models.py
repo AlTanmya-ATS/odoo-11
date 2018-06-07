@@ -145,7 +145,7 @@ class Asset(models.Model):
     #         res=[]
     #         default_book_domain=self.env['asset_management.category_books'].search([('category_id','=',self.category_id.id)])
     #         for x in default_book_domain:
-    #             if x.book_id.active is True:
+    #             if x.book_id.active :
     #                 res.append(x.book_id.id)
     #         return {'domain': {'default_book': [('id', 'in', res)]
     #                 }}
@@ -200,20 +200,20 @@ class Asset(models.Model):
                 [('asset_id', '=', entries.id), ('depreciation_date', '<=', date),('move_posted_check','=',False)])
             trx_lines=self.env['asset_management.transaction'].search([('asset_id', '=', entries.id), ('trx_date', '<=', date),('move_posted_check','=',False)])
             for deprecation in dep_line:
-                if deprecation.move_check is False:
+                if not deprecation.move_check:
                     deprecation.create_move()
                     new_moved_lines +=deprecation
                 else:
                     old_moved_lines +=deprecation
 
             for trx in trx_lines:
-                if trx.move_check is False:
+                if not trx.move_check :
                     trx.create_trx_move()
                     new_moved_lines+=trx
                 else:
                     old_moved_lines+=trx
 
-        if post_entries is False:
+        if not post_entries:
           return new_moved_lines
         else:
             new_moved_lines+=old_moved_lines
@@ -330,7 +330,7 @@ class BookAssets (models.Model):
     @api.constrains('source_line_ids')
     def _amount_constraint(self):
         for record in self:
-            if  record.original_cost < record.amount:
+            if  record.original_cost < record.amount :
                 raise ValidationError('amount in source lines must not be bigger than gross value')
 
 
@@ -354,7 +354,8 @@ class BookAssets (models.Model):
             'category_id': record.asset_id.category_id.id,
             'trx_type': 'cost_adjustment',
             'trx_date': datetime.today(),
-            'trx_details': 'Old Gross Value  Is: '+str(0.00) + '\nNew Gross Vale Is: ' + str(record.original_cost)
+            'trx_details': 'Old Gross Value  Is: '+str(0.00) + '\nNew Gross Vale Is: ' + str(record.original_cost),
+            'difference_cost':record.original_cost
         })
 
         return record
@@ -372,7 +373,8 @@ class BookAssets (models.Model):
                     'category_id': record.asset_id.category_id.id,
                     'trx_type': 'cost_adjustment',
                     'trx_date': datetime.today(),
-                    'trx_details': 'Old Gross Value  Is: ' + str(old_gross_value) + '\nNew Gross Vale Is:%s ' %self.original_cost
+                    'trx_details': 'Old Gross Value  Is: ' + str(old_gross_value) + '\nNew Gross Vale Is:%s ' %self.original_cost,
+                    'difference_cost':self.original_cost - old_gross_value
                 })
 
             if 'category_id' in values:
@@ -414,22 +416,11 @@ class BookAssets (models.Model):
             book_domain=self.env['asset_management.category_books'].search([('category_id','=',self._context.get('category_id'))])
                                                                                # ,('book_id','!=',default_book)])
             for book in book_domain:
-                if book.book_id.active is True:
+                if book.book_id.active :
                         res.append(book.book_id.id)
             return {'domain': {'book_id': [('id', 'in', res)]
                     }}
 
-    @api.onchange('category_id')
-    def _onchange_category_id(self):
-        for rec in self:
-            if rec.book_id:
-                res=[]
-                category_in_book=self.env['asset_management.category_books'].search([('book_id','=',rec.book_id.id)])
-                for category in category_in_book:
-                    if category.category_id.active is True:
-                        res.append(category.category_id.id)
-                return{'domain':{'category_id':[('id','in',res)]}
-                       }
 
 
     @api.constrains('original_cost')
@@ -482,7 +473,7 @@ class BookAssets (models.Model):
 
     def _compute_board_undone_dotation_nb(self, depreciation_date):
         if self.method_time == 'end':
-            if self.end_date is False:
+            if not self.end_date :
                 raise ValidationError ('End Date Is Required !')
             end_date = datetime.strptime(self.end_date, DF).date()
             undone_dotation_number = 0
@@ -730,7 +721,7 @@ class Assignment(models.Model):
         # book_domain = self.env['asset_management.category_books'].search(
         #             [('category_id', '=', category)])
         # for x in book_domain:
-        #     if x.book_id.active is True:
+        #     if x.book_id.active  :
         #             res.append(x.book_id.id)
         # return {'domain': {'book_id': [('id', 'in', res)]
         #                            }}
@@ -831,9 +822,7 @@ class SourceLine(models.Model):
     def _get_price_from_invoice(self):
         for record in self:
             record.amount=record.invoice_line_ids.price_unit
-            # for bookasset in record.book_assets_id:
-            #     if len(bookasset.source_line_ids) >= 1 and bookasset.original_cost != 0:
-            #         bookasset.original_cost +=record.amount
+
 
 
     @api.depends('book_assets_id')
@@ -848,13 +837,6 @@ class SourceLine(models.Model):
         for rec in self:
             rec.book_id=rec.book_assets_id.book_id.id
             return rec.book_id
-
-    # @api.onchange('amount')
-    # def _change_gross_value(self):
-    #     if self.amount:
-    #         for bookasset in self.book_assets_id:
-    #             if len(bookasset.source_line_ids) >= 1 and bookasset.original_cost != 0:
-    #                 bookasset.original_cost +=self.amount
 
 
 class Depreciation(models.Model):
@@ -1093,7 +1075,7 @@ class Transaction (models.Model):
     move_id = fields.Many2one('account.move', string='Transaction Entry')
     move_check = fields.Boolean(compute='_get_move_check', string='Linked (Account)', track_visibility='always', store=True)
     move_posted_check = fields.Boolean(compute='_get_move_posted_check', string='Posted', track_visibility='always',store=True)
-
+    difference_cost=fields.Float()
 
     @api.multi
     @api.depends('move_id')
@@ -1233,44 +1215,44 @@ class Transaction (models.Model):
                 line.write({'move_id': move.id, 'move_check': True})
                 created_moves |= move
 
-            # elif line.trx_type == 'cost_adjustment':
-            #     accounts = line.env['asset_management.category_books'].search(
-            #         [('book_id', '=', line.book_id.id), ('category_id', '=', line.category_id.id)])
-            #     journal_id = accounts.journal_id
-            #     asset_cost_account = accounts.asset_cost_account.id
-            #     asset_clearing_account = accounts.asset_clearing_account.id
-            #     # credit
-            #     move_line_1 = {
-            #         'name': trx_name,
-            #         'account_id': asset_clearing_account,
-            #         'debit': 0.00 if float_compare(gross_value, 0.0, precision_digits=prec) > 0 else -gross_value,
-            #         'credit': gross_value if float_compare(gross_value, 0.0, precision_digits=prec) > 0 else 0.0,
-            #         'journal_id': journal_id.id,
-            #         'analytic_account_id': False,
-            #         'currency_id': company_currency != current_currency and current_currency.id or False,
-            #         'amount_currency': company_currency != current_currency and - 1.0 * 50 or 0.0,
-            #     }
-            #     # debit
-            #     move_line_2 = {
-            #         'name': trx_name,
-            #         'account_id': asset_cost_account,
-            #         'credit': 0.00 if float_compare(gross_value, 0.0, precision_digits=prec) > 0 else -gross_value,
-            #         'debit': gross_value if float_compare(gross_value, 0.0, precision_digits=prec) > 0 else 0.0,
-            #         'journal_id': journal_id.id,
-            #         'analytic_account_id': False,
-            #         'currency_id': company_currency != current_currency and current_currency.id or False,
-            #         'amount_currency': company_currency != current_currency and - 1.0 * 50 or 0.0,
-            #     }
-            #
-            #     move_vals = {
-            #         'ref': line.asset_id.name,
-            #         'date': datetime.today() or False,
-            #         'journal_id': journal_id.id,
-            #         'line_ids': [(0, 0, move_line_1), (0, 0, move_line_2)],
-            #     }
-            #     move = line.env['account.move'].create(move_vals)
-            #     line.write({'move_id': move.id, 'move_check': True})
-            #     created_moves |= move
+            elif line.trx_type == 'cost_adjustment':
+                accounts = line.env['asset_management.category_books'].search(
+                    [('book_id', '=', line.book_id.id), ('category_id', '=', line.category_id.id)])
+                journal_id = accounts.journal_id
+                asset_cost_account = accounts.asset_cost_account.id
+                asset_clearing_account = accounts.asset_clearing_account.id
+                # credit
+                move_line_1 = {
+                    'name': trx_name,
+                    'account_id': asset_clearing_account,
+                    'debit': 0.00 if float_compare(line.difference_cost, 0.0, precision_digits=prec) > 0 else -line.difference_cost,
+                    'credit': line.difference_cost if float_compare(line.difference_cost, 0.0, precision_digits=prec) > 0 else 0.0,
+                    'journal_id': journal_id.id,
+                    'analytic_account_id': False,
+                    'currency_id': company_currency != current_currency and current_currency.id or False,
+                    'amount_currency': company_currency != current_currency and - 1.0 * 50 or 0.0,
+                }
+                # debit
+                move_line_2 = {
+                    'name': trx_name,
+                    'account_id': asset_cost_account,
+                    'credit': 0.00 if float_compare(line.difference_cost, 0.0, precision_digits=prec) > 0 else -line.difference_cost,
+                    'debit': line.difference_cost if float_compare(line.difference_cost, 0.0, precision_digits=prec) > 0 else 0.0,
+                    'journal_id': journal_id.id,
+                    'analytic_account_id': False,
+                    'currency_id': company_currency != current_currency and current_currency.id or False,
+                    'amount_currency': company_currency != current_currency and - 1.0 * 50 or 0.0,
+                }
+
+                move_vals = {
+                    'ref': line.asset_id.name,
+                    'date': datetime.today() or False,
+                    'journal_id': journal_id.id,
+                    'line_ids': [(0, 0, move_line_1), (0, 0, move_line_2)],
+                }
+                move = line.env['account.move'].create(move_vals)
+                line.write({'move_id': move.id, 'move_check': True})
+                created_moves |= move
 
         return [x.id for x in created_moves]
 

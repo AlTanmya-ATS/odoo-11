@@ -26,11 +26,14 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem id="mass_entries" name="Generate Entries"
+    <menuitem id="menu_actions_on_asset" name="operations"
                   parent="main_assetmanagement_menu"/>
+
+    <menuitem id="menu_mass_entries" name="Generate Entries"
+                  parent="menu_actions_on_asset"/>
 
     <menuitem name="Generate Assets Entries" action="action_view_mas_entries_wizard"
         id="menu_asset_depreciation_post_lines"
-        parent="mass_entries"/>
+        parent="menu_mass_entries"/>
 
 </odoo>

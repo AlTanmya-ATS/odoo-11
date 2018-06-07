@@ -141,9 +141,11 @@
                                         <field name="current_cost"/>
                                         <field name="original_cost"/>
                                         <field name="method"/>
+                                        <field name="method_time"/>
                                         <field name="life_months"/>
                                         <field name="salvage_value_type"/>
                                         <field name="salvage_value_amount"/>
+                                        <field name="method_number"/>
                                         <field name="date_in_service"/>
                                         <field name="asset_id" invisible="1"/>
                                         <button name="move_to_book_asset" type="object" string="Details" class="oe_highlight"/>
@@ -160,7 +162,7 @@
                                         <field name="amount"/>
                                         <field name="remaining_value"/>
                                         <field name="parent_state" invisible="1"/>
-                                        <field name="move_check" widget="deprec_lines_toggler" attrs="{'invisible':[('parent_state','!=','open')]}"/>
+                                        <field name="move_check" widget="dep_lines_toggler" attrs="{'invisible':[('parent_state','!=','open')]}"/>
                                         <field name="move_posted_check" invisible="1"/>
                                     </tree>
                                 </field>
@@ -440,7 +442,7 @@
 							        <field name="asset_id" class="oe_inline"/>
                                     <label string="  Not Validate" class="oe_inline" attrs="{'invisible':[('asset_state','!=','draft')]}"/>
                                 </dive>
-                                <field name="category_id"/>
+                                <field name="category_id" readonly="1"/>
                                 <field name="original_cost" />
                                 <field name="salvage_value_type"/>
                                 <label for="salvage_value_amount"/>
@@ -465,7 +467,7 @@
                                 <field name="method_number" attrs="{'invisible':[('method_time','=','end')],'required':[('method_time','=','number')]}"/>
 							    <field name="life_months"/>
                                 <field name="end_date" attrs="{'invisible':[('method_time','=','number')]}"/>
-                                <field name="amount"/>
+                                <field name="amount" invisible="1"/>
 						    </group>
 					    </group>
 
@@ -500,7 +502,7 @@
                                         <field name="amount"/>
                                         <field name="remaining_value"/>
                                         <field name="parent_state" invisible="1"/>
-                                        <field name="move_check" widget="deprec_lines_toggler" attrs="{'invisible':[('parent_state','!=','open')]}"/>
+                                        <field name="move_check" widget="dep_lines_toggler" attrs="{'invisible':[('parent_state','!=','open')]}"/>
                                         <field name="move_posted_check" invisible="1"/>
                                     </tree>
                                 </field>
@@ -690,22 +692,23 @@
                     <sheet>
 					  <group>
                         <group>
-						    <field name="name"/>
+						    <!--<field name="name"/>-->
                             <field name="asset_id"/>
 							<field name="book_id"/>
                             <field name="old_category" invisible="1"/>
                             <field name= "category_id"/>
+                            <field name="trx_type"/>
                         </group>
 						<group>
+                            <field name="trx_date"/>
                             <field name="move_id"/>
                             <field name="move_check"/>
                             <field name="move_posted_check"/>
                         </group>
-                          <group>
-                            <field name="trx_date"/>
-                            <field name="trx_type"/>
+                        <group>
+                            <field name="difference_cost" invisible="1"/>
                             <field name="trx_details"/>
-						</group>
+                        </group>
 					  </group>						
                     </sheet>
                 </form>     
@@ -757,7 +760,7 @@
             <field name="name">depreciation.form</field>
             <field name="model">asset_management.depreciation</field>
             <field name="arch" type="xml">
-                <form string="Depreciation Form" create="false" edit="false">
+                <form string="Depreciation Form" create="false" edit="false" delete="false">
                     <sheet>
 					  <group>
                         <group>

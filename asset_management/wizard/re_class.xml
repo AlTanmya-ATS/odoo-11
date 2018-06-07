@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_re_class_wizard" model="ir.ui.view">
+        <field name="name">re_class_wizard</field>
+        <field name="model">asset_management.re_class_wizard</field>
+        <field name="arch" type="xml">
+            <form string="Re Class Wizard">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="asset_id"/>
+                        </group>
+                        <group>
+                            <field name="book_id"/>
+                            <field name="category_id"/>
+                            <field name="new_category_id"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="asset_re_class" type="object" string="Re Class" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default"  special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_re_class_wizard" model="ir.actions.act_window">
+        <field name="name">action_re_class_wizard</field>
+        <field name="res_model">asset_management.re_class_wizard</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_re_class_wizard"/>
+        <field name="target">new</field>
+    </record>
+
+
+    <menuitem id="re_class_menu" name="Re Class Asset"
+                  parent="menu_actions_on_asset"/>
+
+    <menuitem name="Re Class Asset" action="action_re_class_wizard"
+        id="menu_re_class_asset"
+        parent="re_class_menu"/>
+
+</odoo>
