@@ -1,0 +1,58 @@
+<odoo>
+  <data>
+
+      <!-- adding (notes) (attendee_id) to event track form -->
+      <record id="event_track_attendee_button" model="ir.ui.view">
+          <field name="name">event.track</field>
+          <field name="model">event.track</field>
+          <field name="inherit_id" ref="website_event_track.view_event_track_form"/>
+          <field name="arch" type="xml">
+              <xpath expr="//header" position="inside">
+                <button type="object" name="attendee_name" string="Get Attendee" />
+              </xpath>
+              <xpath expr="/form/sheet/group[1]" position="after">
+                  <notebook>
+                      <page string="Attendance">
+                        <field name="attendee_id" context="{'default_track_id':id}">
+                            <tree string="track.attendee">
+                                <field name="name" modifiers="{}"/>
+                                <field name="partner_id"/>
+                                <field name="email"/>
+                                <field name="state"/>
+                                <button name="button_reg_close" string="Present" states="open" type="object" icon="fa-level-down text-success"/>
+                                <button name="button_reg_absent" string="Absent" states="open" type="object" icon="fa-times-circle text-danger"/>
+                            </tree>
+                        </field>
+                      </page>
+                      <page string="Notes">
+                          <field name="notes"/>
+                      </page>
+                  </notebook>
+              </xpath>
+
+              <xpath expr="//form[1]/sheet[1]/notebook/page[1]/field[@name='attendee_id']/tree[1]" position="after">
+                <form>
+                   <sheet string="track.attendee">
+                     <group>
+                      <group name="Attendee">
+                        <field name="partner_id"/>
+                        <field name="name"/>
+                        <field name="phone"/>
+                        <field name="email"/>
+                      </group>
+                      <group name="Event Information">
+                        <field name="event_id" readonly="1"/>
+                         <field name="track_id" readonly="1"/>
+                        <field name="date_open"/>
+                        <field name="state"/>
+                        <field name="date_closed"/>
+                      </group>
+                     </group>
+                   </sheet>
+                </form>
+              </xpath>
+          </field>
+      </record>
+
+  </data>
+</odoo>

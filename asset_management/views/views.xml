@@ -1,0 +1,1034 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <data>
+
+               <!--Retirement  form view -->
+        <record model="ir.ui.view" id="retirement_form_view">
+            <field name="name">retirement.form</field>
+            <field name="model">asset_management.retirement</field>
+            <field name="arch" type="xml">
+                <form string="Retirement Form">
+                    <sheet>
+					  <group>
+                        <group>
+						    <field name="name"/>
+                            <field name="book_id"/>
+                            <field name="asset_id"/>
+                            <field name="retire_date"/>
+							<field name="residual_value"/>
+							<field name="units_retired"/>
+							<field name="current_units"/>
+                        </group>
+						<group>
+						    <field name="gain_loss_amount"/>
+						    <field name="proceeds_of_sale"/>
+							<field name="partner_id"/>
+							<field name="cost_of_removal"/>
+							<field name="check_invoice"/>
+						</group>
+					  </group>
+                      <notebook>
+                          <page string="Comments">
+                               <field name="comments"/>
+                            </page>
+                      </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+		            <!--retirement list view -->
+	    <record model="ir.ui.view" id="retirement_tree_view">
+	         <field name="name">retirement.tree</field>
+			 <field name="model">asset_management.retirement</field>
+			 <field name="arch" type="xml">
+			     <tree string="Retirement Tree">
+                     <field name="name"/>
+				     <field name="retire_date"/>
+				 </tree>
+			 </field>
+	    </record>
+
+		<!--Retirement search view -->
+		<record model="ir.ui.view" id="retirement">
+		     <field name="name">retirement.search</field>
+			 <field name="model">asset_management.retirement</field>
+			 <field name="arch" type="xml">
+			     <search>
+                     <field name="book_assets_id"/>
+				     <field name="retire_date"/>
+				 </search>
+		     </field>
+		</record>
+
+		         <!--retirement action window-->
+        <record model="ir.actions.act_window" id="retirement_list_action">
+            <field name="name">Retirement</field>
+            <field name="res_model">asset_management.retirement</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context" eval="{'search_default_my_retirement': 1}"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first retirement
+                </p>
+            </field>
+        </record>
+
+
+                           <!--open retirement ui by button -->
+         <record model="ir.actions.act_window" id="set_asset_to_retire">
+             <field name="name">set asset to retire</field>
+             <field name="res_model">asset_management.retirement</field>
+             <field name="view_mode">form</field>
+             <field name="view_id" ref="retirement_form_view"/>
+             <field name="target">current</field>
+             <field name="context">{'default_asset_id':active_id}</field>
+         </record>
+
+
+               <!--asset form view -->
+        <record model="ir.ui.view" id="asset_form_view">
+            <field name="name">asset.form</field>
+            <field name="model">asset_management.asset</field>
+            <field name="arch" type="xml">
+                <form string="Asset Form">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,capitalize"/>
+                        <button string="Set to Retire" type="action" name="%(set_asset_to_retire)d" class="oe_highlight" attrs="{'invisible':[('state','=','draft')]}"/>
+                        <button string="Retirement" type="object" name="open_retired_window" class="oe_highlight" attrs="{'invisible':[('state','=','draft')]}"/>
+                        <button string="Validate" name="validation" type="object" class="oe_highlight" states="draft"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="open_asset_entries"  type="object" icon="fa-pencil">
+                                <field string="Items" name="entry_asset_count" widget="statinfo" />
+                             </button>
+                        </div>
+                        <div name="oe_left oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+					    <group>
+                            <group>
+                                <field name="item_id"/>
+                                <field name="category_id" attrs="{'invisible':[('id','!=',False)]}"/>
+                                <field name="parent_asset"/>
+                                <!--<field name="default_book"/>-->
+                                <!--<field name="gross_value" placeholder="Asset Gross Value in default book" attrs="{'readonly':[('id','!=',False)]}"/>-->
+                                <field name="asset_with_category" invisible="1"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="in_use_flag"/>
+                                <field name="is_in_physical_inventory"/>
+                                <field name="is_new"/>
+                                <field name="ownership_type"/>
+                                <field name="asset_serial_number"/>
+                                <field name="asset_tag_number" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            </group>
+					    </group>
+                        <notebook>
+                            <page string="Description">
+                                   <field name="description"/>
+                            </page>
+
+                            <page name="book" string="Book">
+                                <field name="book_assets_id"  widget="One2many_list" context="{'category_id':category_id}">
+                                    <tree string="Book Num" editable="bottom">
+                                        <field name="book_id"/>
+                                        <field name="category_id" invisible="1"/>
+                                        <field name="current_cost"/>
+                                        <field name="original_cost"/>
+                                        <field name="method"/>
+                                        <field name="method_time"/>
+                                        <field name="life_months"/>
+                                        <field name="salvage_value_type"/>
+                                        <field name="salvage_value_amount"/>
+                                        <field name="method_number"/>
+                                        <field name="date_in_service"/>
+                                        <field name="asset_id" invisible="1"/>
+                                        <button name="move_to_book_asset" type="object" string="Details" class="oe_highlight"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page name="depreciation" string="Depreciation">
+                                <field name="depreciation_line_ids" widget="One2many_list" readonly="1">
+                                    <tree string="Depreciation" create="false" edit="false" editable="false">
+                                        <field name="book_id"/>
+                                        <field name="depreciation_date"/>
+                                        <field name="depreciated_value"/>
+                                        <field name="amount"/>
+                                        <field name="remaining_value"/>
+                                        <field name="parent_state" invisible="1"/>
+                                        <field name="move_check" widget="dep_lines_toggler" attrs="{'invisible':[('parent_state','!=','open')]}"/>
+                                        <field name="move_posted_check" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page name="Transaction" string="Transactions">
+                                <field name="transaction_id" widget="one2many_list" readonly="1">
+                                    <tree string="Transaction" create="false" edit="false">
+                                        <field name="book_id"/>
+                                        <field name="trx_type"/>
+                                        <field name="trx_date"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>	
+		
+		<!--asset list view -->
+	    <record model="ir.ui.view" id="asset_tree_view">
+	         <field name="name">asset.tree</field>
+			 <field name="model">asset_management.asset</field>
+			 <field name="arch" type="xml">
+			     <tree string="Asset Tree">
+			         <field name="name"/>
+				     <field name="description"/>
+                     <field name="state"/>
+                     <field name="category_id"/>
+				 </tree>
+			 </field>
+	    </record>
+	
+		<!--asset search view --> 
+		<record model="ir.ui.view" id="asset_search_view">
+		     <field name="name">asset.search</field>
+			 <field name="model">asset_management.asset</field>
+			 <field name="arch" type="xml">
+			     <search>
+				     <field name="name"/>
+					 <field name="description"/>
+				 </search>
+		     </field>
+		</record>
+			   
+	      <!--asset action window-->
+	
+        <record model="ir.actions.act_window" id="asset_list_action">
+            <field name="name">Asset</field>
+            <field name="res_model">asset_management.asset</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context" eval="{'search_default_my_asset': 1}"/>			
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first asset
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="main_assetmanagement_menu" name="Asset Mangement"/>
+
+        <menuitem id="asset_management_menu" name="Asset Mangement"
+                  parent="main_assetmanagement_menu"/>
+
+        <menuitem id="asset_management_report_menu" name="Reports"
+                  parent="main_assetmanagement_menu"/>
+
+        <menuitem id="asset_menu" name="Asset" parent="asset_management_menu"
+                  action="asset_list_action"/>
+
+         <menuitem id="retirement_menu" name="Retirement" parent="asset_management_menu"
+                  action="retirement_list_action"/>
+				 
+               <!--category form view -->
+        <record model="ir.ui.view" id="category_form_view">
+            <field name="name">category.form</field>
+            <field name="model">asset_management.category</field>
+            <field name="arch" type="xml">
+                <form string="Category Form">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                          <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-check">
+                                <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;active&quot;}"/>
+                          </button>
+                      </div>
+                        <div class="oe_left oe_title">
+                            <lable for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="Category's Name" attrs="{'readonly':[('asset_with_category','=',True)]}"/>
+                            </h1>
+                        </div>
+					 <group>
+                        <group>
+                            <field name="asset_with_category" invisible="1"/>
+
+                            <field name="depreciation_method" attrs="{'readonly':[('asset_with_category','=',True)]}"/>
+                        </group>
+                        <group>
+                             <field name="ownership_type" attrs="{'readonly':[('asset_with_category','=',True)]}"/>
+                            <field name="is_in_physical_inventory" attrs="{'readonly':[('asset_with_category','=',True)]}"/>
+                        </group>
+					 </group>
+                     <notebook>
+                            <page string="Description">
+                                <field name="description" attrs="{'readonly':[('asset_with_category','=',True)]}"/>
+                            </page>
+                            <page name="book" string="Book">
+                                <field name="category_books_id" widget="One2many_list">
+                                    <tree string="book num">
+                                        <field name="book_id"/>
+                                        <field name="asset_cost_account"/>
+                                        <field name="asset_clearing_account"/>
+                                        <field name="depreciation_expense_account"/>
+                                        <field name="accumulated_depreciation_account"/>
+                                        <field name="journal_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                     </notebook>							
+                    </sheet>
+                </form>
+            </field>
+        </record>	
+		
+		<!--category list view -->
+	    <record model="ir.ui.view" id="category_tree_view">
+	         <field name="name">category.tree</field>
+			 <field name="model">asset_management.category</field>
+			 <field name="arch" type="xml">
+			     <tree string="Category Tree">
+			         <field name="name"/>
+				     <field name="description"/>
+				 </tree>
+			 </field>
+	    </record>
+	
+		<!--category search view --> 
+		<record model="ir.ui.view" id="category_search_view">
+		     <field name="name">category.search</field>
+			 <field name="model">asset_management.category</field>
+			 <field name="arch" type="xml">
+			     <search>
+				     <field name="name"/>
+					 <field name="description"/>
+				 </search>
+		     </field>
+		</record>
+			   
+	      <!--category action window-->
+	
+        <record model="ir.actions.act_window" id="category_list_action">
+            <field name="name">Category</field>
+            <field name="res_model">asset_management.category</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context" eval="{'search_default_my_category': 1}"/>			
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first category
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="category_menu" name="Category" parent="asset_management_menu"
+                  action="category_list_action"/>
+				  
+				  
+               <!--book form view -->
+        <record model="ir.ui.view" id="book_form_view">
+            <field name="name">book.form</field>
+            <field name="model">asset_management.book</field>
+            <field name="arch" type="xml">
+                <form string="Book Form" >
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                          <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-check">
+                                <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;active&quot;}"/>
+                          </button>
+                      </div>
+                        <div class="oe_left oe_title">
+                        <lable for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="Book's Name" attrs="{'readonly':[('book_with_cate','=',True)]}"/>
+                             </h1>
+                        </div>
+                        <group>
+                        <group>
+                            <field name="cost_of_removal_gain_account"  attrs="{'readonly':[('book_with_cate','=',True)]}" />
+                            <field name="cost_of_removal_loss_account"  attrs="{'readonly':[('book_with_cate','=',True)]}" />
+                             <field name="book_with_cate" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="company_id" attrs="{'readonly':[('book_with_cate','=',True)]}"/>
+                            <field name="currency_id" invisible="1" attrs="{'readonly':[('book_with_cate','=',True)]}"/>
+                        </group>
+                        </group>
+                     <notebook>
+                            <page string="Description">
+                                <field name="description"/>
+                            </page>
+                     </notebook>							
+                    </sheet>
+                </form>
+            </field>
+        </record>	
+		
+		<!--book list view -->
+	    <record model="ir.ui.view" id="book_tree_view">
+	         <field name="name">book.tree</field>
+			 <field name="model">asset_management.book</field>
+			 <field name="arch" type="xml">
+			     <tree string="Book Tree">
+			         <field name="name"/>
+                     <field name="company_id"/>
+				     <field name="description"/>
+				 </tree>
+			 </field>
+	    </record>
+	
+		<!--book search view --> 
+		<record model="ir.ui.view" id="book_search_view">
+		     <field name="name">book.search</field>
+			 <field name="model">asset_management.book</field>
+			 <field name="arch" type="xml">
+			     <search>
+				     <field name="name"/>
+					 <field name="description"/>
+				 </search>
+		     </field>
+		</record>
+			   
+	      <!--book action window-->
+	
+        <record model="ir.actions.act_window" id="book_list_action">
+            <field name="name">Book</field>
+            <field name="res_model">asset_management.book</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context" eval="{'search_default_my_book': 1}"/>			
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first book
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="book_menu" name="Book" parent="asset_management_menu"
+                  action="book_list_action"/>
+
+				  
+				  
+               <!--book-assets form view -->
+        <record model="ir.ui.view" id="book_assets_form_view">
+            <field name="name">book_assets.form</field>
+            <field name="model">asset_management.book_assets</field>
+            <field name="arch" type="xml">
+                <form string="Book Asset Form" create="false">
+                    <header>
+                        <button name="%(asset_dep_modify_action)d" string="Modify Depreciation" type="action" class="oe_highlight" attrs="{'invisible':['|',('depreciated_flag','=',False),('state','!=','open')]}"/>
+                        <button name="validate"  type="object" string="confirm" class="oe_highlight" attrs="{'invisible':['|',('asset_state','!=','capitalize'),('state','!=','draft')]}"/>
+                        <button name="set_to_draft" string="Set to Draft" type="object" attrs="{'invisible': ['|',('state','!=','open'),('entry_count','!=',0)]}"/>
+                        <button name="compute_depreciation_board" string="Compute Depreciation" type="object" class="oe_highlight"
+                                attrs="{'invisible':['|','|',('depreciated_flag','=',False),('asset_state','!=','capitalize'),('state','!=','draft')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,open"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="open_entries"  type="object" icon="fa-pencil">
+                                <field string="Items" name="entry_count" widget="statinfo" />
+                             </button>
+                        </div>
+					    <group>
+                            <group>
+						        <field name="name" invisible="1"/>
+                                <field name="book_id"/>
+                                <label for="asset_id"/>
+                                <dive>
+							        <field name="asset_id" class="oe_inline"/>
+                                    <label string="  Not Validate" class="oe_inline" attrs="{'invisible':[('asset_state','!=','draft')]}"/>
+                                </dive>
+                                <field name="category_id" readonly="1"/>
+                                <field name="original_cost" />
+                                <field name="salvage_value_type"/>
+                                <label for="salvage_value_amount"/>
+                                <dive>
+                                    <field name="salvage_value_amount" class="oe_inline"/>
+                                    <label string="%" class="oe_inline" attrs="{'invisible':[('salvage_value_type','=','amount')]}"/>
+                                </dive>
+                                <field name="salvage_value"/>
+							    <field name="current_cost"/>
+                                <field name="asset_state" invisible="1"/>
+
+                            </group>
+						    <group>
+						        <field name="depreciated_flag" attrs="{'readonly':[('depreciation_line_length','!=',0)]}"/>
+                                <field name="depreciation_line_length" invisible="1"/>
+						        <field name="method"/>
+                                <field name="method_progress_factor" attrs="{'invisible':[('method','=','linear')]}"/>
+                                <field name="method_time"/>
+							    <field name="date_in_service"/>
+							    <field name="prorate_date" readonly="1"/>
+							    <!--<field name="prorate_convenction"/>-->
+                                <field name="method_number" attrs="{'invisible':[('method_time','=','end')],'required':[('method_time','=','number')]}"/>
+							    <field name="life_months"/>
+                                <field name="end_date" attrs="{'invisible':[('method_time','=','number')]}"/>
+                                <field name="amount" invisible="1"/>
+						    </group>
+					    </group>
+
+                        <notebook>
+                            <page name="assignment" string="Assignment">
+                                <field name="assignment_id" widget="One2many_list" context="{'default_book_assets_id':id}">
+                                    <tree string="Assignment">
+                                        <field name="responsible_id"/>
+                                        <field name="location_id"/>
+                                        <field name="transfer_date"/>
+                                        <field name = "percentage"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                             <page name="source line" string="Source Line">
+                                <field name="source_line_ids" widget="One2many_list" >
+                                    <tree string="Source Line">
+                                        <field name="source_type"/>
+                                        <field name="invoice_id"/>
+                                        <field name="invoice_line_ids"/>
+                                        <field name="amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page name="depreciation" string="Depreciation">
+                                <field name="depreciation_line_ids" widget="One2many_list">
+                                    <tree string="Depreciation" edit="false" create="false">
+                                        <field name="depreciation_date"/>
+                                        <field name="depreciated_value"/>
+                                        <field name="amount"/>
+                                        <field name="remaining_value"/>
+                                        <field name="parent_state" invisible="1"/>
+                                        <field name="move_check" widget="dep_lines_toggler" attrs="{'invisible':[('parent_state','!=','open')]}"/>
+                                        <field name="move_posted_check" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>     
+            </field>
+        </record>
+            <!--Book Assets Tree-->
+         <record model="ir.ui.view" id="book_asset_tree_view">
+	         <field name="name">book_asset.tree</field>
+			 <field name="model">asset_management.book_assets</field>
+			 <field name="arch" type="xml">
+			     <tree string="Book Asset Tree" create="false" edit="false">
+				     <field name="book_id"/>
+                     <field name="asset_id"/>
+                     <field name="current_cost"/>
+                     <field name="original_cost"/>
+                     <field name="method"/>
+				 </tree>
+			 </field>
+         </record>
+
+    <!--book-assets action window-->
+         <record model="ir.actions.act_window" id="book_assets_list_action">
+            <field name="name">Book Asset1</field>
+            <field name="res_model">asset_management.book_assets</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context" eval="{'search_default_my_book_assets': 1}"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first book assets
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem id="book_assets_menu" name="Book Assets" parent="asset_management_report_menu"
+                  action="book_assets_list_action"/>
+
+				 
+               <!--assignment form view -->
+        <record model="ir.ui.view" id="assignment_form_view">
+            <field name="name">assignment.form</field>
+            <field name="model">asset_management.assignment</field>
+            <field name="arch" type="xml">
+                <form string="Assignment Form" create="false">
+                    <sheet>
+					  <group>
+                        <group>
+                             <field name="asset_id" readonly="1"/>
+                             <field name="book_id" readonly="1"/>
+                             <field name="depreciation_expense_account"/>
+							 <field name="responsible_id"/>
+							 <field name="location_id"/>
+                        </group>
+						<group>
+						  <!-- <field name="units"/> 
+						   <field name="units_to_assign"/> -->
+                            <field name="book_assets_id" invisible="1"/>
+                           <field name="percentage"/>
+						   <field name="transfer_date"/>
+                           <!--<field name="end_use_date"/>-->
+						   <field name="comments"/>
+						</group>
+					  </group>						
+                    </sheet>
+                </form>     
+            </field>
+        </record>	
+		            <!--assignment list view --> 
+	    <record model="ir.ui.view" id="assignment_tree_view">
+	         <field name="name">assignment.tree</field>
+			 <field name="model">asset_management.assignment</field>
+			 <field name="arch" type="xml">
+			     <tree string="Assignment Tree" create="false" edit="false">
+			         <field name="name"/>
+                     <field name="location_id"/>
+				     <field name="responsible_id"/>
+                     <field name="percentage"/>
+				 </tree>
+			 </field>
+	    </record>
+		
+		<!--assignment search view --> 
+		<record model="ir.ui.view" id="assignment_search_view">
+		     <field name="name">assignment.search</field>
+			 <field name="model">asset_management.assignment</field>
+			 <field name="arch" type="xml">
+			     <search>
+				     <field name="name"/>
+					 <field name="responsible_id"/>
+				 </search>
+		     </field>
+		</record>	 
+		
+		         <!--assignment action window-->
+        <record model="ir.actions.act_window" id="assignment_list_action">
+            <field name="name">Assignment</field>
+            <field name="res_model">asset_management.assignment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context" eval="{'search_default_my_assignment': 1}"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first assignment
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="assignment_menu" name="Assignment" parent="asset_management_report_menu"
+                  action="assignment_list_action"/>
+				  
+               <!--source line form view -->
+        <record model="ir.ui.view" id="source_line_form_view">
+            <field name="name">source_line.form</field>
+            <field name="model">asset_management.source_line</field>
+            <field name="arch" type="xml">
+                <form string="Source_Line Form" create="false" >
+                    <sheet>
+					  <group>
+                        <group>
+						    <!--<field name="name"/>-->
+                            <field name="book_assets_id" invisible="1"/>
+                            <field name="asset_id"/>
+                            <field name="book_id"/>
+                            <field name="source_type"/>
+                        </group>
+						<group>
+                            <field name="invoice_id"/>
+                            <field name="invoice_line_ids"/>
+						    <field name="amount"/>
+						    <field name="description"/>
+						</group>
+					  </group>						
+                    </sheet>
+                </form>     
+            </field>
+        </record>	
+		            <!--source line list view --> 
+	    <record model="ir.ui.view" id="source_line_tree_view">
+	         <field name="name">source_line.tree</field>
+			 <field name="model">asset_management.source_line</field>
+			 <field name="arch" type="xml">
+			     <tree string="Source Line Tree" edit="false" create="false">
+			         <field name="name"/>
+				     <field name="source_type"/>
+                      <field name="invoice_id"/>
+				 </tree>
+			 </field>
+	    </record>
+		
+		<!--source line search view --> 
+		<record model="ir.ui.view" id="source_line_search_view">
+		     <field name="name">source_line.search</field>
+			 <field name="model">asset_management.source_line</field>
+			 <field name="arch" type="xml">
+			     <search>
+				     <field name="name"/>
+					 <field name="asset_id"/>
+				 </search>
+		     </field>
+		</record>	 
+		
+		         <!--source line action window-->
+        <record model="ir.actions.act_window" id="source_line_list_action">
+            <field name="name">Source Line</field>
+            <field name="res_model">asset_management.source_line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context" eval="{'search_default_my_source line': 1}"/>			
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first source line
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="source_line_menu" name="Source Line" parent="asset_management_report_menu"
+                  action="source_line_list_action"/>
+				  
+               <!--transaction  form view -->
+        <record model="ir.ui.view" id="transaction_form_view">
+            <field name="name">transaction.form</field>
+            <field name="model">asset_management.transaction</field>
+            <field name="arch" type="xml">
+                <form string="Transaction Form" edit="false" create="false" delete="false">
+                    <sheet>
+					  <group>
+                        <group>
+						    <!--<field name="name"/>-->
+                            <field name="asset_id"/>
+							<field name="book_id"/>
+                            <field name="old_category" invisible="1"/>
+                            <field name= "category_id"/>
+                            <field name="trx_type"/>
+                        </group>
+						<group>
+                            <field name="trx_date"/>
+                            <field name="move_id"/>
+                            <field name="move_check"/>
+                            <field name="move_posted_check"/>
+                        </group>
+                        <group>
+                            <field name="difference_cost" invisible="1"/>
+                            <field name="trx_details"/>
+                        </group>
+					  </group>						
+                    </sheet>
+                </form>     
+            </field>
+        </record>	
+		            <!--transaction list view --> 
+	    <record model="ir.ui.view" id="transaction_tree_view">
+	         <field name="name">transaction.tree</field>
+			 <field name="model">asset_management.transaction</field>
+			 <field name="arch" type="xml">
+			     <tree string="Transaction Tree" create="false" edit="false">
+			         <field name="name"/>
+				     <field name="trx_type"/>
+				 </tree>
+			 </field>
+	    </record>
+
+		<!--transaction search view -->
+		<record model="ir.ui.view" id="transaction_search_view">
+		     <field name="name">transaction.search</field>
+			 <field name="model">asset_management.transaction</field>
+			 <field name="arch" type="xml">
+			     <search>
+				     <field name="name"/>
+					 <field name="trx_type"/>
+				 </search>
+		     </field>
+		</record>	 
+		
+		         <!--transaction action window-->
+        <record model="ir.actions.act_window" id="transaction_list_action">
+            <field name="name">Transaction</field>
+            <field name="res_model">asset_management.transaction</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context" eval="{'search_default_my_transaction': 1}"/>			
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first transaction
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="transaction_menu" name="Transaction" parent="asset_management_report_menu"
+                  action="transaction_list_action"/>
+
+				  
+               <!--Depreciation  form view -->
+        <record model="ir.ui.view" id="depreciation_form_view">
+            <field name="name">depreciation.form</field>
+            <field name="model">asset_management.depreciation</field>
+            <field name="arch" type="xml">
+                <form string="Depreciation Form" create="false" edit="false" delete="false">
+                    <sheet>
+					  <group>
+                        <group>
+						    <field name="name"/>
+                            <field name="book_assets_id" invisible="1"/>
+                            <field name="book_id"/>
+                            <field name="asset_id"/>
+                        </group>
+                         <group>
+                            <field name="move_id"/>
+                            <field name="move_check"/>
+                            <field name="move_posted_check"/>
+                            <field name="sequence"/>
+                         </group>
+						<group>
+                            <field name="depreciation_date"/>
+                            <field name="amount"/>
+                            <field name="depreciated_value"/>
+						    <field name="remaining_value"/>
+						</group>
+					  </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+		            <!--depreciation list view -->
+	    <record model="ir.ui.view" id="depreciation_tree_view">
+	         <field name="name">depreciation.tree</field>
+			 <field name="model">asset_management.depreciation</field>
+			 <field name="arch" type="xml">
+			     <tree string="Depreciation Tree" create="false" edit="false">
+			         <field name="name"/>
+                     <field name="book_id"/>
+                     <field name="asset_id"/>
+				      <field name="depreciated_value"/>
+				 </tree>
+			 </field>
+	    </record>
+
+		<!--depreciation search view -->
+		<record model="ir.ui.view" id="depreciation_search_view">
+		     <field name="name">depreciation.search</field>
+			 <field name="model">asset_management.depreciation</field>
+			 <field name="arch" type="xml">
+			     <search>
+				     <field name="name"/>
+				 </search>
+		     </field>
+		</record>
+
+		         <!--depreciation action window-->
+        <record model="ir.actions.act_window" id="depreciation_list_action">
+            <field name="name">Depreciation</field>
+            <field name="res_model">asset_management.depreciation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context" eval="{'search_default_my_depreciation': 1}"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first depreciation
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="depreciation_menu" name="Depreciation" parent="asset_management_report_menu"
+                  action="depreciation_list_action"/>
+
+               <!--category books  form view -->
+        <record model="ir.ui.view" id="category_books_form_view">
+            <field name="name">category_books.form</field>
+            <field name="model">asset_management.category_books</field>
+            <field name="arch" type="xml">
+                <form string="Category Books Form" create="false">
+                    <sheet>
+					  <group>
+
+                        <group>
+						    <field name="name" invisible="1"/>
+                            <field name="category_id"/>
+							<field name="book_id"/>
+                            <field name="depreciation_method"/>
+                            <field name="method_time"/>
+                            <field name="method_number" attrs="{'invisible':[('method_time','!=','number')],'required':[('method_time','=','number')]}"/>
+                            <field name="life_months"/>
+                            <field name="group_entries"/>
+                            <field name="book_with_cate" invisible="1"/>
+                        </group>
+
+						<group>
+                            <field name="journal_id"/>
+						    <field name="asset_cost_account"/>
+						    <field name="asset_clearing_account"/>
+							<field name="depreciation_expense_account"/>
+							<field name="accumulated_depreciation_account"/>
+						</group>
+
+					  </group>						  
+                    </sheet>
+                </form>     
+            </field>
+        </record>
+
+         <!--category books tree -->
+         <record id="category_book_tree" model="ir.ui.view">
+             <field name="name">Category Books Tree</field>
+             <field name="model">asset_management.category_books</field>
+             <field name="arch" type="xml">
+                 <tree string="Category Books" create="false" edit="false">
+                     <field name="category_id"/>
+                     <field name="book_id"/>
+                     <field name="depreciation_method"/>
+                 </tree>
+             </field>
+         </record>
+
+		         <!--Category Books action window-->
+        <record model="ir.actions.act_window" id="category_books_list_action">
+            <field name="name">Category Books</field>
+            <field name="res_model">asset_management.category_books</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context" eval="{'search_default_my_category_books': 1}"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first category books
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem id="category_books_menu" name="Category Books" parent="asset_management_report_menu"
+                  action="category_books_list_action"/>
+
+                    <!--Asset Location Form-->
+         <record id="asset_management_location_view_form" model="ir.ui.view">
+             <field name="name">Asset Location  Form</field>
+             <field name="model">asset_management.location</field>
+             <field name="arch" type="xml">
+                 <form string="Location Form">
+                     <sheet>
+                         <div class="oe_button_box" name="button_box">
+                          <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-check">
+                                <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;active&quot;}"/>
+                          </button>
+                        </div>
+                         <group>
+                             <label for="name" string="Address"/>
+                             <div class="oe_address_format">
+                                <field name="name" placeholder="Street" class="oe_address_street"/>
+                                 <field name="city" placeholder="City" class="oe_address_city"/>
+                                 <field name="state_id" placeholder="State" context="{'country_id': country_id}" class="oe_address_state"/>
+                                 <field name="country_id" placeholder="Country" class="oe_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                             </div>
+                         </group>
+                     </sheet>
+                 </form>
+             </field>
+         </record>
+
+                 <!--Asset Location tree-->
+    <record id="asset_management_location_view_list" model="ir.ui.view">
+        <field name="name">Asset.Location.tree</field>
+        <field name="model">asset_management.location</field>
+        <field name="arch" type="xml">
+            <tree string="Location Tree">
+                <field name="name"/>
+                <field name="city"/>
+                <field name="country_id"/>
+            </tree>
+        </field>
+    </record>
+     <!--Asset Location action-->
+    <record id="asset_management_location_action" model="ir.actions.act_window">
+        <field name="name">Asset Location</field>
+        <field name="res_model">asset_management.location</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context" eval="{'search_default_my_location': 1}"/>
+        <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Location
+                </p>
+        </field>
+    </record>
+
+
+    <menuitem id="asset_location_menu" name="Location"
+                  parent="main_assetmanagement_menu"/>
+
+    <menuitem name="Location" action="asset_management_location_action"
+        id="asset_management_location_meun"
+        parent="asset_location_menu"/>
+
+
+    </data>
+
+
+    <data noupdate="1">
+
+      <record model="ir.sequence" id="seq_asset">
+        <field name="name">asset_sequence</field>
+        <field name="code">asset_management.asset.Asset</field>
+        <field name="padding">3</field>
+        <field name="number_increment">1</field>
+        <field name="implementation">no_gap</field>
+      </record>
+
+      <record model="ir.sequence" id="seq_book">
+        <field name="name">book_sequence</field>
+        <field name="code">asset_management.book.Book</field>
+        <field name="padding">3</field>
+        <field name="number_increment">1</field>
+        <field name="implementation">no_gap</field>
+      </record>
+
+      <record model="ir.sequence" id="seq_assignment">
+        <field name="name">assignment_sequence</field>
+        <field name="code">asset_management.assignment.Assignment</field>
+        <field name="padding">3</field>
+        <field name="number_increment">1</field>
+        <field name="implementation">no_gap</field>
+      </record>
+
+      <record model="ir.sequence" id="seq_transaction">
+            <field name="name">transaction_sequence</field>
+            <field name="code">asset_management.transaction.Transaction</field>
+            <field name="padding">3</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">no_gap</field>
+      </record>
+
+      <record model="ir.sequence" id="seq_retirement">
+            <field name="name">retirement_sequence</field>
+            <field name="code">asset_management.retirement.Retirement</field>
+            <field name="padding">3</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">no_gap</field>
+      </record>
+
+      <record model="ir.sequence" id="seq_depreciation">
+            <field name="name">depreciation_sequence</field>
+            <field name="code">asset_management.depreciation.Depreciation</field>
+            <field name="padding">3</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">no_gap</field>
+      </record>
+
+      <record model="ir.sequence" id="seq_book_asset">
+            <field name="name">book_asset_sequence</field>
+            <field name="code">asset_management.book_assets.BookAssets</field>
+            <field name="padding">3</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">no_gap</field>
+      </record>
+
+      <record model="ir.sequence" id="seq_category_book">
+            <field name="name">category_book_sequence</field>
+            <field name="code">asset_management.category_books.CategoryBooks</field>
+            <field name="padding">3</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">no_gap</field>
+      </record>
+      <record model="ir.sequence" id="seq_source_line">
+            <field name="name">source_line_sequence</field>
+            <field name="code">asset_management.source_line.SourceLine</field>
+            <field name="padding">3</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">no_gap</field>
+      </record>
+
+   </data>
+
+</odoo>
+
