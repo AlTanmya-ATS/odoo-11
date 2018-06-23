@@ -13,7 +13,7 @@ class ReClass(models.TransientModel):
     def _onchange_asset_id(self):
         if self.asset_id:
             books=[]
-            asset_in_book=self.env['asset_management.book_assets'].search([('asset_id','=',self.asset_id.id)])
+            asset_in_book=self.env['asset_management.book_assets'].search([('asset_id','=',self.asset_id.id),('state','=','open')])
             for record in asset_in_book:
                 if record.book_id.active:
                     books.append(record.book_id.id)
@@ -43,8 +43,12 @@ class ReClass(models.TransientModel):
     @api.multi
     def asset_re_class(self):
         new_category=self.env['asset_management.book_assets'].search([('asset_id','=',self.asset_id.id),('book_id','=',self.book_id.id)])
+        new_depreciation_expense_account=self.env['asset_management.category_books'].search([('category_id','=',self.new_category_id.id),
+                                                                                             ('book_id','=',self.book_id.id)]).depreciation_expense_account
         new_values={
         'category_id':self.new_category_id.id
         }
         new_category.write(new_values)
+        for assignment in new_category.assignment_id:
+            assignment.depreciation_expense_account=new_depreciation_expense_account.id
         return {'type':'ir.actions.act_window_close'}

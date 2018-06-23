@@ -28,7 +28,7 @@
 
 
     <record id="action_re_class_wizard" model="ir.actions.act_window">
-        <field name="name">action_re_class_wizard</field>
+        <field name="name">action re_class wizard</field>
         <field name="res_model">asset_management.re_class_wizard</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="view_re_class_wizard"/>

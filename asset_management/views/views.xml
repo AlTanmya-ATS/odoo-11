@@ -2,7 +2,7 @@
 <odoo>
    <data>
 
-               <!--Retirement  form view -->
+               <!--Retirement form view -->
         <record model="ir.ui.view" id="retirement_form_view">
             <field name="name">retirement.form</field>
             <field name="model">asset_management.retirement</field>
@@ -12,19 +12,21 @@
 					  <group>
                         <group>
 						    <field name="name"/>
+                            <field name="book_assets_id"/>
                             <field name="book_id"/>
                             <field name="asset_id"/>
                             <field name="retire_date"/>
-							<field name="residual_value"/>
-							<field name="units_retired"/>
-							<field name="current_units"/>
+                            <field name="retirement_type_id"/>
+                            <field name="check_invoice"/>
                         </group>
 						<group>
+                            <field name="retired_cost"/>
+                            <field name="current_asset_cost"/>
 						    <field name="gain_loss_amount"/>
+                            <field name="net_book_value"/>
 						    <field name="proceeds_of_sale"/>
 							<field name="partner_id"/>
 							<field name="cost_of_removal"/>
-							<field name="check_invoice"/>
 						</group>
 					  </group>
                       <notebook>
@@ -74,29 +76,17 @@
         </record>
 
 
-                           <!--open retirement ui by button -->
-         <record model="ir.actions.act_window" id="set_asset_to_retire">
-             <field name="name">set asset to retire</field>
-             <field name="res_model">asset_management.retirement</field>
-             <field name="view_mode">form</field>
-             <field name="view_id" ref="retirement_form_view"/>
-             <field name="target">current</field>
-             <field name="context">{'default_asset_id':active_id}</field>
-         </record>
-
-
                <!--asset form view -->
         <record model="ir.ui.view" id="asset_form_view">
             <field name="name">asset.form</field>
             <field name="model">asset_management.asset</field>
             <field name="arch" type="xml">
                 <form string="Asset Form">
-                    <header>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,capitalize"/>
-                        <button string="Set to Retire" type="action" name="%(set_asset_to_retire)d" class="oe_highlight" attrs="{'invisible':[('state','=','draft')]}"/>
-                        <button string="Retirement" type="object" name="open_retired_window" class="oe_highlight" attrs="{'invisible':[('state','=','draft')]}"/>
-                        <button string="Validate" name="validation" type="object" class="oe_highlight" states="draft"/>
-                    </header>
+                    <!--<header>-->
+                        <!--<field name="state" widget="statusbar" statusbar_visible="draft,capitalize"/>-->
+                        <!--<button string="Validate" name="validation" type="object" class="oe_highlight" states="draft"/>-->
+                        <!--<button string="Set to draft" name="set_to_draft" type="object" states="capitalize"/>-->
+                    <!--</header>-->
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button class="oe_stat_button" name="open_asset_entries"  type="object" icon="fa-pencil">
@@ -109,14 +99,15 @@
                                 <field name="name"/>
                             </h1>
                         </div>
-					    <group>
+                        <group>
                             <group>
                                 <field name="item_id"/>
-                                <field name="category_id" attrs="{'invisible':[('id','!=',False)]}"/>
+                                <field name="category_id" attrs="{'invisible':[('category_invisible','=',True)]}"/>
                                 <field name="parent_asset"/>
                                 <!--<field name="default_book"/>-->
                                 <!--<field name="gross_value" placeholder="Asset Gross Value in default book" attrs="{'readonly':[('id','!=',False)]}"/>-->
                                 <field name="asset_with_category" invisible="1"/>
+                                <field name="category_invisible" invisible="1"/>
                                 <field name="currency_id" invisible="1"/>
                             </group>
                             <group>
@@ -125,7 +116,7 @@
                                 <field name="is_new"/>
                                 <field name="ownership_type"/>
                                 <field name="asset_serial_number"/>
-                                <field name="asset_tag_number" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                <field name="asset_tag_number" widget="many2many_tags"/>
                             </group>
 					    </group>
                         <notebook>
@@ -135,11 +126,11 @@
 
                             <page name="book" string="Book">
                                 <field name="book_assets_id"  widget="One2many_list" context="{'category_id':category_id}">
-                                    <tree string="Book Num" editable="bottom">
+                                    <tree string="Book Num">
                                         <field name="book_id"/>
                                         <field name="category_id" invisible="1"/>
+                                        <field name="residual_value"/>
                                         <field name="current_cost"/>
-                                        <field name="original_cost"/>
                                         <field name="method"/>
                                         <field name="method_time"/>
                                         <field name="life_months"/>
@@ -148,6 +139,7 @@
                                         <field name="method_number"/>
                                         <field name="date_in_service"/>
                                         <field name="asset_id" invisible="1"/>
+                                        <field name="state"/>
                                         <button name="move_to_book_asset" type="object" string="Details" class="oe_highlight"/>
                                     </tree>
                                 </field>
@@ -191,7 +183,7 @@
 			     <tree string="Asset Tree">
 			         <field name="name"/>
 				     <field name="description"/>
-                     <field name="state"/>
+                     <!--<field name="state"/>-->
                      <field name="category_id"/>
 				 </tree>
 			 </field>
@@ -420,11 +412,12 @@
             <field name="arch" type="xml">
                 <form string="Book Asset Form" create="false">
                     <header>
-                        <button name="%(asset_dep_modify_action)d" string="Modify Depreciation" type="action" class="oe_highlight" attrs="{'invisible':['|',('depreciated_flag','=',False),('state','!=','open')]}"/>
-                        <button name="validate"  type="object" string="confirm" class="oe_highlight" attrs="{'invisible':['|',('asset_state','!=','capitalize'),('state','!=','draft')]}"/>
-                        <button name="set_to_draft" string="Set to Draft" type="object" attrs="{'invisible': ['|',('state','!=','open'),('entry_count','!=',0)]}"/>
+                        <button name="%(asset_dep_modify_action)d" string="Modify Depreciation" type="action" class="oe_highlight" attrs="{'invisible':['|','|',('depreciated_flag','=',False),
+                                         ('state','!=','open'),('id','=',False)]}"/>
+                        <button name="validate"  type="object" string="confirm" class="oe_highlight" attrs="{'invisible':['|',('state','!=','draft'),('id','=',False)]}"/>
+                        <button name="set_to_draft" string="Set to Draft" type="object" attrs="{'invisible': ['|','|',('state','!=','open'),('entry_count','!=',0),('id','=',False)]}"/>
                         <button name="compute_depreciation_board" string="Compute Depreciation" type="object" class="oe_highlight"
-                                attrs="{'invisible':['|','|',('depreciated_flag','=',False),('asset_state','!=','capitalize'),('state','!=','draft')]}"/>
+                                attrs="{'invisible':['|','|',('depreciated_flag','=',False),('state','!=','draft'),('id','=',False)]}"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,open"/>
                     </header>
                     <sheet>
@@ -437,13 +430,11 @@
                             <group>
 						        <field name="name" invisible="1"/>
                                 <field name="book_id"/>
-                                <label for="asset_id"/>
-                                <dive>
-							        <field name="asset_id" class="oe_inline"/>
-                                    <label string="  Not Validate" class="oe_inline" attrs="{'invisible':[('asset_state','!=','draft')]}"/>
-                                </dive>
-                                <field name="category_id" readonly="1"/>
-                                <field name="original_cost" />
+                                <field name="asset_id"/>
+                                    <!--<label string="  Not Validate" class="oe_inline" attrs="{'invisible':[('asset_state','!=','draft')]}"/>-->
+                                <field name="category_id" attrs="{'readonly':[('state','=','open')]}"/>
+                                <field name="original_cost" attrs="{'invisible':[('id','=',False)],'readonly':[('state','=','open')]}"/>
+                                <field name="current_cost"/>
                                 <field name="salvage_value_type"/>
                                 <label for="salvage_value_amount"/>
                                 <dive>
@@ -451,8 +442,8 @@
                                     <label string="%" class="oe_inline" attrs="{'invisible':[('salvage_value_type','=','amount')]}"/>
                                 </dive>
                                 <field name="salvage_value"/>
-							    <field name="current_cost"/>
-                                <field name="asset_state" invisible="1"/>
+							    <field name="residual_value"/>
+                                <!--<field name="asset_state" invisible="1"/>-->
 
                             </group>
 						    <group>
@@ -467,7 +458,9 @@
                                 <field name="method_number" attrs="{'invisible':[('method_time','=','end')],'required':[('method_time','=','number')]}"/>
 							    <field name="life_months"/>
                                 <field name="end_date" attrs="{'invisible':[('method_time','=','number')]}"/>
-                                <field name="amount" invisible="1"/>
+                                <field name="old_amount" invisible="1"/>
+                                <field name="new_amount" invisible="1"/>
+                                <field name="accumulated_value"/>
 						    </group>
 					    </group>
 
@@ -484,7 +477,7 @@
                             </page>
 
                              <page name="source line" string="Source Line">
-                                <field name="source_line_ids" widget="One2many_list" >
+                                <field name="source_line_ids" widget="One2many_list">
                                     <tree string="Source Line">
                                         <field name="source_type"/>
                                         <field name="invoice_id"/>
@@ -496,7 +489,7 @@
 
                             <page name="depreciation" string="Depreciation">
                                 <field name="depreciation_line_ids" widget="One2many_list">
-                                    <tree string="Depreciation" edit="false" create="false">
+                                    <tree string="Depreciation" create="false" edit="false">
                                         <field name="depreciation_date"/>
                                         <field name="depreciated_value"/>
                                         <field name="amount"/>
@@ -512,6 +505,7 @@
                 </form>     
             </field>
         </record>
+
             <!--Book Assets Tree-->
          <record model="ir.ui.view" id="book_asset_tree_view">
 	         <field name="name">book_asset.tree</field>
@@ -520,7 +514,7 @@
 			     <tree string="Book Asset Tree" create="false" edit="false">
 				     <field name="book_id"/>
                      <field name="asset_id"/>
-                     <field name="current_cost"/>
+                     <field name="residual_value"/>
                      <field name="original_cost"/>
                      <field name="method"/>
 				 </tree>
@@ -529,7 +523,7 @@
 
     <!--book-assets action window-->
          <record model="ir.actions.act_window" id="book_assets_list_action">
-            <field name="name">Book Asset1</field>
+            <field name="name">Book Asset</field>
             <field name="res_model">asset_management.book_assets</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
@@ -630,11 +624,12 @@
                             <field name="asset_id"/>
                             <field name="book_id"/>
                             <field name="source_type"/>
+
                         </group>
 						<group>
-                            <field name="invoice_id"/>
-                            <field name="invoice_line_ids"/>
-						    <field name="amount"/>
+                            <field name="invoice_id" attrs="{'required':[('source_type','=','invoice')],'invisible':[('source_type','=','null')]}"/>
+                            <field name="invoice_line_ids" attrs="{'required':[('source_type','=','invoice')],'invisible':[('source_type','=','null')]}"/>
+						    <field name="amount" attrs="{'required':[('source_type','=','invoice')],'invisible':[('source_type','=','null')]}"/>
 						    <field name="description"/>
 						</group>
 					  </group>						
@@ -706,7 +701,8 @@
                             <field name="move_posted_check"/>
                         </group>
                         <group>
-                            <field name="difference_cost" invisible="1"/>
+                            <field name="cost" invisible="1"/>
+                            <field name="retirement_id"/>
                             <field name="trx_details"/>
                         </group>
 					  </group>						
@@ -930,6 +926,7 @@
             </tree>
         </field>
     </record>
+
      <!--Asset Location action-->
     <record id="asset_management_location_action" model="ir.actions.act_window">
         <field name="name">Asset Location</field>
@@ -951,6 +948,23 @@
         id="asset_management_location_meun"
         parent="asset_location_menu"/>
 
+     <record id="asset_management_retirement_type_view_form" model="ir.ui.view">
+             <field name="name">Retirement Type  Form</field>
+             <field name="model">asset_management.retirement_type</field>
+             <field name="arch" type="xml">
+                 <form string="Retirement Type Form">
+                     <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                         <group>
+                             <field name="proceeds_of_sale_gain_account"/>
+                             <field name="cost_of_removal_clearing_account"/>
+                         </group>
+                     </sheet>
+                 </form>
+             </field>
+         </record>
 
     </data>
 
