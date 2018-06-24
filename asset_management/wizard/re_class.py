@@ -5,7 +5,7 @@ from odoo import api, fields, models, _
 class ReClass(models.TransientModel):
     _name='asset_management.re_class_wizard'
     asset_id=fields.Many2one('asset_management.asset')
-    book_id=fields.Many2one('asset_management.book')
+    book_id=fields.Many2one('asset_management.book',domain=[('active','=',True)])
     category_id=fields.Many2one('asset_management.category',compute="_get_book_category")
     new_category_id=fields.Many2one('asset_management.category')
 

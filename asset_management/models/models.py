@@ -130,14 +130,6 @@ class Asset(models.Model):
             new_moved_lines+=old_moved_lines
             return new_moved_lines
 
-    @api.onchange('book_assets_id')
-    def _onchange_book_assets_id(self):
-        if self.book_assets_id:
-            for rec in  self.book_assets_id:
-                if rec.state == 'open':
-                    self.category_invisible = True
-                    break
-
 
 class Category(models.Model):
     _name = 'asset_management.category'
@@ -361,7 +353,6 @@ class BookAssets (models.Model):
         #     return warning
 
         else:
-        # if self._context.get('category_id'):
             res=[]
             # default_book=self._context.get('default_book')
             book_domain=self.env['asset_management.category_books'].search([('category_id','=',self._context.get('category_id'))])
@@ -381,7 +372,6 @@ class BookAssets (models.Model):
 
     @api.multi
     def validate(self):
-        #assign_in_book_asset = self.env['asset_management.assignment'].search([('asset_id', '=', self.asset_id.id), ('book_id', '=', self.book_id.id)])
         if not self.assignment_id and not self.source_line_ids:
             raise UserError("The fallowing fields should be entered in order to move to 'open' state "
                                   "and be able to compute deprecation:"
@@ -392,6 +382,9 @@ class BookAssets (models.Model):
         elif not self.source_line_ids:
             raise ValidationError('Source line should be added')
         self.write({'state': 'open'})
+
+        if not self.asset_id.category_invisible:
+            self.asset_id.write({'category_invisible':True})
 
         if not self.env['asset_management.transaction'].search([('asset_id','=', self.asset_id.id),('book_id','=', self.book_id.id),('trx_type','=','addition')]):
             self.env['asset_management.transaction'].create({
@@ -682,14 +675,15 @@ class Assignment(models.Model):
     def create(self, values):
         values['name']=self.env['ir.sequence'].next_by_code('asset_management.assignment.Assignment')
         record=super(Assignment, self).create(values)
-        record.env['asset_management.transaction'].create({
-            'book_id':record.book_id.id,
-            'asset_id': record.asset_id.id,
-            'category_id': record.book_assets_id.category_id.id,
-            'trx_type': 'transfer',
-            'trx_date': datetime.today(),
-            'trx_details': 'Responsible : '+str(record.responsible_id.name)+'\nLocation : '+record.location_id.name
-        })
+        if book_assets_id.state == 'open':
+            record.env['asset_management.transaction'].create({
+                'book_id':record.book_id.id,
+                'asset_id': record.asset_id.id,
+                'category_id': record.book_assets_id.category_id.id,
+                'trx_type': 'transfer',
+                'trx_date': datetime.today(),
+                'trx_details': 'Responsible : '+str(record.responsible_id.name)+'\nLocation : '+record.location_id.name
+            })
         return record
 
     @api.depends('book_assets_id')
@@ -932,8 +926,10 @@ class Retirement (models.Model):
             asset_in_book=self.env['asset_management.book_assets'].search([('book_id','=',self.book_id.id)])
             for asset in asset_in_book:
                 res.append(asset.asset_id.id)
-                return {'domain':{'asset_id':[('id','in',res)]
+
+            return {'domain':{'asset_id':[('id','in',res)]
                                   } }
+
     @api.depends('book_id','asset_id')
     def _get_book_assets_id(self):
         for record in self:
@@ -947,6 +943,7 @@ class Retirement (models.Model):
             if record.book_id and record.asset_id:
                 asset_gross_value=record.env['asset_management.book_assets'].search([('asset_id','=',record.asset_id.id),('book_id','=',record.book_id.id)]).current_cost
                 record.current_asset_cost=asset_gross_value
+
     @api.depends('asset_id','retired_cost','book_id','retire_date')
     def _compute_gain_loss_amount(self):
         for line in self:
@@ -1376,3 +1373,5 @@ class RetirementType(models.Model):
     name=fields.Char()
     proceeds_of_sale_gain_account=fields.Many2one('account.account',on_delete='set_null')
     cost_of_removal_clearing_account = fields.Many2one('account.account', on_delete='set_null')
+
+
