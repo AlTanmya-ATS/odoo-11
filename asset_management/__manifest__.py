@@ -33,6 +33,7 @@
         'views/templates.xml',
         'wizard/mas_entries.xml',
         'wizard/re_class.xml',
+        'wizard/modify_dep.xml',
 
     ],
     # only loaded in demonstration mode
