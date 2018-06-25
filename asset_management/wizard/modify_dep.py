@@ -4,7 +4,7 @@ class ModifyDep(models.TransientModel):
     _name='asset_management.modify_dep'
     name = fields.Char()
     asset_id=fields.Many2one('asset_management.asset')
-    book_id=fields.Many2one('asset_management.book_id',domain=[('active','=',True)])
+    book_id=fields.Many2one('asset_management.book',domain=[('active','=',True)])
     dep_method=fields.Selection([('linear','Linear'),('degressive','Degressive')],string='Deprecation Method')
     life_months=fields.Integer()
     method_number=fields.Integer()
