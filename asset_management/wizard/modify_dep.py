@@ -26,19 +26,20 @@ class ModifyDep(models.TransientModel):
     @api.model
     def default_get(self,fields):
         res=super(ModifyDep, self).default_get(fields)
-        asset=self.env['asset_management.book_assets'].browse([('book_id','=',self.book_id.id),('asset_id','=',self.asset_id.id)])
-        if 'method' in fields:
-            res.update({'dep_method':asset.method})
-        if 'life_months' in fields:
-            res.update({'life_months':asset.life_months})
-        if 'method_progress_factor' in fields and asset.dep_method == 'degressive':
-            res.update({'method_progress_factor':asset.method_progress_factor})
-        if 'method_time' in fields:
-            res.update({'method_time':asset.method_time})
-        if 'method_number' in fields and asset.method_time == 'number':
-            res.update({'method_number':asset.method_number})
-        if 'end_date' in fields and asset.method_time == 'end':
-            res.update({'end_date':asset.end_date})
+        if res.book_id and res.asset_id:
+            asset=self.env['asset_management.book_assets'].browse([('book_id','=',self.book_id.id),('asset_id','=',self.asset_id.id)])
+            if 'method' in fields:
+                res.update({'dep_method':asset.method})
+            if 'life_months' in fields:
+                res.update({'life_months':asset.life_months})
+            if 'method_progress_factor' in fields and asset.dep_method == 'degressive':
+                res.update({'method_progress_factor':asset.method_progress_factor})
+            if 'method_time' in fields:
+                res.update({'method_time':asset.method_time})
+            if 'method_number' in fields and asset.method_time == 'number':
+                res.update({'method_number':asset.method_number})
+            if 'end_date' in fields and asset.method_time == 'end':
+                res.update({'end_date':asset.end_date})
 
         return res
 
