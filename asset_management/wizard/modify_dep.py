@@ -25,7 +25,7 @@ class ModifyDep(models.TransientModel):
 
     @api.onchange('book_id','asset_id')
     def get_record_values(self):
-        vals = self.onchange_book_id_value(self.book_id.id,self.asset_id.id)
+        vals = self.onchange_book_assets_id_value(self.book_id.id,self.asset_id.id)
         # We cannot use 'write' on an object that doesn't exist yet
         if vals:
             for k, v in vals['value'].items():
