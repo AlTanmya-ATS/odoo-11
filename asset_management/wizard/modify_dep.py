@@ -26,7 +26,7 @@ class ModifyDep(models.TransientModel):
     @api.model
     def default_get(self,fields):
         res=super(ModifyDep, self).default_get(fields)
-        if res.book_id and res.asset_id:
+        if self.book_id and self.asset_id:
             asset=self.env['asset_management.book_assets'].browse([('book_id','=',self.book_id.id),('asset_id','=',self.asset_id.id)])
             if 'method' in fields:
                 res.update({'dep_method':asset.method})
