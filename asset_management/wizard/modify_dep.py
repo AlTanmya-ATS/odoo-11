@@ -23,25 +23,29 @@ class ModifyDep(models.TransientModel):
             return {'domain':{'asset_id':[('id','in',res)]
                               }}
 
-    @api.model
-    def default_get(self,fields):
-        res=super(ModifyDep, self).default_get(fields)
-        if self.book_id and self.asset_id:
-            asset=self.env['asset_management.book_assets'].browse([('book_id','=',self.book_id.id),('asset_id','=',self.asset_id.id)])
-            if 'method' in fields:
-                res.update({'dep_method':asset.method})
-            if 'life_months' in fields:
-                res.update({'life_months':asset.life_months})
-            if 'method_progress_factor' in fields and asset.dep_method == 'degressive':
-                res.update({'method_progress_factor':asset.method_progress_factor})
-            if 'method_time' in fields:
-                res.update({'method_time':asset.method_time})
-            if 'method_number' in fields and asset.method_time == 'number':
-                res.update({'method_number':asset.method_number})
-            if 'end_date' in fields and asset.method_time == 'end':
-                res.update({'end_date':asset.end_date})
+    @api.onchange('book_id','asset_id')
+    def get_record_values(self):
+        vals = self.onchange_book_id_value(self.book_id.id,self.asset_id.id)
+        # We cannot use 'write' on an object that doesn't exist yet
+        if vals:
+            for k, v in vals['value'].items():
+                setattr(self, k, v)
 
-        return res
+    def onchange_book_assets_id_value(self, book_id,asset_id):
+        if book_id and asset_id:
+            asset = self.env['asset_management.book_assets'].search(
+                [('book_id', '=', self.book_id.id), ('asset_id', '=', self.asset_id.id)])
+            return {
+                'value': {
+                    'dep_method': asset.method,
+                    'life_months': asset.life_months,
+                    'method_progress_factor': asset.method_progress_factor,
+                    'method_time': asset.method_time,
+                    'method_number': asset.method_number,
+                    'end_date': asset.end_date,
+                }
+            }
+
 
     @api.multi
     def modify(self):
@@ -49,7 +53,7 @@ class ModifyDep(models.TransientModel):
         new_values={
             'method':self.dep_method,
             'life_months':self.life_months,
-            'method_progress_factor':self.method_progress_factore,
+            'method_progress_factor':self.method_progress_factor,
             'method_time':self.method_time,
             'method_number':self.method_number,
             'end_date':self.end_date
