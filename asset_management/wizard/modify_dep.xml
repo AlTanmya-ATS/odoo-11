@@ -17,19 +17,20 @@
                         <field name="end_date" attrs="{'invisible':[('method_time','=','number')]}"/>
                     </group>
                 </sheet>
+                <footer>
+                    <button name="modify" string="Modify" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="ptn-default" special="cancel"/>
+                </footer>
             </form>
         </field>
     </record>
 
     <record id="modify_dep_action" model="ir.actions.act_window">
         <field name="name">modify_dep_action</field>
-        <field name="type">ir.actions.act_window</field>
         <field name="res_model">asset_management.modify_dep</field>
         <field name="view_mode">tree,form</field>
-        <field name="help" type="html">
-          <p class="oe_view_nocontent_create">
-          </p>
-        </field>
+        <field name="view_id" ref="modify_dep_view_form"/>
+        <field name="target">new</field>
     </record>
     <!-- This Menu Item must have a parent and an action -->
     <menuitem id="modify_dep_menu" name="Modify Depreciation Method" parent="menu_actions_on_asset"/>

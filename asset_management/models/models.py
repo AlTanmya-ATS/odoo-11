@@ -675,7 +675,7 @@ class Assignment(models.Model):
     def create(self, values):
         values['name']=self.env['ir.sequence'].next_by_code('asset_management.assignment.Assignment')
         record=super(Assignment, self).create(values)
-        if book_assets_id.state == 'open':
+        if record.book_assets_id.state == 'open':
             record.env['asset_management.transaction'].create({
                 'book_id':record.book_id.id,
                 'asset_id': record.asset_id.id,

@@ -11,6 +11,7 @@ class ModifyDep(models.TransientModel):
     method_progress_factor=fields.Float()
     method_time=fields.Selection([('end','End Date'),('number','Number of entries')])
     end_date=fields.Date()
+
     @api.onchange('book_id')
     def _asset_in_book_domain(self):
         if self.book_id:
