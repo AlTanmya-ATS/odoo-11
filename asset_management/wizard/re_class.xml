@@ -9,12 +9,12 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="asset_id"/>
+                            <field name="book_id"/>
                         </group>
                         <group>
-                            <field name="book_id"/>
+                            <field name="asset_id" attrs="{'readonly':[('book_id','=',False)]}"/>
                             <field name="category_id"/>
-                            <field name="new_category_id"/>
+                            <field name="new_category_id" attrs="{'readonly':['|',('book_id','=',False),('asset_id','=',False)]}"/>
                         </group>
                     </group>
                 </sheet>
