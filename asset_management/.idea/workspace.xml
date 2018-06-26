@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bc75f719-69d3-4ba9-843c-90cdf38bf8ab" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/models/models.py" afterPath="$PROJECT_DIR$/models/models.py" />
-      <change beforePath="$PROJECT_DIR$/views/views.xml" afterPath="$PROJECT_DIR$/views/views.xml" />
-      <change beforePath="$PROJECT_DIR$/wizard/modify_dep.xml" afterPath="$PROJECT_DIR$/wizard/modify_dep.xml" />
       <change beforePath="$PROJECT_DIR$/wizard/re_class.py" afterPath="$PROJECT_DIR$/wizard/re_class.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,14 +37,14 @@
       <file leaf-file-name="modify_dep.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wizard/modify_dep.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="23">
-              <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state relative-caret-position="184">
+              <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="modify_dep.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="modify_dep.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wizard/modify_dep.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="552">
@@ -57,11 +54,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="re_class.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="re_class.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wizard/re_class.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="629">
-              <caret line="51" column="84" lean-forward="false" selection-start-line="51" selection-start-column="52" selection-end-line="51" selection-end-column="84" />
+            <state relative-caret-position="414">
+              <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -173,10 +170,10 @@
         <option value="$PROJECT_DIR$/wizard/re_class.xml" />
         <option value="$PROJECT_DIR$/../../../extend_event_track/views/views.xml" />
         <option value="$PROJECT_DIR$/../../../extend_event_track/models/models.py" />
-        <option value="$PROJECT_DIR$/wizard/re_class.py" />
         <option value="$PROJECT_DIR$/views/views.xml" />
         <option value="$PROJECT_DIR$/models/models.py" />
         <option value="$PROJECT_DIR$/wizard/modify_dep.xml" />
+        <option value="$PROJECT_DIR$/wizard/re_class.py" />
       </list>
     </option>
   </component>
@@ -339,7 +336,14 @@
       <option name="project" value="LOCAL" />
       <updated>1530006499722</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fix some errors">
+      <created>1530016623292</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1530016623292</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -389,7 +393,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="reclass changes in py &amp; xml" />
-    <option name="LAST_COMMIT_MESSAGE" value="reclass changes in py &amp; xml" />
+    <MESSAGE value="fix some errors" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix some errors" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -551,26 +556,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wizard/modify_dep.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/views.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="729">
           <caret line="462" column="79" lean-forward="false" selection-start-line="462" selection-start-column="79" selection-end-line="462" selection-end-column="79" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wizard/re_class.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="51" column="84" lean-forward="false" selection-start-line="51" selection-start-column="52" selection-end-line="51" selection-end-column="84" />
           <folding />
         </state>
       </provider>
@@ -587,6 +576,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="552">
           <caret line="24" column="16" lean-forward="true" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wizard/modify_dep.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wizard/re_class.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding />
         </state>
       </provider>

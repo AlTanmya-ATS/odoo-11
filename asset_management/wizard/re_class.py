@@ -9,17 +9,18 @@ class ReClass(models.TransientModel):
     category_id=fields.Many2one('asset_management.category',compute="_get_book_category")
     new_category_id=fields.Many2one('asset_management.category')
 
-    @api.onchange('book_id')
-    def _onchange_book_id(self):
-        if self.book_id:
-            assets = []
-            asset_in_book = self.env['asset_management.book_assets'].search(
-                [('book_id', '=', self.book_id.id), ('state', '=', 'open')])
-            for record in asset_in_book:
-                assets.append(record.book_id.id)
 
-            return {'domain': {'asset_id': [('id', 'in', assets)]
-                               }}
+    @api.onchange('book_id')
+    def _asset_in_book_domain(self):
+        if self.book_id:
+            res=[]
+            assets_in_book=self.env['asset_management.book_assets'].search([('book_id','=',self.book_id.id),('state','=','open')])
+            for asset in assets_in_book:
+                res.append(asset.asset_id.id)
+
+            return {'domain':{'asset_id':[('id','in',res)]
+                              }}
+
 
     @api.onchange('asset_id')
     def _onchange_asset_id(self):
