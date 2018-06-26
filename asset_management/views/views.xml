@@ -460,7 +460,7 @@
                                 <field name="end_date" attrs="{'invisible':[('method_time','=','number')]}"/>
                                 <field name="old_amount" invisible="1"/>
                                 <field name="new_amount" invisible="1"/>
-                                <field name="accumulated_value"/>
+                                <field name="accumulated_value" invisible="1"/>
 						    </group>
 					    </group>
 

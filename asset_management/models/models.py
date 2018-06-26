@@ -704,7 +704,7 @@ class Assignment(models.Model):
         old_responsible=self.responsible_id
         old_location=self.location_id
         super(Assignment, self).write(values)
-        if self.state == 'open':
+        if self.book_assets_id.state == 'open':
             if 'responsible_id' in values:
                 if  self.responsible_id != old_responsible :
                     self.env['asset_management.transaction'].create({

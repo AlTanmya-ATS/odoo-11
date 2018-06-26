@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc75f719-69d3-4ba9-843c-90cdf38bf8ab" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/models/models.py" afterPath="$PROJECT_DIR$/models/models.py" />
+      <change beforePath="$PROJECT_DIR$/views/views.xml" afterPath="$PROJECT_DIR$/views/views.xml" />
+      <change beforePath="$PROJECT_DIR$/wizard/modify_dep.xml" afterPath="$PROJECT_DIR$/wizard/modify_dep.xml" />
       <change beforePath="$PROJECT_DIR$/wizard/re_class.py" afterPath="$PROJECT_DIR$/wizard/re_class.py" />
-      <change beforePath="$PROJECT_DIR$/wizard/re_class.xml" afterPath="$PROJECT_DIR$/wizard/re_class.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,8 +20,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="16721">
-              <caret line="733" column="29" lean-forward="false" selection-start-line="733" selection-start-column="29" selection-end-line="733" selection-end-column="29" />
+            <state relative-caret-position="257">
+              <caret line="300" column="30" lean-forward="false" selection-start-line="300" selection-start-column="26" selection-end-line="300" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -29,8 +30,8 @@
       <file leaf-file-name="views.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/views.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4991">
-              <caret line="217" column="17" lean-forward="false" selection-start-line="217" selection-start-column="9" selection-end-line="217" selection-end-column="17" />
+            <state relative-caret-position="729">
+              <caret line="462" column="79" lean-forward="false" selection-start-line="462" selection-start-column="79" selection-end-line="462" selection-end-column="79" />
               <folding />
             </state>
           </provider>
@@ -39,18 +40,18 @@
       <file leaf-file-name="modify_dep.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wizard/modify_dep.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1035">
-              <caret line="45" column="14" lean-forward="false" selection-start-line="45" selection-start-column="8" selection-end-line="45" selection-end-column="14" />
+            <state relative-caret-position="23">
+              <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="modify_dep.xml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="modify_dep.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wizard/modify_dep.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="7" column="23" lean-forward="false" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
+            <state relative-caret-position="552">
+              <caret line="24" column="16" lean-forward="true" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -59,18 +60,18 @@
       <file leaf-file-name="re_class.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wizard/re_class.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="552">
-              <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+            <state relative-caret-position="629">
+              <caret line="51" column="84" lean-forward="false" selection-start-line="51" selection-start-column="52" selection-end-line="51" selection-end-column="84" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="re_class.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="re_class.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wizard/re_class.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="800">
-              <caret line="37" column="0" lean-forward="true" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+            <state relative-caret-position="782">
+              <caret line="34" column="40" lean-forward="true" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -87,13 +88,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>_sql_constraints</find>
-      <find>asset_cost</find>
-      <find>_amount_residual</find>
-      <find>move_check</find>
-      <find>old_amou</find>
-      <find>class</find>
-      <find>class booka</find>
       <find>_compute_accumulated_amount</find>
       <find>residual_value</find>
       <find>book_assets_id</find>
@@ -117,6 +111,13 @@
       <find>category_invisible</find>
       <find>menu_actions_on_asset</find>
       <find>menuitem</find>
+      <find>event.regist</find>
+      <find>EVENT.REGISTRATION</find>
+      <find>event.event</find>
+      <find>EVENT.event</find>
+      <find>act_event_registration_from_event</find>
+      <find>book ass</find>
+      <find>open</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -125,8 +126,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../extend_event_track/__manifest__.py" />
-        <option value="$PROJECT_DIR$/../fiels/account_asset.py" />
         <option value="$PROJECT_DIR$/models/account.py" />
         <option value="$PROJECT_DIR$/../asset-odoo/account_asset_views.xml" />
         <option value="$PROJECT_DIR$/../asset-odoo/asset_modify_view.xml" />
@@ -166,21 +165,24 @@
         <option value="$PROJECT_DIR$/views/resources.xml" />
         <option value="$PROJECT_DIR$/static/src/js/asset_management.js" />
         <option value="$USER_HOME$/AppData/Local/Temp/fz3temp-2/mail_thread.py" />
-        <option value="$PROJECT_DIR$/views/views.xml" />
         <option value="$PROJECT_DIR$/wizard/modifay_dep.py" />
         <option value="$PROJECT_DIR$/../../customer_res/__manifest__.py" />
         <option value="$PROJECT_DIR$/wizard/__init__.py" />
         <option value="$PROJECT_DIR$/__manifest__.py" />
         <option value="$PROJECT_DIR$/wizard/modify_dep.py" />
+        <option value="$PROJECT_DIR$/wizard/re_class.xml" />
+        <option value="$PROJECT_DIR$/../../../extend_event_track/views/views.xml" />
+        <option value="$PROJECT_DIR$/../../../extend_event_track/models/models.py" />
+        <option value="$PROJECT_DIR$/wizard/re_class.py" />
+        <option value="$PROJECT_DIR$/views/views.xml" />
         <option value="$PROJECT_DIR$/models/models.py" />
         <option value="$PROJECT_DIR$/wizard/modify_dep.xml" />
-        <option value="$PROJECT_DIR$/wizard/re_class.py" />
-        <option value="$PROJECT_DIR$/wizard/re_class.xml" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="529" />
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
     <option name="width" value="1400" />
     <option name="height" value="990" />
   </component>
@@ -200,17 +202,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
-              <item name="Scratches" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -248,12 +239,23 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="Scratches" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.file-colors" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../extend_event_track" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://E:/odoo/fiels/account_asset.py" />
   </component>
   <component name="RunDashboard">
@@ -330,6 +332,14 @@
       <option name="presentableId" value="Default" />
       <updated>1521965037364</updated>
     </task>
+    <task id="LOCAL-00001" summary="reclass changes in py &amp; xml">
+      <created>1530006499722</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1530006499722</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -377,6 +387,10 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="reclass changes in py &amp; xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="reclass changes in py &amp; xml" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -396,8 +410,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/models/list_controller.js" />
-    <entry file="file://$PROJECT_DIR$/models/list_editable_renderer.js" />
     <entry file="file://$PROJECT_DIR$/models/list_view.js" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/website_mail.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/survey_email_compose_message.py" />
@@ -410,8 +422,6 @@
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/mail_thread.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/project.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/account.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/event.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/event_views.xml" />
     <entry file="file://$PROJECT_DIR$/views/list_editable_renderer.js" />
     <entry file="file://$USER_HOME$/Downloads/odoo10_addon_web_readonly_bypass-10.0.1.0.1.99.dev2-py2-none-any.whl" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/hr_employee.py" />
@@ -480,14 +490,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16721">
-          <caret line="733" column="29" lean-forward="false" selection-start-line="733" selection-start-column="29" selection-end-line="733" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/__manifest__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="599">
@@ -502,14 +504,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/views.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4991">
-          <caret line="217" column="17" lean-forward="false" selection-start-line="217" selection-start-column="9" selection-end-line="217" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wizard/mas_entries.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="621">
@@ -517,34 +511,82 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wizard/modify_dep.py">
+    <entry file="file://$PROJECT_DIR$/../../../extend_event_track/views/views.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1035">
-          <caret line="45" column="14" lean-forward="false" selection-start-line="45" selection-start-column="8" selection-end-line="45" selection-end-column="14" />
+        <state relative-caret-position="364">
+          <caret line="51" column="14" lean-forward="true" selection-start-line="51" selection-start-column="14" selection-end-line="51" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wizard/modify_dep.xml">
+    <entry file="file://$PROJECT_DIR$/../../../extend_event_track/models/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7" column="23" lean-forward="false" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
+        <state relative-caret-position="1702">
+          <caret line="91" column="0" lean-forward="true" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wizard/re_class.py">
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/event_views.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+        <state relative-caret-position="384">
+          <caret line="158" column="102" lean-forward="false" selection-start-line="158" selection-start-column="93" selection-end-line="158" selection-end-column="102" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/event.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2146">
+          <caret line="78" column="24" lean-forward="false" selection-start-line="78" selection-start-column="24" selection-end-line="78" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wizard/re_class.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="800">
-          <caret line="37" column="0" lean-forward="true" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+        <state relative-caret-position="782">
+          <caret line="34" column="40" lean-forward="true" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wizard/modify_dep.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/views.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="729">
+          <caret line="462" column="79" lean-forward="false" selection-start-line="462" selection-start-column="79" selection-end-line="462" selection-end-column="79" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wizard/re_class.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="51" column="84" lean-forward="false" selection-start-line="51" selection-start-column="52" selection-end-line="51" selection-end-column="84" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="300" column="30" lean-forward="false" selection-start-line="300" selection-start-column="26" selection-end-line="300" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wizard/modify_dep.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="552">
+          <caret line="24" column="16" lean-forward="true" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="16" />
           <folding />
         </state>
       </provider>

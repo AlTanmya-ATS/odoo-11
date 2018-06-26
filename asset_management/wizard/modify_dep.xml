@@ -7,14 +7,14 @@
             <form string="Modify Depreciation Method">
                 <sheet>
                     <group>
-                        <field name="book_id"/>
-                        <field name="asset_id"/>
-                        <field name="dep_method"/>
-                        <field name="method_progress_factor" attrs="{'invisible':[('dep_method','!=','degressive')]}"/>
-                        <field name="life_months"/>
-                        <field name="method_time"/>
-                        <field name="method_number" attrs="{'invisible':[('method_time','=','end')]}"/>
-                        <field name="end_date" attrs="{'invisible':[('method_time','=','number')]}"/>
+                         <field name="book_id"/>
+                        <field name="asset_id" attrs="{'readonly':[('book_id','=',False)]}"/>
+                        <field name="dep_method" attrs="{'readonly':['|',('book_id','=',False),('asset_id','=',False)]}"/>
+                        <field name="method_progress_factor" attrs="{'invisible':[('dep_method','!=','degressive')],'readonly':['|',('book_id','=',False),('asset_id','=',False)]}"/>
+                        <field name="life_months" attrs="{'readonly':['|',('book_id','=',False),('asset_id','=',False)]}" />
+                        <field name="method_time" attrs="{'readonly':['|',('book_id','=',False),('asset_id','=',False)]}"/>
+                        <field name="method_number" attrs="{'invisible':[('method_time','=','end')],'readonly':['|',('book_id','=',False),('asset_id','=',False)]}"/>
+                        <field name="end_date" attrs="{'invisible':[('method_time','=','number')],'readonly':['|',('book_id','=',False),('asset_id','=',False)]}"/>
                     </group>
                 </sheet>
                 <footer>

@@ -14,7 +14,7 @@ class ReClass(models.TransientModel):
         if self.book_id:
             assets = []
             asset_in_book = self.env['asset_management.book_assets'].search(
-                [('asset_id', '=', self.book_id.id), ('state', '=', 'open')])
+                [('book_id', '=', self.book_id.id), ('state', '=', 'open')])
             for record in asset_in_book:
                 assets.append(record.book_id.id)
 
