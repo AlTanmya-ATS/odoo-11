@@ -27,6 +27,7 @@
 						    <field name="proceeds_of_sale"/>
 							<field name="partner_id"/>
 							<field name="cost_of_removal"/>
+                            <field name="accumulated_value" invisible="1"/>
 						</group>
 					  </group>
                       <notebook>

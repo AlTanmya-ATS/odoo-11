@@ -917,6 +917,7 @@ class Retirement (models.Model):
     retired_cost=fields.Float(required=True)
     current_asset_cost=fields.Float(string="Current Cost")
     net_book_value=fields.Float(compute="_compute_net_book_value")
+    accumulated_value=fields.Float()
     retirement_type_id=fields.Many2one('asset_management.retirement_type',on_delete="set_null")
 
     @api.onchange('book_id')
@@ -954,14 +955,15 @@ class Retirement (models.Model):
 
     def get_values_from_book_asset(self,book_id,asset_id):
         if book_id and asset_id:
-            asset_gross_value = self.env['asset_management.book_assets'].search(
-                [('asset_id', '=', self.asset_id.id), ('book_id', '=', self.book_id.id)]).current_cost
+            asset_value = self.env['asset_management.book_assets'].search(
+                [('asset_id', '=', self.asset_id.id), ('book_id', '=', self.book_id.id)])
             return {'value':
-                        {'current_asset_cost':asset_gross_value}
+                        {'current_asset_cost':asset_value.current_cost,
+                         'accumulated_value':asset_value.accumulated_value,}
                     }
 
 
-    @api.depends('asset_id','retired_cost','book_id','retire_date')
+    @api.depends('asset_id','retired_cost','accumulated_value')
     def _compute_gain_loss_amount(self):
         for line in self:
             # date = datetime.strptime(line.retire_date[:7] + '-01', DF).date()
@@ -970,11 +972,12 @@ class Retirement (models.Model):
             # accum_value = 0
             # for value in depreciated_value:
             #     accum_value += value.depreciated_value
-            accum_value=line.book_assets_id.accumulated_value
-            line.gain_loss_amount = line.retired_cost - accum_value
-            return line.gain_loss_amount
+            if line.retired_cost and line.accumulated_value:
+                #accum_value=line.book_assets_id.accumulated_value
+                line.gain_loss_amount = line.retired_cost - line.accumulated_value
+                return line.gain_loss_amount
 
-    @api.depends('current_asset_cost','asset_id','book_id','retire_date')
+    @api.depends('current_asset_cost','asset_id','book_id','accumulated_value')
     def _compute_net_book_value(self):
         for record in self:
             # date = datetime.strptime(record.retire_date[:7] + '-01', DF).date()
@@ -984,11 +987,12 @@ class Retirement (models.Model):
             # accum_value = 0
             # for value in depreciated_value:
             #     accum_value += value.depreciated_value
-            accum_value = self.book_assets_id.accumulated_value
-            if record.retired_cost <= accum_value :
-                record.net_book_value = (record.current_asset_cost - record.retired_cost) - (accum_value - record.retired_cost)
-            elif record.retired_cost > accum_value or record.retired_cost == record.current_asset_cost:
-                record.net_book_value = record.current_asset_cost - record.retired_cost
+            if record.retired_cost and record.accumulated_value:
+                #accum_value = self.book_assets_id.accumulated_value
+                if record.retired_cost <= record.accumulated_value :
+                    record.net_book_value = (record.current_asset_cost - record.retired_cost) - (record.accumulated_value - record.retired_cost)
+                elif record.retired_cost > record.accumulated_value or record.retired_cost == record.current_asset_cost:
+                    record.net_book_value = record.current_asset_cost - record.retired_cost
 
     @api.model
     def create(self, values):
