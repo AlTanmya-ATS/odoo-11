@@ -915,7 +915,7 @@ class Retirement (models.Model):
     partner_id = fields.Many2one(comodel_name="res.partner", string="Sold To")
     check_invoice= fields.Char()
     retired_cost=fields.Float(required=True)
-    current_asset_cost=fields.Float(compute='_get_asset_cost',string="Current Cost")
+    current_asset_cost=fields.Float(string="Current Cost")
     net_book_value=fields.Float(compute="_compute_net_book_value")
     retirement_type_id=fields.Many2one('asset_management.retirement_type',on_delete="set_null")
 
@@ -937,35 +937,54 @@ class Retirement (models.Model):
                 asset_book=record.env['asset_management.book_assets'].search([('asset_id','=',record.asset_id.id),('book_id','=',record.book_id.id)])
                 record.book_assets_id=asset_book.id
 
-    @api.depends('book_id', 'asset_id')
+    # @api.depends('book_id', 'asset_id')
+    # def _get_asset_cost(self):
+    #     for record in self:
+    #         if record.book_id and record.asset_id:
+    #             asset_gross_value=record.env['asset_management.book_assets'].search([('asset_id','=',record.asset_id.id),('book_id','=',record.book_id.id)]).current_cost
+    #             record.current_asset_cost=asset_gross_value
+
+    @api.onchange('book_id','asset_id')
     def _get_asset_cost(self):
-        for record in self:
-            if record.book_id and record.asset_id:
-                asset_gross_value=record.env['asset_management.book_assets'].search([('asset_id','=',record.asset_id.id),('book_id','=',record.book_id.id)]).current_cost
-                record.current_asset_cost=asset_gross_value
+        if self.book_id and self.asset_id:
+            values = self.get_values_from_book_asset(self.book_id.id,self.asset_id.id)
+            if values:
+                for k,v in values['value'].items():
+                    setattr(self,k,v)
+
+    def get_values_from_book_asset(self,book_id,asset_id):
+        if book_id and asset_id:
+            asset_gross_value = self.env['asset_management.book_assets'].search(
+                [('asset_id', '=', self.asset_id.id), ('book_id', '=', self.book_id.id)]).current_cost
+            return {'value':
+                        {'current_asset_cost':asset_gross_value}
+                    }
+
 
     @api.depends('asset_id','retired_cost','book_id','retire_date')
     def _compute_gain_loss_amount(self):
         for line in self:
-            date = datetime.strptime(line.retire_date[:7] + '-01', DF).date()
-            depreciated_value = line.env['asset_management.depreciation'].search(
-                [('asset_id', '=', line.asset_id.id), ('book_id', '=', line.book_id.id), ('depreciation_date', '<=', date),('move_posted_check','=',True)])
-            accum_value = 0
-            for value in depreciated_value:
-                accum_value += value.depreciated_value
+            # date = datetime.strptime(line.retire_date[:7] + '-01', DF).date()
+            # depreciated_value = line.env['asset_management.depreciation'].search(
+            #     [('asset_id', '=', line.asset_id.id), ('book_id', '=', line.book_id.id), ('depreciation_date', '<=', date),('move_posted_check','=',True)])
+            # accum_value = 0
+            # for value in depreciated_value:
+            #     accum_value += value.depreciated_value
+            accum_value=line.book_assets_id.accumulated_value
             line.gain_loss_amount = line.retired_cost - accum_value
             return line.gain_loss_amount
 
     @api.depends('current_asset_cost','asset_id','book_id','retire_date')
     def _compute_net_book_value(self):
         for record in self:
-            date = datetime.strptime(record.retire_date[:7] + '-01', DF).date()
-            depreciated_value = record.env['asset_management.depreciation'].search(
-                [('asset_id', '=', record.asset_id.id), ('book_id', '=', record.book_id.id),
-                 ('depreciation_date', '<=', date),('move_posted_check','=',True)])
-            accum_value = 0
-            for value in depreciated_value:
-                accum_value += value.depreciated_value
+            # date = datetime.strptime(record.retire_date[:7] + '-01', DF).date()
+            # depreciated_value = record.env['asset_management.depreciation'].search(
+            #     [('asset_id', '=', record.asset_id.id), ('book_id', '=', record.book_id.id),
+            #      ('depreciation_date', '<=', date),('move_posted_check','=',True)])
+            # accum_value = 0
+            # for value in depreciated_value:
+            #     accum_value += value.depreciated_value
+            accum_value = self.book_assets_id.accumulated_value
             if record.retired_cost <= accum_value :
                 record.net_book_value = (record.current_asset_cost - record.retired_cost) - (accum_value - record.retired_cost)
             elif record.retired_cost > accum_value or record.retired_cost == record.current_asset_cost:
