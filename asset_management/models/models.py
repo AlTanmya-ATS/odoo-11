@@ -796,7 +796,7 @@ class Depreciation(models.Model):
     @api.depends('move_id')
     def _get_move_check(self):
         for line in self:
-            line.book_assets_id.accumulated_value = line.depreciated_value
+            #line.book_assets_id.accumulated_value = line.depreciated_value
             line.move_check = bool(line.move_id)
 
     @api.multi
