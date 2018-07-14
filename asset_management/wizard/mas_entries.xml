@@ -6,7 +6,10 @@
         <field name="arch" type="xml">
             <form string="Compute Asset">
                 <group>
-                    <field name="date"/>
+                    <label for="date from" string="Period"/>
+                    <div>
+                        <field name="date_from"  class="oe_inline"/> - <field name="date_to"  class="oe_inline"/>
+                    </div>
                     <field name="post_entries"/>
                 </group>
                 <footer>

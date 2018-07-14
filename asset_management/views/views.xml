@@ -7,26 +7,33 @@
             <field name="name">retirement.form</field>
             <field name="model">asset_management.retirement</field>
             <field name="arch" type="xml">
-                <form string="Retirement Form">
+                <form string="Retirement Form" edit="false">
+                    <header>
+                        <button name="required_computation" string="compute" type="object" class="oe_highlight" attrs="{'invisible':[('id','!=',False)]}"/>
+                        <!--<button name="reinstall" string="Reinstall" type="object" class="oe_highlight" attrs="{'invisible':['|',('id','=',False),('state','=','reinstall')]}"/>-->
+                        <field name="state" widget="statusbar" statusbar_visible="draft,complete"/>
+                    </header>
                     <sheet>
 					  <group>
                         <group>
 						    <field name="name"/>
                             <field name="book_assets_id" invisible="1"/>
-                            <field name="book_id"/>
-                            <field name="asset_id"/>
-                            <field name="retire_date"/>
-                            <field name="retirement_type_id"/>
-                            <field name="check_invoice"/>
+                            <field name="book_id" attrs="{'readonly':[('id','!=',False)]}"/>
+                            <field name="asset_id" attrs="{'readonly':['|',('book_id','=',False),('id','!=',False)]}"/>
+                            <field name="retire_date" attrs="{'readonly':[('id','!=',False)]}"/>
+                            <field name="prorate_date"/>
+                            <field name="retirement_type_id" attrs="{'required':['|',('cost_of_removal','!=',0),('proceeds_of_sale','!=',0)],'readonly':[('id','!=',False)]}"/>
+                            <field name="check_invoice" attrs="{'readonly':[('id','!=',False)]}"/>
                         </group>
+
 						<group>
-                            <field name="retired_cost"/>
-                            <field name="current_asset_cost"/>
-						    <field name="gain_loss_amount"/>
-                            <field name="net_book_value"/>
-						    <field name="proceeds_of_sale"/>
-							<field name="partner_id"/>
-							<field name="cost_of_removal"/>
+                            <field name="retired_cost" attrs="{'readonly':[('id','!=',False)]}"/>
+                            <field name="current_asset_cost" readonly="1"/>
+						    <field name="gain_loss_amount" attrs="{'readonly':[('id','!=',False)]}"/>
+                            <field name="net_book_value" attrs="{'readonly':[('id','!=',False)]}"/>
+						    <field name="proceeds_of_sale" attrs="{'readonly':[('id','!=',False)]}"/>
+							<field name="partner_id" attrs="{'readonly':[('id','!=',False)]}"/>
+							<field name="cost_of_removal" attrs="{'readonly':[('id','!=',False)]}"/>
                             <field name="accumulated_value" invisible="1"/>
 						</group>
 					  </group>
@@ -227,9 +234,8 @@
         <menuitem id="asset_menu" name="Asset" parent="asset_management_menu"
                   action="asset_list_action"/>
 
-         <menuitem id="retirement_menu" name="Retirement" parent="asset_management_menu"
-                  action="retirement_list_action"/>
-				 
+
+
                <!--category form view -->
         <record model="ir.ui.view" id="category_form_view">
             <field name="name">category.form</field>
@@ -350,6 +356,11 @@
                         <group>
                             <field name="company_id" attrs="{'readonly':[('book_with_cate','=',True)]}"/>
                             <field name="currency_id" invisible="1" attrs="{'readonly':[('book_with_cate','=',True)]}"/>
+                            <label for="start_date" string="Fiscal Period Closing"/>
+                            <div>
+                                <field name="start_date" class="oe_inline"/> - <field name="end_date" class="oe_inline"/>
+                            </div>
+                            <field name="fiscal_year"/>
                         </group>
                         </group>
                      <notebook>
@@ -430,12 +441,12 @@
 					    <group>
                             <group>
 						        <field name="name" invisible="1"/>
-                                <field name="book_id"/>
+                                <field name="book_id" options="{'no_create':True}"/>
                                 <field name="asset_id"/>
                                     <!--<label string="  Not Validate" class="oe_inline" attrs="{'invisible':[('asset_state','!=','draft')]}"/>-->
                                 <field name="category_id" attrs="{'readonly':[('state','=','open')]}"/>
-                                <field name="original_cost" attrs="{'invisible':[('id','=',False)],'readonly':[('state','=','open')]}"/>
                                 <field name="current_cost"/>
+                                <field name="original_cost" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 <field name="salvage_value_type"/>
                                 <label for="salvage_value_amount"/>
                                 <dive>
@@ -444,8 +455,8 @@
                                 </dive>
                                 <field name="salvage_value"/>
 							    <field name="residual_value"/>
+                                <field name="create_date" widget="date" readonly="1"/>
                                 <!--<field name="asset_state" invisible="1"/>-->
-
                             </group>
 						    <group>
 						        <field name="depreciated_flag" attrs="{'readonly':[('depreciation_line_length','!=',0)]}"/>
@@ -459,9 +470,11 @@
                                 <field name="method_number" attrs="{'invisible':[('method_time','=','end')],'required':[('method_time','=','number')]}"/>
 							    <field name="life_months"/>
                                 <field name="end_date" attrs="{'invisible':[('method_time','=','number')]}"/>
+                                <field name="accumulated_value" readonly="1"/>
+                                <field name="net_book_value"/>
+                                <field name="current_cost_from_retir" invisible="1"/>
                                 <field name="old_amount" invisible="1"/>
                                 <field name="new_amount" invisible="1"/>
-                                <field name="accumulated_value" invisible="1"/>
 						    </group>
 					    </group>
 
@@ -703,7 +716,7 @@
                         </group>
                         <group>
                             <field name="cost" invisible="1"/>
-                            <field name="retirement_id"/>
+                            <field name="retirement_id" attrs="{'invisible':[('retirement_id','=',False)]}"/>
                             <field name="trx_details"/>
                         </group>
 					  </group>						
@@ -885,7 +898,7 @@
             </field>
         </record>
 
-
+                    <!--Category Books menu item-->
         <menuitem id="category_books_menu" name="Category Books" parent="asset_management_report_menu"
                   action="category_books_list_action"/>
 
@@ -914,60 +927,112 @@
                  </form>
              </field>
          </record>
-
                  <!--Asset Location tree-->
-    <record id="asset_management_location_view_list" model="ir.ui.view">
-        <field name="name">Asset.Location.tree</field>
-        <field name="model">asset_management.location</field>
-        <field name="arch" type="xml">
-            <tree string="Location Tree">
-                <field name="name"/>
-                <field name="city"/>
-                <field name="country_id"/>
-            </tree>
-        </field>
-    </record>
+        <record id="asset_management_location_view_list" model="ir.ui.view">
+            <field name="name">Asset.Location.tree</field>
+            <field name="model">asset_management.location</field>
+            <field name="arch" type="xml">
+                <tree string="Location Tree">
+                    <field name="name"/>
+                    <field name="city"/>
+                    <field name="country_id"/>
+                </tree>
+            </field>
+        </record>
 
-     <!--Asset Location action-->
-    <record id="asset_management_location_action" model="ir.actions.act_window">
-        <field name="name">Asset Location</field>
-        <field name="res_model">asset_management.location</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field name="context" eval="{'search_default_my_location': 1}"/>
-        <field name="help" type="html">
-                <p class="oe_view_nocontent_create">Create the first Location
-                </p>
-        </field>
-    </record>
+       <record id="asset_management_location_search" model="ir.ui.view">
+          <field name="name">Asset.Location.search</field>
+          <field name="model">asset_management.location</field>
+           <field name="arch" type="xml">
+               <search string="Location Search">
+                   <field name="name"/>
+                   <field name="city"/>
+                   <field name="country_id"/>
+           </search>
+          </field>
+       </record>
 
+         <!--Asset Location action-->
+        <record id="asset_management_location_action" model="ir.actions.act_window">
+            <field name="name">Asset Location</field>
+            <field name="res_model">asset_management.location</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context" eval="{'search_default_my_location': 1}"/>
+            <field name="help" type="html">
+                    <p class="oe_view_nocontent_create">Create the first Location
+                    </p>
+            </field>
+        </record>
 
-    <menuitem id="asset_location_menu" name="Location"
-                  parent="main_assetmanagement_menu"/>
+                     <!--Asset Location menu item-->
+        <menuitem id="asset_location_menu" name="Location"
+                      parent="main_assetmanagement_menu"/>
+                         <!--Asset Location menu item child-->
+        <menuitem name="Location" action="asset_management_location_action"
+            id="asset_management_location_meun"
+            parent="asset_location_menu"/>
+                     <!--retirement menu item-->
+        <menuitem id="retirement_menu" name="Retirement" parent="asset_management_menu"
+          action="retirement_list_action"/>
+                     <!--retirement type form view-->
+         <record id="asset_management_retirement_type_view_form" model="ir.ui.view">
+                 <field name="name">Retirement Type  Form</field>
+                 <field name="model">asset_management.retirement_type</field>
+                 <field name="arch" type="xml">
+                     <form string="Retirement Type Form">
+                         <sheet>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                             <group>
+                                 <field name="proceeds_of_sale_account"/>
+                                 <field name="cost_of_removal_account"/>
+                             </group>
+                         </sheet>
+                     </form>
+                 </field>
+             </record>
+             <!--retirement type list view-->
+       <record id="asset_management_retirement_type_tree" model="ir.ui.view">
+           <field name="name">Retirement Type  Tree</field>
+           <field name="model">asset_management.retirement_type</field>
+           <field name="arch" type="xml">
+               <tree string="Retirement Type Tree">
+                   <field name="name"/>
+                   <field name="proceeds_of_sale_account"/>
+                   <field name="cost_of_removal_account"/>
+               </tree>
+           </field>
+       </record>
+                 <!--retirement type search view-->
+       <record id="asset_management_retirement_type_search" model="ir.ui.view">
+          <field name="name">Retirement Type  search</field>
+          <field name="model">asset_management.retirement_type</field>
+           <field name="arch" type="xml">
+               <search string="Retirement Type Search">
+                   <field name="name"/>
+                   <field name="proceeds_of_sale_account"/>
+                   <field name="cost_of_removal_account"/>
+           </search>
+          </field>
+       </record>
+                     <!--retirement type action -->
+       <record id="asset_management_retirement_type_action" model="ir.actions.act_window">
+           <field name="name">Retirement Type  Action</field>
+           <field name="type">ir.actions.act_window</field>
+           <field name="res_model">asset_management.retirement_type</field>
+           <field name="view_mode">tree,form</field>
+           <field name="help" type="html">
+             <p class="oe_view_nocontent_create">
+                 Create the first Retirement Type
+             </p>
+           </field>
+       </record>
+                 <!--retirement type menu item-->
+       <menuitem id="retirement_type_menu" name="Retirement Type"  parent="asset_management_menu"  action="asset_management_retirement_type_action"/>
 
-    <menuitem name="Location" action="asset_management_location_action"
-        id="asset_management_location_meun"
-        parent="asset_location_menu"/>
-
-     <record id="asset_management_retirement_type_view_form" model="ir.ui.view">
-             <field name="name">Retirement Type  Form</field>
-             <field name="model">asset_management.retirement_type</field>
-             <field name="arch" type="xml">
-                 <form string="Retirement Type Form">
-                     <sheet>
-                        <group>
-                            <field name="name"/>
-                        </group>
-                         <group>
-                             <field name="proceeds_of_sale_gain_account"/>
-                             <field name="cost_of_removal_clearing_account"/>
-                         </group>
-                     </sheet>
-                 </form>
-             </field>
-         </record>
-
-    </data>
+        </data>
 
 
     <data noupdate="1">

@@ -1,16 +1,22 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError, ValidationError
 
 class MasEntriesWizard(models.TransientModel):
     _name='asset_management.mas_entries_wizard'
-    date = fields.Date(string="Date", required=True,)
+    date_from=fields.Date(required=True)
+    date_to = fields.Date(required=True,)
     post_entries=fields.Boolean()
 
+    @api.constrains('date_from', 'date_to')
+    def _check_dates_of_entries(self):
+        if self.date_to <= self.date_from:
+            raise ValidationError("Ending Date cannot be set before starting Date. ")
 
     @api.multi
     def moves_compute(self):
-        asset_move_ids=self.env['asset_management.asset'].generate_mas_entries(self.date,self.post_entries)
+        asset_move_ids=self.env['asset_management.asset'].generate_mas_entries(self.date_from,self.date_to,self.post_entries)
         if self.post_entries is True:
             for record in asset_move_ids:
                 record.move_id.post()
