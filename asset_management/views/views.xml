@@ -9,8 +9,8 @@
             <field name="arch" type="xml">
                 <form string="Retirement Form" edit="false">
                     <header>
-                        <button name="required_computation" string="compute" type="object" class="oe_highlight" attrs="{'invisible':[('id','!=',False)]}"/>
-                        <!--<button name="reinstall" string="Reinstall" type="object" class="oe_highlight" attrs="{'invisible':['|',('id','=',False),('state','=','reinstall')]}"/>-->
+                        <!--<button name="required_computation" string="compute" type="object" class="oe_highlight" attrs="{'invisible':[('id','!=',False)]}"/>-->
+                        <button name="reinstall" string="Reinstall" type="object" class="oe_highlight" attrs="{'invisible':['|',('id','=',False),('state','=','reinstall')]}"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,complete"/>
                     </header>
                     <sheet>
@@ -28,7 +28,7 @@
 
 						<group>
                             <field name="retired_cost" attrs="{'readonly':[('id','!=',False)]}"/>
-                            <field name="current_asset_cost" readonly="1"/>
+                            <field name="current_asset_cost"/>
 						    <field name="gain_loss_amount" attrs="{'readonly':[('id','!=',False)]}"/>
                             <field name="net_book_value" attrs="{'readonly':[('id','!=',False)]}"/>
 						    <field name="proceeds_of_sale" attrs="{'readonly':[('id','!=',False)]}"/>
@@ -112,8 +112,6 @@
                                 <field name="item_id"/>
                                 <field name="category_id" attrs="{'invisible':[('category_invisible','=',True)]}"/>
                                 <field name="parent_asset"/>
-                                <!--<field name="default_book"/>-->
-                                <!--<field name="gross_value" placeholder="Asset Gross Value in default book" attrs="{'readonly':[('id','!=',False)]}"/>-->
                                 <field name="asset_with_category" invisible="1"/>
                                 <field name="category_invisible" invisible="1"/>
                                 <field name="currency_id" invisible="1"/>
@@ -465,12 +463,12 @@
                                 <field name="method_progress_factor" attrs="{'invisible':[('method','=','linear')]}"/>
                                 <field name="method_time"/>
 							    <field name="date_in_service"/>
-							    <field name="prorate_date" readonly="1"/>
+							    <field name="prorate_date"/>
 							    <!--<field name="prorate_convenction"/>-->
                                 <field name="method_number" attrs="{'invisible':[('method_time','=','end')],'required':[('method_time','=','number')]}"/>
 							    <field name="life_months"/>
                                 <field name="end_date" attrs="{'invisible':[('method_time','=','number')]}"/>
-                                <field name="accumulated_value" readonly="1"/>
+                                <field name="accumulated_value"/>
                                 <field name="net_book_value"/>
                                 <field name="current_cost_from_retir" invisible="1"/>
                                 <field name="old_amount" invisible="1"/>
@@ -562,8 +560,8 @@
                     <sheet>
 					  <group>
                         <group>
-                             <field name="asset_id" readonly="1"/>
-                             <field name="book_id" readonly="1"/>
+                             <field name="asset_id"/>
+                             <field name="book_id"/>
                              <field name="depreciation_expense_account"/>
 							 <field name="responsible_id"/>
 							 <field name="location_id"/>
