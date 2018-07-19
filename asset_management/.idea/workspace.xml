@@ -17,9 +17,11 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="25070">
-              <caret line="1096" column="0" lean-forward="false" selection-start-line="1096" selection-start-column="0" selection-end-line="1096" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="579">
+              <caret line="199" column="0" lean-forward="true" selection-start-line="199" selection-start-column="0" selection-end-line="199" selection-end-column="0" />
+              <folding>
+                <element signature="e#25#40#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -27,8 +29,8 @@
       <file leaf-file-name="views.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/views.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="12" column="175" lean-forward="false" selection-start-line="12" selection-start-column="175" selection-end-line="12" selection-end-column="175" />
+            <state relative-caret-position="269">
+              <caret line="480" column="81" lean-forward="false" selection-start-line="480" selection-start-column="68" selection-end-line="480" selection-end-column="81" />
               <folding />
             </state>
           </provider>
@@ -59,8 +61,8 @@
       <file leaf-file-name="modify_dep.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wizard/modify_dep.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="10" column="91" lean-forward="false" selection-start-line="10" selection-start-column="47" selection-end-line="10" selection-end-column="91" />
+            <state relative-caret-position="828">
+              <caret line="36" column="99" lean-forward="false" selection-start-line="36" selection-start-column="84" selection-end-line="36" selection-end-column="99" />
               <folding />
             </state>
           </provider>
@@ -69,7 +71,7 @@
       <file leaf-file-name="hr_holidays.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../../fiels/hr_holidays.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
+            <state relative-caret-position="-92">
               <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
               <folding>
                 <element signature="e#164#178#0" expanded="true" />
@@ -81,7 +83,7 @@
       <file leaf-file-name="resource.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../../fiels/resource.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="14398">
+            <state relative-caret-position="1008">
               <caret line="639" column="11" lean-forward="false" selection-start-line="639" selection-start-column="10" selection-end-line="639" selection-end-column="11" />
               <folding>
                 <element signature="e#100#115#0" expanded="true" />
@@ -101,12 +103,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>setattr</find>
-      <find>gross</find>
-      <find>class retirement</find>
-      <find>book asset</find>
-      <find>class ret</find>
-      <find>class bo</find>
       <find>store</find>
       <find>_get_asset_cost</find>
       <find>_amount_in_source_line</find>
@@ -131,6 +127,12 @@
       <find>class source</find>
       <find>_get_number_of_days</find>
       <find>datetime.</find>
+      <find>book for</find>
+      <find>validationerror</find>
+      <find>menu</find>
+      <find>one2ma</find>
+      <find>one2many_list</find>
+      <find>compute_dep</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -194,8 +196,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
+    <option name="x" value="13" />
+    <option name="y" value="319" />
     <option name="width" value="771" />
     <option name="height" value="990" />
   </component>
@@ -372,7 +374,14 @@
       <option name="project" value="LOCAL" />
       <updated>1531900046288</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="retirement jl">
+      <created>1531982922910</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1531982922910</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -564,14 +573,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wizard/modify_dep.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="10" column="91" lean-forward="false" selection-start-line="10" selection-start-column="47" selection-end-line="10" selection-end-column="91" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../res_config_settings.py" />
     <entry file="file://$PROJECT_DIR$/../../../hr_employee.py" />
     <entry file="file://$PROJECT_DIR$/../../../calendar.py" />
@@ -602,39 +603,11 @@
     <entry file="file://$PROJECT_DIR$/../../../account_reconcile.py" />
     <entry file="file://$PROJECT_DIR$/../../../account_move_reversal.py" />
     <entry file="file://$PROJECT_DIR$/../../../account_move.py" />
-    <entry file="file://$PROJECT_DIR$/views/views.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="12" column="175" lean-forward="false" selection-start-line="12" selection-start-column="175" selection-end-line="12" selection-end-column="175" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/res_config_settings.py" />
     <entry file="file://$PROJECT_DIR$/../../../fiels/res_config_settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../fiels/resource.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14398">
-          <caret line="639" column="11" lean-forward="false" selection-start-line="639" selection-start-column="10" selection-end-line="639" selection-end-column="11" />
-          <folding>
-            <element signature="e#100#115#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../fiels/hr_holidays.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding>
-            <element signature="e#164#178#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -646,11 +619,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/wizard/modify_dep.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="828">
+          <caret line="36" column="99" lean-forward="false" selection-start-line="36" selection-start-column="84" selection-end-line="36" selection-end-column="99" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../fiels/hr_holidays.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-92">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding>
+            <element signature="e#164#178#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../fiels/resource.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1008">
+          <caret line="639" column="11" lean-forward="false" selection-start-line="639" selection-start-column="10" selection-end-line="639" selection-end-column="11" />
+          <folding>
+            <element signature="e#100#115#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/views.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="480" column="81" lean-forward="false" selection-start-line="480" selection-start-column="68" selection-end-line="480" selection-end-column="81" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/models/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25070">
-          <caret line="1096" column="0" lean-forward="false" selection-start-line="1096" selection-start-column="0" selection-end-line="1096" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="579">
+          <caret line="199" column="0" lean-forward="true" selection-start-line="199" selection-start-column="0" selection-end-line="199" selection-end-column="0" />
+          <folding>
+            <element signature="e#25#40#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -193,10 +193,10 @@ class Book(models.Model):
     def _check_dates(self):
         if self.end_date <= self.start_date:
             raise ValidationError("Closing Date cannot be set before Beginning Date. ")
-
-        if self.company_id.fiscalyear_lock_date > self.start_date:
-            raise ValidationError("Start date must be after fiscal year lock date,"
-                                  "\n change the start date or the fiscal year date in accounting ")
+        if self.company_id.fiscalyear_lock_date:
+            if self.company_id.fiscalyear_lock_date > self.start_date:
+                raise ValidationError("Start date must be after fiscal year lock date,"
+                                      "\n change the start date or the fiscal year date in accounting ")
 
     @api.depends('end_date','start_date')
     def _compute_fiscal_year(self):
