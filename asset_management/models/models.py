@@ -816,8 +816,7 @@ class SourceLine(models.Model):
     asset_id = fields.Many2one('asset_management.asset',on_delete = 'cascade',compute='_get_asset_name')
     book_id=fields.Many2one('asset_management.book',on_delete='cascade',compute='_get_book_name')
     source_type = fields.Selection(
-        [
-            ('invoice','Invoice'),('null','Null')
+        [('invoice','Invoice'),('null','Null')
         ],default='invoice',required=True
     )
     invoice_id = fields.Many2one("account.invoice", string="invoice",on_delete='cascade')
@@ -1092,36 +1091,20 @@ class Retirement (models.Model):
     @api.multi
     def reinstall(self):
         trx=self.env['asset_management.transaction'].search([('retirement_id','=',self.id)])
-        created_moves = self.env['account.move']
         journal_entries=trx.move_id
         journal_id=journal_entries.journal_id
         date=datetime.today()
-        reserved_jl=journal_entries.reverse_moves(date=date,journal_id=journal_id)
-
-        #
-        # journal_id = self.env['asset_management.category_books'].search(
-        #     [('book_id', '=', self.book_id.id), ('category_id', '=', self.book_assets_id.category_id.id)]).journal_id
-        # move_vals = {
-        #     'ref': journal_entries.ref,
-        #     'date': datetime.today(),
-        #     'journal_id': journal_id.id,
-        # }
-        # for line in journal_entries.line_ids:
-        #     move_line = {
-        #         'name': line.name +'reinstall',
-        #         'account_id': line.account_id.id,
-        #         'credit': line.debit,
-        #         'debit':line.credit,
-        #         # 'journal_id': journal.id,
-        #         'analytic_account_id': False,
-        #         'currency_id': line.currency_id,
-        #         'amount_currency': line.amount_currency
-        #     }
-        #     move_vals={'line_ids':[(0, 0, move_line)]}
-        # move = trx.env['account.move'].create(reversed_move)
-        # self.state = 'reinstall'
-        # created_moves |= move
-        # return [x.id for x in created_moves]
+        reserved_jl=self.env['account.move'].browse(journal_entries.id).reverse_moves(date,journal_id)
+        if reserved_jl:
+            self.state = 'reinstall'
+            return {
+                'name':_('Reinstall move'),
+                'type': 'ir.actions.act_window',
+                'view_type': 'form',
+                'view_mode': 'tree,form',
+                'res_model': 'account.move',
+                'domain': [('id', 'in', reserved_jl)],
+            }
 
     @api.model
     def create(self, values):

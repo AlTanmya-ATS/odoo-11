@@ -4,7 +4,6 @@
     <list default="true" id="bc75f719-69d3-4ba9-843c-90cdf38bf8ab" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/models/models.py" afterPath="$PROJECT_DIR$/models/models.py" />
-      <change beforePath="$PROJECT_DIR$/views/views.xml" afterPath="$PROJECT_DIR$/views/views.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,11 +17,9 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="648">
-              <caret line="1101" column="10" lean-forward="false" selection-start-line="1101" selection-start-column="10" selection-end-line="1101" selection-end-column="10" />
-              <folding>
-                <element signature="e#25#40#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="25070">
+              <caret line="1096" column="0" lean-forward="false" selection-start-line="1096" selection-start-column="0" selection-end-line="1096" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -30,18 +27,8 @@
       <file leaf-file-name="views.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/views.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-23777">
-              <caret line="32" column="94" lean-forward="false" selection-start-line="32" selection-start-column="94" selection-end-line="32" selection-end-column="94" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="account_move.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../../account_move.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5428">
-              <caret line="245" column="21" lean-forward="false" selection-start-line="245" selection-start-column="8" selection-end-line="245" selection-end-column="21" />
+            <state relative-caret-position="276">
+              <caret line="12" column="175" lean-forward="false" selection-start-line="12" selection-start-column="175" selection-end-line="12" selection-end-column="175" />
               <folding />
             </state>
           </provider>
@@ -69,22 +56,36 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mas_entries.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wizard/mas_entries.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="10" column="111" lean-forward="false" selection-start-line="10" selection-start-column="111" selection-end-line="10" selection-end-column="111" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="modify_dep.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wizard/modify_dep.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="230">
               <caret line="10" column="91" lean-forward="false" selection-start-line="10" selection-start-column="47" selection-end-line="10" selection-end-column="91" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="hr_holidays.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../../fiels/hr_holidays.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="115">
+              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+              <folding>
+                <element signature="e#164#178#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="resource.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../../fiels/resource.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="14398">
+              <caret line="639" column="11" lean-forward="false" selection-start-line="639" selection-start-column="10" selection-end-line="639" selection-end-column="11" />
+              <folding>
+                <element signature="e#100#115#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -100,15 +101,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>book asset form</find>
-      <find>res</find>
-      <find>account.journal</find>
-      <find>class</find>
-      <find>retirement fo</find>
-      <find>asset</find>
-      <find>if accum_value:</find>
-      <find>cr</find>
-      <find>class boo</find>
       <find>setattr</find>
       <find>gross</find>
       <find>class retirement</find>
@@ -128,8 +120,17 @@
       <find>class assi</find>
       <find>compute_de</find>
       <find>read</find>
+      <find>reverse_moves</find>
       <find>readonly</find>
+      <find>number_of_days_temp</find>
+      <find>resource.calendar</find>
+      <find>resource.calendar.attendance</find>
       <find>class reti</find>
+      <find>_get_day_attendances</find>
+      <find>weekday</find>
+      <find>class source</find>
+      <find>_get_number_of_days</find>
+      <find>datetime.</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -193,13 +194,14 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="2" />
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
     <option name="width" value="771" />
     <option name="height" value="990" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -212,30 +214,11 @@
       <manualOrder />
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="asset_management" type="b2602c69:ProjectViewProjectNode" />
-              <item name="asset_management" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="asset_management" type="b2602c69:ProjectViewProjectNode" />
-              <item name="asset_management" type="462c0819:PsiDirectoryNode" />
-              <item name="wizard" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.file-colors" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../base_external_dbsource" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../ats_hr_attendance" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://E:/odoo/fiels/account_asset.py" />
   </component>
   <component name="RunDashboard">
@@ -382,14 +365,21 @@
       <option name="project" value="LOCAL" />
       <updated>1531579792576</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="retirement jl">
+      <created>1531900046288</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1531900046288</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.109375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.109375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928178" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928178" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -407,6 +397,25 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928178" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928178" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.109375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -420,7 +429,8 @@
     <MESSAGE value="test" />
     <MESSAGE value="add accum field in retirement" />
     <MESSAGE value="fix added value" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix added value" />
+    <MESSAGE value="retirement jl" />
+    <option name="LAST_COMMIT_MESSAGE" value="retirement jl" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -435,56 +445,12 @@
           <line>3</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/../../../hr_attendance.py</url>
-          <line>3</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
       </breakpoints>
       <option name="time" value="16" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../customer_res/models/models.py" />
-    <entry file="file://$PROJECT_DIR$/../../customer_res/__manifest__.py" />
-    <entry file="file://$PROJECT_DIR$/../../crm extension/__manifest__.py" />
-    <entry file="file://$PROJECT_DIR$/../../crm extension/models/models.py" />
-    <entry file="file://$PROJECT_DIR$/wizard/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="3" column="23" lean-forward="true" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wizard/asset_modify.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="6" column="34" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../extend_event_track/views/views.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="51" column="14" lean-forward="true" selection-start-line="51" selection-start-column="14" selection-end-line="51" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../extend_event_track/models/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1702">
-          <caret line="91" column="0" lean-forward="true" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/event_views.xml" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/res_partner.py" />
     <entry file="file://$PROJECT_DIR$/../../../New folder/asset_management/__init__.py">
@@ -595,7 +561,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="230">
           <caret line="10" column="111" lean-forward="false" selection-start-line="10" selection-start-column="111" selection-end-line="10" selection-end-column="111" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -607,46 +572,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../res_config_settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../hr_employee.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2829">
-          <caret line="126" column="20" lean-forward="false" selection-start-line="126" selection-start-column="8" selection-end-line="126" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../res_config_settings.py" />
+    <entry file="file://$PROJECT_DIR$/../../../hr_employee.py" />
     <entry file="file://$PROJECT_DIR$/../../../calendar.py" />
-    <entry file="file://$PROJECT_DIR$/../../../hr_attendance.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../resource.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4324">
-          <caret line="284" column="73" lean-forward="true" selection-start-line="284" selection-start-column="73" selection-end-line="284" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../hr_attendance.py" />
+    <entry file="file://$PROJECT_DIR$/../../../resource.py" />
     <entry file="file://$PROJECT_DIR$/../../../account_journal_dashboard.py" />
     <entry file="file://$PROJECT_DIR$/../../../account_journal.py" />
-    <entry file="file://$PROJECT_DIR$/../../../account_move.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5428">
-          <caret line="245" column="21" lean-forward="false" selection-start-line="245" selection-start-column="8" selection-end-line="245" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wizard/re_class.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1196">
@@ -665,21 +597,60 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../../account_reconcile_view.xml" />
+    <entry file="file://$PROJECT_DIR$/../../../account_move_reversal_view.xml" />
+    <entry file="file://$PROJECT_DIR$/../../../account_reconcile.py" />
+    <entry file="file://$PROJECT_DIR$/../../../account_move_reversal.py" />
+    <entry file="file://$PROJECT_DIR$/../../../account_move.py" />
     <entry file="file://$PROJECT_DIR$/views/views.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-23777">
-          <caret line="32" column="94" lean-forward="false" selection-start-line="32" selection-start-column="94" selection-end-line="32" selection-end-column="94" />
+        <state relative-caret-position="276">
+          <caret line="12" column="175" lean-forward="false" selection-start-line="12" selection-start-column="175" selection-end-line="12" selection-end-column="175" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/res_config_settings.py" />
+    <entry file="file://$PROJECT_DIR$/../../../fiels/res_config_settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../fiels/resource.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="14398">
+          <caret line="639" column="11" lean-forward="false" selection-start-line="639" selection-start-column="10" selection-end-line="639" selection-end-column="11" />
+          <folding>
+            <element signature="e#100#115#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../fiels/hr_holidays.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding>
+            <element signature="e#164#178#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../payroll/odoo-payroll-timesheet-master/hr_payroll_timesheet/__openerp__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="648">
-          <caret line="1101" column="10" lean-forward="false" selection-start-line="1101" selection-start-column="10" selection-end-line="1101" selection-end-column="10" />
-          <folding>
-            <element signature="e#25#40#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="25070">
+          <caret line="1096" column="0" lean-forward="false" selection-start-line="1096" selection-start-column="0" selection-end-line="1096" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
