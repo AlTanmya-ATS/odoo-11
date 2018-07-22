@@ -4,7 +4,6 @@
     <list default="true" id="bc75f719-69d3-4ba9-843c-90cdf38bf8ab" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/models/models.py" afterPath="$PROJECT_DIR$/models/models.py" />
-      <change beforePath="$PROJECT_DIR$/views/views.xml" afterPath="$PROJECT_DIR$/views/views.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,8 +17,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="395">
-              <caret line="1020" column="39" lean-forward="false" selection-start-line="1020" selection-start-column="39" selection-end-line="1020" selection-end-column="39" />
+            <state relative-caret-position="326">
+              <caret line="870" column="111" lean-forward="false" selection-start-line="870" selection-start-column="111" selection-end-line="870" selection-end-column="111" />
               <folding>
                 <element signature="e#25#40#0" expanded="true" />
               </folding>
@@ -30,8 +29,8 @@
       <file leaf-file-name="views.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/views.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="759">
-              <caret line="39" column="67" lean-forward="false" selection-start-line="39" selection-start-column="67" selection-end-line="39" selection-end-column="67" />
+            <state relative-caret-position="430">
+              <caret line="640" column="55" lean-forward="false" selection-start-line="640" selection-start-column="41" selection-end-line="640" selection-end-column="55" />
               <folding />
             </state>
           </provider>
@@ -110,16 +109,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>gain_loss</find>
-      <find>current_cost</find>
-      <find>amount in source lines must not be bigger than current value</find>
-      <find>asset_move_ids</find>
-      <find>generate_mas_entries</find>
-      <find>source line fo</find>
-      <find>original</find>
-      <find>active</find>
-      <find>domain</find>
-      <find>book_id=fi</find>
       <find>source line</find>
       <find>source_line_id</find>
       <find>onchange</find>
@@ -140,6 +129,16 @@
       <find>class ret</find>
       <find>class re</find>
       <find>book asset</find>
+      <find>class ass</find>
+      <find>class so</find>
+      <find>source line for</find>
+      <find>unlike</find>
+      <find>unlink</find>
+      <find>book</find>
+      <find>class boo</find>
+      <find>book_assets_id</find>
+      <find>capitalize</find>
+      <find>ope</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -197,8 +196,8 @@
         <option value="$PROJECT_DIR$/wizard/mas_entries.py" />
         <option value="$PROJECT_DIR$/../../../fiels/account_move.py" />
         <option value="$PROJECT_DIR$/wizard/mas_entries.xml" />
-        <option value="$PROJECT_DIR$/models/models.py" />
         <option value="$PROJECT_DIR$/views/views.xml" />
+        <option value="$PROJECT_DIR$/models/models.py" />
       </list>
     </option>
   </component>
@@ -434,7 +433,14 @@
       <option name="project" value="LOCAL" />
       <updated>1532249393643</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="retirement jl4">
+      <created>1532263811977</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1532263811977</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -492,7 +498,8 @@
     <MESSAGE value="add accum field in retirement" />
     <MESSAGE value="fix added value" />
     <MESSAGE value="retirement jl" />
-    <option name="LAST_COMMIT_MESSAGE" value="retirement jl" />
+    <MESSAGE value="retirement jl4" />
+    <option name="LAST_COMMIT_MESSAGE" value="retirement jl4" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -720,16 +727,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/views.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="759">
-          <caret line="39" column="67" lean-forward="false" selection-start-line="39" selection-start-column="67" selection-end-line="39" selection-end-column="67" />
+        <state relative-caret-position="430">
+          <caret line="640" column="55" lean-forward="false" selection-start-line="640" selection-start-column="41" selection-end-line="640" selection-end-column="55" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="1020" column="39" lean-forward="false" selection-start-line="1020" selection-start-column="39" selection-end-line="1020" selection-end-column="39" />
+        <state relative-caret-position="326">
+          <caret line="870" column="111" lean-forward="false" selection-start-line="870" selection-start-column="111" selection-end-line="870" selection-end-column="111" />
           <folding>
             <element signature="e#25#40#0" expanded="true" />
           </folding>

@@ -865,11 +865,12 @@ class SourceLine(models.Model):
             return rec.book_id
 
     @api.multi
-    def unlike(self):
+    def unlink(self):
         for record in self:
-            if record.book_assets_id.state == 'Capitalize':
-                raise ValidationError('In order to delete a record, you must change asset to draft state ')
-        return super(SourceLine, self).unlike()
+                if record.book_assets_id.state == 'open':
+                    raise ValidationError(_('In order to delete a source line record, you must change asset in '+record.book_id.name+' to draft state '))
+        return super(SourceLine, self).unlink()
+
 
 
 class Depreciation(models.Model):
