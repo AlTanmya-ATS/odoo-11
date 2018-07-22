@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <form string="Compute Asset">
                 <group>
+                    <field name="book_id"/>
                     <label for="date from" string="Period"/>
                     <div>
                         <field name="date_from"  class="oe_inline"/> - <field name="date_to"  class="oe_inline"/>

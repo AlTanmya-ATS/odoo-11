@@ -104,10 +104,10 @@ class Asset(models.Model):
 
 
     @api.multi
-    def generate_mas_entries(self,date_from,date_to,post_entries):
+    def generate_mas_entries(self,date_from,date_to,post_entries,book_id):
         new_moved_lines=[]
         old_moved_lines=[]
-        capitalized_asset=self.env['asset_management.book_assets'].search([('state','=','open')])
+        capitalized_asset=self.env['asset_management.book_assets'].search([('state','=','open'),('book_id','=',book_id)])
         if date_from < capitalized_asset[0].book_id.start_date or date_to > capitalized_asset[0].book_id.end_date:
             raise ValidationError("Period of generate entries is not in current fiscal period ")
         for entries in capitalized_asset:
@@ -348,6 +348,7 @@ class BookAssets (models.Model):
         if self.state == 'draft':
             if 'category_id' in values:
                 if self.category_id != old_category:
+                    self.asset_id.category_id=self.category_id.id
                     new_depreciation_expense_account = self.env['asset_management.category_books'].search(
                         [('book_id', '=', self.book_id.id),
                          ('category_id', '=', self.category_id.id)]).depreciation_expense_account
@@ -668,6 +669,13 @@ class BookAssets (models.Model):
                 'category_id':category_book.category_id.id
                     }
                 }
+
+    # @api.onchange('category_id')
+    # def _change_asset_form_category(self):
+    #     if self.category_id:
+    #         if self.asset_id.category_id.id != self.category_id.id:
+    #             # self.asset_id.write({'category_id':self.category_id.id})
+    #                self.asset_id.category_id=self.category_id.id
 
 
 #to hide the depreciation compute button
@@ -1068,7 +1076,8 @@ class Retirement (models.Model):
 
     @api.onchange('retired_cost','current_asset_cost')
     def _compute_gain_lost(self):
-        self.gain_loss_amount = self.retired_cost - self.accumulated_value
+        if self.retired_cost and self.current_asset_cost:
+            self.gain_loss_amount = self.retired_cost - self.accumulated_value
 
 
     @api.multi
