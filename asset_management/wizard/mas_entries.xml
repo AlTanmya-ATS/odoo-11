@@ -21,6 +21,7 @@
          </field>
     </record>
 
+
     <record id="action_view_mas_entries_wizard" model="ir.actions.act_window">
         <field name="name">Post Asset Deprecation Lines</field>
         <field name="res_model">asset_management.mas_entries_wizard</field>

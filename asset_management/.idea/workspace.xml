@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bc75f719-69d3-4ba9-843c-90cdf38bf8ab" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/models/models.py" afterPath="$PROJECT_DIR$/models/models.py" />
-      <change beforePath="$PROJECT_DIR$/views/views.xml" afterPath="$PROJECT_DIR$/views/views.xml" />
-      <change beforePath="$PROJECT_DIR$/wizard/mas_entries.py" afterPath="$PROJECT_DIR$/wizard/mas_entries.py" />
       <change beforePath="$PROJECT_DIR$/wizard/mas_entries.xml" afterPath="$PROJECT_DIR$/wizard/mas_entries.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="303">
-              <caret line="1108" column="20" lean-forward="false" selection-start-line="1108" selection-start-column="20" selection-end-line="1108" selection-end-column="20" />
+            <state relative-caret-position="510">
+              <caret line="1117" column="0" lean-forward="true" selection-start-line="1117" selection-start-column="0" selection-end-line="1117" selection-end-column="0" />
               <folding>
                 <element signature="e#25#40#0" expanded="true" />
               </folding>
@@ -61,11 +58,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mas_entries.xml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="mas_entries.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wizard/mas_entries.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="8" column="43" lean-forward="false" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
+            <state relative-caret-position="529">
+              <caret line="23" column="4" lean-forward="false" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -74,7 +71,7 @@
       <file leaf-file-name="modify_dep.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wizard/modify_dep.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="828">
+            <state relative-caret-position="663">
               <caret line="36" column="99" lean-forward="false" selection-start-line="36" selection-start-column="84" selection-end-line="36" selection-end-column="99" />
               <folding />
             </state>
@@ -196,11 +193,11 @@
         <option value="$PROJECT_DIR$/__manifest__.py" />
         <option value="$PROJECT_DIR$/../../../attachment/models/models.py" />
         <option value="$PROJECT_DIR$/../../../customer_res/models/models.py" />
-        <option value="$PROJECT_DIR$/wizard/mas_entries.xml" />
         <option value="$PROJECT_DIR$/wizard/mas_entries.py" />
         <option value="$PROJECT_DIR$/../../../fiels/account_move.py" />
         <option value="$PROJECT_DIR$/views/views.xml" />
         <option value="$PROJECT_DIR$/models/models.py" />
+        <option value="$PROJECT_DIR$/wizard/mas_entries.xml" />
       </list>
     </option>
   </component>
@@ -415,7 +412,21 @@
       <option name="project" value="LOCAL" />
       <updated>1532000228940</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="retirement jl">
+      <created>1532245972478</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1532245972478</updated>
+    </task>
+    <task id="LOCAL-00015" summary="retirement jl">
+      <created>1532246250586</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1532246250586</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -494,7 +505,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/res_partner 2.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/res_users.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/hr_contract 2.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/mail_thread.py" />
@@ -519,13 +529,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../attachment/models/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="575">
-          <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -604,14 +607,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wizard/mas_entries.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="8" column="43" lean-forward="false" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wizard/mas_entries.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="230">
@@ -650,26 +645,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wizard/modify_dep.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="828">
-          <caret line="36" column="99" lean-forward="false" selection-start-line="36" selection-start-column="84" selection-end-line="36" selection-end-column="99" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../fiels/res_config_settings_views.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wizard/re_class.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="21" column="32" lean-forward="false" selection-start-line="21" selection-start-column="32" selection-end-line="21" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -689,6 +668,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="1117" column="0" lean-forward="true" selection-start-line="1117" selection-start-column="0" selection-end-line="1117" selection-end-column="0" />
+          <folding>
+            <element signature="e#25#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../attachment11/models/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../attachment/models/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="12" column="46" lean-forward="false" selection-start-line="12" selection-start-column="36" selection-end-line="12" selection-end-column="46" />
+          <folding>
+            <element signature="e#24#60#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../../../fiels/account_move.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="269">
@@ -697,13 +704,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/models.py">
+    <entry file="file://$PROJECT_DIR$/wizard/re_class.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="1108" column="20" lean-forward="false" selection-start-line="1108" selection-start-column="20" selection-end-line="1108" selection-end-column="20" />
-          <folding>
-            <element signature="e#25#40#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="483">
+          <caret line="21" column="32" lean-forward="false" selection-start-line="21" selection-start-column="32" selection-end-line="21" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wizard/modify_dep.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="36" column="99" lean-forward="false" selection-start-line="36" selection-start-column="84" selection-end-line="36" selection-end-column="99" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wizard/mas_entries.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="23" column="4" lean-forward="false" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>
