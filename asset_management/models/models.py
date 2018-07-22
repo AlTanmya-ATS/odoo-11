@@ -1115,6 +1115,7 @@ class Retirement (models.Model):
                 'domain': [('id', 'in', reserved_jl)],
             }
 
+
     @api.model
     def create(self, values):
         values['name'] = self.env['ir.sequence'].next_by_code('asset_management.retirement.Retirement')
