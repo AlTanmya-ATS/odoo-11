@@ -864,6 +864,13 @@ class SourceLine(models.Model):
             rec.book_id=rec.book_assets_id.book_id.id
             return rec.book_id
 
+    @api.multi
+    def unlike(self):
+        for record in self:
+            if record.book_assets_id.state == 'Capitalize':
+                raise ValidationError('In order to delete a record, you must change asset to draft state ')
+        return super(SourceLine, self).unlike()
+
 
 class Depreciation(models.Model):
     _name = 'asset_management.depreciation'
@@ -1011,6 +1018,16 @@ class Retirement (models.Model):
     prorate_date = fields.Date(string='Prorate Date', compute="_compute_prorate_date")
     state=fields.Selection([('draft','Draft'),('complete','Complete'),('reinstall','Reinstall')],
                            'Status', required = True, copy = False, default = 'draft')
+    jl_is_posted=fields.Boolean(compute="_get_jl_posted_check")
+
+    @api.depends('asset_id','book_id')
+    def _get_jl_posted_check(self):
+        for record in self:
+            retirement_jl=record.env['asset_management.transaction'].search([('retirement_id','=',record.id),
+                                                                             ('asset_id','=',record.asset_id.id),('book_id','=',record.book_id.id)]).move_id
+            if retirement_jl.state == 'posted':
+                record.jl_is_posted = True
+
 
     @api.one
     @api.depends('retire_date')
@@ -1045,14 +1062,6 @@ class Retirement (models.Model):
                 asset_book=record.env['asset_management.book_assets'].search([('asset_id','=',record.asset_id.id),('book_id','=',record.book_id.id)])
                 record.book_assets_id=asset_book.id
 
-    # @api.depends('book_id', 'asset_id')
-    # def _get_asset_cost(self):
-    #     for record in self:
-    #         if not record.test:
-    #             if record.book_id and record.asset_id:
-    #                 asset_gross_value=record.env['asset_management.book_assets'].search([('asset_id','=',record.asset_id.id),('book_id','=',record.book_id.id)]).current_cost
-    #                 record.current_asset_cost=asset_gross_value
-    #                 record.test= True
 
     @api.onchange('book_id','asset_id')
     def _get_asset_cost(self):

@@ -10,7 +10,8 @@
                 <form string="Retirement Form" edit="false">
                     <header>
                         <!--<button name="required_computation" string="compute" type="object" class="oe_highlight" attrs="{'invisible':[('id','!=',False)]}"/>-->
-                        <button name="reinstall" string="Reinstall" type="object" class="oe_highlight" attrs="{'invisible':['|',('id','=',False),('state','=','reinstall')]}"/>
+                        <button name="reinstall" string="Reinstall" type="object" class="oe_highlight" attrs="{'invisible':['|','|',('id','=',False),
+                                                            ('state','=','reinstall'),('jl_is_posted','=',False)]}"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,complete"/>
                     </header>
                     <sheet>
@@ -22,7 +23,8 @@
                             <field name="asset_id" attrs="{'readonly':['|',('book_id','=',False),('id','!=',False)]}"/>
                             <field name="retire_date" attrs="{'readonly':[('id','!=',False)]}"/>
                             <field name="prorate_date"/>
-                            <field name="retirement_type_id" attrs="{'required':['|',('cost_of_removal','!=',0),('proceeds_of_sale','!=',0)],'readonly':[('id','!=',False)]}"/>
+                            <field name="retirement_type_id" attrs="{'required':['|',('cost_of_removal','!=',0),
+                                                    ('proceeds_of_sale','!=',0)],'readonly':[('id','!=',False)]}"/>
                             <field name="check_invoice" attrs="{'readonly':[('id','!=',False)]}"/>
                         </group>
 
@@ -35,6 +37,7 @@
 							<field name="partner_id" attrs="{'readonly':[('id','!=',False)]}"/>
 							<field name="cost_of_removal" attrs="{'readonly':[('id','!=',False)]}"/>
                             <field name="accumulated_value" invisible="1"/>
+                            <field name="jl_is_posted" invisible="1"/>
 						</group>
 					  </group>
                       <notebook>
@@ -188,9 +191,11 @@
 			 <field name="arch" type="xml">
 			     <tree string="Asset Tree">
 			         <field name="name"/>
+                     <field name="asset_serial_number"/>
+                      <field name="asset_tag_number"/>
+                      <field name="item_id"/>
 				     <field name="description"/>
                      <!--<field name="state"/>-->
-                     <field name="category_id"/>
 				 </tree>
 			 </field>
 	    </record>
@@ -439,35 +444,35 @@
 					    <group>
                             <group>
 						        <field name="name" invisible="1"/>
-                                <field name="book_id" options="{'no_create':True}"/>
-                                <field name="asset_id"/>
+                                <field name="book_id" options="{'no_create':True}" attrs="{'readonly':[('state','=','close')]}"/>
+                                <field name="asset_id" attrs="{'readonly':[('state','=','close')]}"/>
                                     <!--<label string="  Not Validate" class="oe_inline" attrs="{'invisible':[('asset_state','!=','draft')]}"/>-->
-                                <field name="category_id" attrs="{'readonly':[('state','=','open')]}"/>
-                                <field name="current_cost"/>
+                                <field name="category_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="current_cost" attrs="{'readonly':[('state','=','close')]}"/>
                                 <field name="original_cost" attrs="{'readonly':[('state','!=','draft')],'invisible':['|',('state','=','draft'),('id','=',False)]}"/>
-                                <field name="salvage_value_type"/>
+                                <field name="salvage_value_type" attrs="{'readonly':[('state','=','close')]}"/>
                                 <label for="salvage_value_amount"/>
                                 <dive>
-                                    <field name="salvage_value_amount" class="oe_inline"/>
+                                    <field name="salvage_value_amount" class="oe_inline" attrs="{'readonly':[('state','=','close')]}"/>
                                     <label string="%" class="oe_inline" attrs="{'invisible':[('salvage_value_type','=','amount')]}"/>
                                 </dive>
-                                <field name="salvage_value"/>
-							    <field name="residual_value"/>
+                                <field name="salvage_value" />
+							    <field name="residual_value" attrs="{'readonly':[('state','=','close')]}"/>
                                 <field name="create_date" widget="date" readonly="1"/>
                                 <!--<field name="asset_state" invisible="1"/>-->
                             </group>
 						    <group>
 						        <field name="depreciated_flag" attrs="{'readonly':[('depreciation_line_length','!=',0)]}"/>
                                 <field name="depreciation_line_length" invisible="1"/>
-						        <field name="method"/>
+						        <field name="method" attrs="{'readonly':[('state','=','close')]}"/>
                                 <field name="method_progress_factor" attrs="{'invisible':[('method','=','linear')]}"/>
-                                <field name="method_time"/>
-							    <field name="date_in_service"/>
+                                <field name="method_time" attrs="{'readonly':[('state','=','close')]}"/>
+							    <field name="date_in_service" attrs="{'readonly':[('state','=','close')]}"/>
 							    <field name="prorate_date"/>
 							    <!--<field name="prorate_convenction"/>-->
-                                <field name="method_number" attrs="{'invisible':[('method_time','=','end')],'required':[('method_time','=','number')]}"/>
-							    <field name="life_months"/>
-                                <field name="end_date" attrs="{'invisible':[('method_time','=','number')]}"/>
+                                <field name="method_number" attrs="{'invisible':[('method_time','=','end')],'required':[('method_time','=','number')],'readonly':[('state','=','close')]}"/>
+							    <field name="life_months" attrs="{'readonly':[('state','=','close')],'readonly':[('state','=','close')]}"/>
+                                <field name="end_date" attrs="{'invisible':[('method_time','=','number')],'readonly':[('state','=','close')]}"/>
                                 <field name="accumulated_value"/>
                                 <field name="net_book_value"/>
                                 <field name="current_cost_from_retir" invisible="1"/>
@@ -478,7 +483,7 @@
 
                         <notebook>
                             <page name="assignment" string="Assignment">
-                                <field name="assignment_id" widget="One2many_list" context="{'default_book_assets_id':id}">
+                                <field name="assignment_id" widget="One2many_list" context="{'default_book_assets_id':id}"  attrs="{'readonly':[('state','=','close')]}">
                                     <tree string="Assignment">
                                         <field name="responsible_id"/>
                                         <field name="location_id"/>
@@ -489,7 +494,7 @@
                             </page>
 
                              <page name="source line" string="Source Line">
-                                <field name="source_line_ids" widget="One2many_list">
+                                <field name="source_line_ids" widget="One2many_list" attrs="{'readonly':[('state','=','close')]}">
                                     <tree string="Source Line">
                                         <field name="source_type"/>
                                         <field name="invoice_id"/>
@@ -526,6 +531,7 @@
 			     <tree string="Book Asset Tree" create="false" edit="false">
 				     <field name="book_id"/>
                      <field name="asset_id"/>
+                     <field name="category_id"/>
                      <field name="residual_value"/>
                      <field name="original_cost"/>
                      <field name="method"/>
