@@ -30,45 +30,10 @@ class Asset(models.Model):
         ('asset_serial_number','UNIQUE(asset_serial_number)','Serial Number already exists!')
     ]
     asset_with_category=fields.Boolean(related='category_id.asset_with_category')
-    #source_line_id=fields.One2many('asset_management.source_line',string='Source Line',inverse_name='asset_id',on_delete='cascade')
-    # default_book=fields.Many2one('asset_management.book',required=True)
-    # state=fields.Selection([('draft','Draft'),('capitalize','Capitalize'),('retired','Retired')] ,default="draft",string='Status',required=True,copy=False,
-    #                        help="When an asset is created the status is Draft\n"
-    #                             "If a Book , an Assignment and a Source Line are added the statues goes in 'Capitalized' and the depreciation can be computed\n"
-    #                             "You can manually close an asset by pressing 'Set To Retire' button ")
-
     currency_id = fields.Many2one('res.currency', string='Currency', required=True, readonly=True,default=lambda self: self.env.user.company_id.currency_id.id)
     entry_asset_count = fields.Integer(compute='_entry_asset_count', string='# Asset Entries')
     transaction_id=fields.One2many('asset_management.transaction',inverse_name="asset_id",on_delete="cascade")
     category_invisible=fields.Boolean()
-
-    # @api.multi
-    # def validation(self):
-    #     if not self.book_assets_id :
-    #         raise ValidationError("The fallowing fields should be entered in order to move to 'capitalize' state "
-    #                               "and be able to compute deprecation:"
-    #                               "\n-Book"
-    #                             )
-    #     else:
-    #         for assetstate in self.book_assets_id:
-    #             if assetstate.state != 'open':
-    #                 raise ValidationError ('books should be in running state..!')
-    #             else:
-    #                 self.state='capitalize'
-    #                 for record in self.book_assets_id:
-    #                     if not self.env['asset_management.transaction'].search([('asset_id','=', record.asset_id.id),('book_id','=', record.book_id.id),('trx_type','=','addition')]):
-    #                         self.env['asset_management.transaction'].create({
-    #                             'asset_id': record.asset_id.id,
-    #                             'book_id': record.book_id.id,
-    #                             'category_id': record.asset_id.category_id.id,
-    #                             'trx_type': 'addition',
-    #                             'trx_date': datetime.today(),
-    #                             'trx_details': 'New Asset ' + record.asset_id.name + ' Is Added to the Book: ' + record.book_id.name
-    #                         })
-
-    # @api.multi
-    # def set_to_draft(self):
-    #     self.state='draft'
 
     @api.multi
     def open_asset_entries(self):
@@ -167,18 +132,8 @@ class Book(models.Model):
     name = fields.Char(index=True,required=True)
     description = fields.Text(required=True)
     company_id=fields.Many2one('res.company', string='Company',required=True,default=lambda self: self.env['res.company']._company_default_get('asset_management.book'))
-    # proceeds_of_sale_gain_account = fields.Many2one('account.account', on_delete='set_null')
-    # proceeds_of_sale_loss_account = fields.Many2one('account.account', on_delete='set_null')
-    # proceeds_of_loss_clearing_account = fields.Many2one('account.account', on_delete='set_null')
     cost_of_removal_gain_account = fields.Many2one('account.account', on_delete='set_null')
     cost_of_removal_loss_account = fields.Many2one('account.account', on_delete='set_null')
-    # cost_of_removal_clearing_account = fields.Many2one('account.account', on_delete='set_null')
-    # net_book_value_retired_gain_account = fields.Many2one('account.account', on_delete='set_null')
-    # net_book_value_retired_loss_account = fields.Many2one('account.account', on_delete='set_null')
-    # reval_reserve_retire_gain_account = fields.Many2one('account.account', on_delete='set_null')
-    # reval_reserve_retire_loss_account = fields.Many2one('account.account', on_delete='set_null')
-    # deferred_depreciation_reserve_account = fields.Many2one('account.account', on_delete='set_null')
-    # depreciation_adjustment_account = fields.Many2one('account.account', on_delete='set_null')
     book_with_cate = fields.Boolean()
     active=fields.Boolean(default=True)
     currency_id = fields.Many2one('res.currency', string='Currency', required=True,compute="_compute_currency")
@@ -234,9 +189,6 @@ class BookAssets (models.Model):
     salvage_value_amount=fields.Float(string='Salvage Value Amount',)
     date_in_service = fields.Date(string = 'Date In Service',required=True,)
     prorate_date= fields.Date(string = 'Prorate Date',compute="_compute_prorate_date")
-    # prorate_convenction = fields.Selection(
-    #     [('first','First Convention')]
-    # )
     depreciated_flag = fields.Boolean(string='Depreciated',default =True)
     method_progress_factor = fields.Float(string='Degressive Factor',default=0.3)
     method_number=fields.Integer(string='Number of Depreciation',help="The number of depreciations needed to depreciate your asset")
@@ -251,7 +203,6 @@ class BookAssets (models.Model):
                              help="When an asset is created, the status is 'Draft'.\n"
                                   "If the asset is confirmed, the status goes in 'Running' and the depreciation lines can be posted in the accounting.\n"
                                   "You can manually close an asset when the depreciation is over. If the last line of depreciation is posted, the asset automatically goes in that status.")
-    # asset_state=fields.Selection(related='asset_id.state')
     assignment_id=fields.One2many(comodel_name='asset_management.assignment',inverse_name='book_assets_id',on_delete='cascade')
     percentage = fields.Float(compute='_modify_percentage')
     category_id = fields.Many2one('asset_management.category')
@@ -292,16 +243,17 @@ class BookAssets (models.Model):
     def _amount_in_source_line(self):
         for record in self:
             for source in record.source_line_ids:
-                    record.old_amount += source.amount
-            # if len(record.source_line_ids) == 1:
-            #     record.new_amount = record.old_amount
+                record.old_amount += source.amount
+                if record.old_amount < record.new_amount:
+                    record.old_amount = record.new_amount
 
     @api.onchange('old_amount')
     def _onchange_amount(self):
         for record in self:
             if record.old_amount:
-                record.current_cost += (record.old_amount - record.new_amount)
-                record.new_amount=record.old_amount
+                if (record.old_amount - record.new_amount) > 0:
+                    record.current_cost += (record.old_amount - record.new_amount)
+                    record.new_amount=record.old_amount
 
     @api.constrains('source_line_ids')
     def _amount_constraint(self):
@@ -318,25 +270,6 @@ class BookAssets (models.Model):
         if 'source_line_ids' not in values:
             raise ValidationError ('Source line must be added to book ('+str(record.book_id.name)+')')
 
-        # self.env['asset_management.transaction'].create({
-        #     'asset_id': record.asset_id.id,
-        #     'book_id': record.book_id.id,
-        #     'category_id': record.asset_id.category_id.id,
-        #     'trx_type': 'addition',
-        #     'trx_date': datetime.today(),
-        #     'trx_details': 'New Asset ' +record.asset_id.name + ' Is Added to the Book: ' + record.book_id.name
-        # })
-
-        # self.env['asset_management.transaction'].create({
-        #     'asset_id': record.asset_id.id,
-        #     'book_id': record.book_id.id,
-        #     'category_id': record.asset_id.category_id.id,
-        #     'trx_type': 'cost_adjustment',
-        #     'trx_date': datetime.today(),
-        #     'trx_details': 'Old Gross Value  Is: '+str(0.00) + '\nNew Gross Vale Is: ' + str(record.original_cost),
-        #     'cost':record.original_cost
-        # })
-        # return record
 
     @api.multi
     def write(self, values):
@@ -498,26 +431,16 @@ class BookAssets (models.Model):
     @api.constrains('assignment_id')
     def _checkpercentage(self):
         for record in self:
-            # if record.percentage not in (0, 100):
-            #     raise ValidationError("Assignment does not add up to 100")
+
             if float_compare(record.percentage, 100.00, precision_digits=2) != 0:
                 raise ValidationError("Assignment does not equal a 100")
 
-    # @api.depends('depreciation_line_ids.move_check','depreciation_line_ids.amount')
-    # def _compute_accumulated_value(self):
-    #     for record in self:
-    #         for line in record.depreciation_line_ids:
-    #             if line.move_check:
-    #                 record.accumulated_value += line.amount
 
     @api.one
     @api.depends('current_cost', 'salvage_value','accumulated_value')
                  #'depreciation_line_ids.move_check', 'depreciation_line_ids.amount')
     def _amount_residual(self):
-       # total_amount = 0.0
-        # for line in self.depreciation_line_ids:
-        #     if line.move_check:
-        #         total_amount += line.amount
+
         self.residual_value = self.current_cost - self.accumulated_value - self.salvage_value
 
     def _compute_board_undone_dotation_nb(self, depreciation_date):
@@ -669,14 +592,6 @@ class BookAssets (models.Model):
                 'category_id':category_book.category_id.id
                     }
                 }
-
-    # @api.onchange('category_id')
-    # def _change_asset_form_category(self):
-    #     if self.category_id:
-    #         if self.asset_id.category_id.id != self.category_id.id:
-    #             # self.asset_id.write({'category_id':self.category_id.id})
-    #                self.asset_id.category_id=self.category_id.id
-
 
 #to hide the depreciation compute button
     @api.depends('depreciation_line_ids')
@@ -961,10 +876,7 @@ class Depreciation(models.Model):
             line.write({'move_id': move.id, 'move_check': True})
             line.book_assets_id.accumulated_value = line.depreciated_value
             created_moves |= move
-            #source_line=self.env['asset_management.source_line'].search([('asset_id','=',self.asset_id.id),('source_type','=','invoice')])
-            # if post_move and created_moves:
-            #     created_moves.filtered(
-            #         lambda m: any(m.asset_depreciation_id.mapped('asset_id.source_line_id'))).post()
+
             return [x.id for x in created_moves]
 
     @api.multi

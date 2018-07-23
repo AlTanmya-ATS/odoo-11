@@ -430,7 +430,7 @@
                         <button name="%(asset_dep_modify_action)d" string="Modify Depreciation" type="action" class="oe_highlight" attrs="{'invisible':['|','|',('depreciated_flag','=',False),
                                          ('state','!=','open'),('id','=',False)]}"/>
                         <button name="validate"  type="object" string="confirm" class="oe_highlight" attrs="{'invisible':['|',('state','!=','draft'),('id','=',False)]}"/>
-                        <button name="set_to_draft" string="Set to Draft" type="object" attrs="{'invisible': ['|','|',('state','!=','open'),('entry_count','!=',0),('id','=',False)]}"/>
+                        <button name="set_to_draft" string="Set to Draft" type="object" attrs="{'invisible': ['|','|',('state','!=','open'),('id','=',False)]}"/>
                         <button name="compute_depreciation_board" string="Compute Depreciation" type="object" class="oe_highlight"
                                 attrs="{'invisible':['|','|',('depreciated_flag','=',False),('state','!=','draft'),('id','=',False)]}"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,open"/>
@@ -445,7 +445,7 @@
                             <group>
 						        <field name="name" invisible="1"/>
                                 <field name="book_id" options="{'no_create':True}" attrs="{'readonly':[('state','=','close')]}"/>
-                                <field name="asset_id" attrs="{'readonly':[('state','=','close')]}"/>
+                                <field name="asset_id"/>
                                     <!--<label string="  Not Validate" class="oe_inline" attrs="{'invisible':[('asset_state','!=','draft')]}"/>-->
                                 <field name="category_id" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 <field name="current_cost" attrs="{'readonly':[('state','=','close')]}"/>
