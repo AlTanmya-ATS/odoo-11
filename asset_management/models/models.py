@@ -281,7 +281,7 @@ class BookAssets (models.Model):
     life_months = fields.Integer(required=True,track_visibility='onchange')
     end_date=fields.Date(track_visibility='onchange')
     original_cost = fields.Float(string='Original cost', required=True,track_visibility='onchange')
-    current_cost=fields.Float(required=True,compute='_compute_current_cost',track_visibility='onchange')
+    current_cost=fields.Float(required=True,track_visibility='onchange')
     salvage_value_type = fields.Selection(
         [('amount','Amount'),('percentage','Percentage')],default='amount',readonly=True, states={'draft': [('readonly', False)],'open':[('readonly',False)]},
         track_visibility='onchange' )
@@ -405,12 +405,13 @@ class BookAssets (models.Model):
                     record.source_amount += source.amount
                 elif source.source_type =='miscellaneous':
                     record.source_amount += source.amount_m_type
-                    # record.source_amount += source.amount_m_type
+            record.current_cost = record.source_amount
 
-    @api.depends('source_amount')
-    def _compute_current_cost(self):
-        for record in self:
-           record.current_cost = record.source_amount
+
+    # @api.depends('source_amount')
+    # def _compute_current_cost(self):
+    #     for record in self:
+    #        record.current_cost = record.source_amount
 
 
 
@@ -536,6 +537,25 @@ class BookAssets (models.Model):
 
 
                         })
+                if 'assignment_id' in values:
+                    if not self.assign_change_flag:
+                        responsable = []
+                        location = []
+                        for assignment in self.assignment_id:
+                            if assignment.responsible_id:
+                                responsable.append(assignment.responsible_id.name)
+                            location.append(assignment.location_id.name)
+                        self.env['asset_management.transaction'].create({
+                            'book_assets_id': self.id,
+                            'book_id': self.book_id.id,
+                            'asset_id': self.asset_id.id,
+                            'category_id': self.category_id.id,
+                            'trx_type': 'transfer',
+                            'cost': self.current_cost,
+                            'trx_date': datetime.today(),
+                            'trx_details': 'Responsible : ' + str(responsable) + '\nLocation : ' + str(location)
+                            if responsable else 'Location : ' + str(location)
+                        })
 
 
 
@@ -638,24 +658,7 @@ class BookAssets (models.Model):
         assign_change_flag = False
         # self.write({'assignment_id': new_assignment,
         #           'assign_change_flag':False})
-        if self.state == 'open':
-            responsable = []
-            location = []
-            for assignment in self.assignment_id:
-                if assignment.responsible_id:
-                    responsable.append(assignment.responsible_id.name)
-                location.append(assignment.location_id.name)
-            self.env['asset_management.transaction'].create({
-                'book_assets_id': self.id,
-                'book_id': self.book_id.id,
-                'asset_id': self.asset_id.id,
-                'category_id': self.category_id.id,
-                'trx_type': 'transfer',
-                'cost': self.current_cost,
-                'trx_date': datetime.today(),
-                'trx_details': 'Responsible : ' + str(responsable) + '\nLocation : ' + str(location)
-                            if responsable else 'Location : ' + str(location)
-            })
+
         return new_assignment , assign_change_flag
 
 
@@ -1030,7 +1033,8 @@ class BookAssets (models.Model):
     @api.depends('depreciation_line_ids')
     def _depreciation_line_length(self):
         for record in self:
-            record.depreciation_line_length=len(record.depreciation_line_ids)
+            posted_depreciation_line_ids = self.depreciation_line_ids.filtered(lambda x: x.move_check)
+            record.depreciation_line_length=len(posted_depreciation_line_ids)
 
 
 #compute percentage for salvage value
@@ -1395,19 +1399,19 @@ class Depreciation(models.Model):
 
             return [x.id for x in created_moves]
 
-    # @api.multi
-    # def post_lines_and_close_asset(self):
-    #     # we re-evaluate the assets to determine whether we can close them
-    #     for line in self:
-    #         # line.log_message_when_posted()
-    #         asset = line.asset_id
-    #         book=line.book_id
-    #         book_asset=line.env['asset_management.book_assets'].search([('asset_id','=',asset.id),('book_id','=',book.id)])
-    #         residual_value=book_asset[0].residual_value
-    #         current_currency = self.env['res.company'].search([('id', '=', 1)])[0].currency_id
-    #         if current_currency.is_zero(residual_value):
-    #             #asset.message_post(body=_("Document closed."))
-    #             book_asset.write({'state': 'close'})
+    @api.multi
+    def post_lines_and_close_asset(self):
+        # we re-evaluate the assets to determine whether we can close them
+        for line in self:
+            # line.log_message_when_posted()
+            asset = line.asset_id
+            book=line.book_id
+            book_asset=line.env['asset_management.book_assets'].search([('asset_id','=',asset.id),('book_id','=',book.id)])
+            residual_value=book_asset[0].residual_value
+            current_currency = self.env['res.company'].search([('id', '=', 1)])[0].currency_id
+            if current_currency.is_zero(residual_value):
+                #asset.message_post(body=_("Document closed."))
+                book_asset.write({'state': 'close'})
 
     @api.multi
     def unlink(self):
@@ -1526,13 +1530,14 @@ class Retirement (models.Model):
         for record in self:
             if record.retired_cost == 0 :
                 raise ValidationError(_('Retired cost must be entered.'))
-            # current_cost=record.book_assets_id.current_cost
-            # record.gain_loss_amount = record.retired_cost - record.accumulated_value
+            current_cost=record.book_assets_id.current_cost
+            net_book_value=record.book_assets_id.net_book_value
+            record.gain_loss_amount = record.retired_cost - record.accumulated_value
             if record.retired_cost <= record.accumulated_value :
-                net_book = (record.current_asset_cost - record.retired_cost) - (record.accumulated_value - record.retired_cost)
-            elif record.retired_cost > record.accumulated_value or record.retired_cost == record.current_asset_cost:
-                net_book = record.current_asset_cost - record.retired_cost
-            # record.current_asset_cost=current_cost
+                net_book = (net_book_value - record.retired_cost) - (record.accumulated_value - record.retired_cost)
+            elif record.retired_cost > record.accumulated_value or record.retired_cost == current_cost:
+                net_book = net_book_value- record.retired_cost
+            record.current_asset_cost=current_cost
             record.book_assets_id.write({'current_cost':net_book,
                                          'current_cost_from_retir':True,
                                          'accumulated_value':0.0})
