@@ -7,11 +7,10 @@
             <form string="Compute Asset">
                 <group>
                     <field name="book_id"/>
-                    <label for="date from" string="Period"/>
-                    <div>
-                        <field name="date_from"  class="oe_inline"/> - <field name="date_to"  class="oe_inline"/>
-                    </div>
+                    <field name="period_id"/>
                     <field name="post_entries"/>
+                    <field name="open_next_period_flag_enable" invisible="1"/>
+                    <field name="open_next_period" attrs="{'readonly':[('open_next_period_flag_enable','=',False)]}"/>
                 </group>
                 <footer>
                     <button string="Generate Entries" name="moves_compute" type="object" class="btn-primary"/>

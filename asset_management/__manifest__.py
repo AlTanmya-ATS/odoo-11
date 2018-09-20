@@ -34,6 +34,7 @@
         'wizard/mas_entries.xml',
         'wizard/re_class.xml',
         'wizard/modify_dep.xml',
+        'wizard/confirmation_view.xml'
 
     ],
     # only loaded in demonstration mode

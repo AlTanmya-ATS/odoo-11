@@ -10,8 +10,8 @@
                 <form string="Retirement Form" edit="false">
                     <header>
                         <!--<button name="required_computation" string="compute" type="object" class="oe_highlight" attrs="{'invisible':[('id','!=',False)]}"/>-->
-                        <button name="reinstall" string="Reinstall" type="object" class="oe_highlight" attrs="{'invisible':['|','|',('id','=',False),
-                                                            ('state','=','reinstall'),('jl_is_posted','=',False)]}"/>
+                        <button name="reinstall" string="Reinstall" type="object" class="oe_highlight" attrs="{'invisible':['|',('id','=',False),
+                                                            ('state','=','reinstall')]}"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,complete"/>
                     </header>
                     <sheet>
@@ -37,7 +37,7 @@
 							<field name="partner_id" attrs="{'readonly':[('id','!=',False)]}"/>
 							<field name="cost_of_removal" attrs="{'readonly':[('id','!=',False)]}"/>
                             <field name="accumulated_value" invisible="1"/>
-                            <field name="jl_is_posted" invisible="1"/>
+                            <!--<field name="jl_is_posted" invisible="1"/>-->
 						</group>
 					  </group>
                       <notebook>
@@ -46,6 +46,11 @@
                             </page>
                       </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
         </record>
@@ -93,11 +98,6 @@
             <field name="model">asset_management.asset</field>
             <field name="arch" type="xml">
                 <form string="Asset Form">
-                    <!--<header>-->
-                        <!--<field name="state" widget="statusbar" statusbar_visible="draft,capitalize"/>-->
-                        <!--<button string="Validate" name="validation" type="object" class="oe_highlight" states="draft"/>-->
-                        <!--<button string="Set to draft" name="set_to_draft" type="object" states="capitalize"/>-->
-                    <!--</header>-->
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button class="oe_stat_button" name="open_asset_entries"  type="object" icon="fa-pencil">
@@ -115,6 +115,7 @@
                                 <field name="item_id"/>
                                 <field name="category_id" attrs="{'invisible':[('category_invisible','=',True)]}"/>
                                 <field name="parent_asset"/>
+                                <field name="asset_type" attrs="{'readonly':[('id','!=',False)]}"/>
                                 <field name="asset_with_category" invisible="1"/>
                                 <field name="category_invisible" invisible="1"/>
                                 <field name="currency_id" invisible="1"/>
@@ -124,18 +125,20 @@
                                 <field name="is_in_physical_inventory"/>
                                 <field name="is_new"/>
                                 <field name="ownership_type"/>
-                                <field name="asset_serial_number"/>
+                                <field name="asset_serial_number" attrs="{'required':[('serial_flag','=',True)]}"/>
+                                <field name="serial_flag" invisible="1"/>
                                 <field name="asset_tag_number" widget="many2many_tags"/>
                             </group>
 					    </group>
+
                         <notebook>
                             <page string="Description">
                                    <field name="description"/>
                             </page>
 
                             <page name="book" string="Book">
-                                <field name="book_assets_id"  widget="One2many_list" context="{'category_id':category_id}">
-                                    <tree string="Book Num">
+                                <field name="book_assets_id"  widget="One2many_list" context="{'default_category_id':category_id}">
+                                    <tree string="Book Num" delete="false">
                                         <field name="book_id"/>
                                         <field name="category_id" invisible="1"/>
                                         <field name="residual_value"/>
@@ -144,7 +147,7 @@
                                         <field name="method_time"/>
                                         <field name="life_months"/>
                                         <field name="salvage_value_type"/>
-                                        <field name="salvage_value_amount"/>
+                                        <field name="salvage_value"/>
                                         <field name="method_number"/>
                                         <field name="date_in_service"/>
                                         <field name="asset_id" invisible="1"/>
@@ -156,7 +159,7 @@
 
                             <page name="depreciation" string="Depreciation">
                                 <field name="depreciation_line_ids" widget="One2many_list" readonly="1">
-                                    <tree string="Depreciation" create="false" edit="false" editable="false">
+                                    <tree string="Depreciation" create="false" edit="false" delete="false">
                                         <field name="book_id"/>
                                         <field name="depreciation_date"/>
                                         <field name="depreciated_value"/>
@@ -171,7 +174,7 @@
 
                             <page name="Transaction" string="Transactions">
                                 <field name="transaction_id" widget="one2many_list" readonly="1">
-                                    <tree string="Transaction" create="false" edit="false">
+                                    <tree string="Transaction" create="false" edit="false" delete="false">
                                         <field name="book_id"/>
                                         <field name="trx_type"/>
                                         <field name="trx_date"/>
@@ -180,10 +183,15 @@
                             </page>
                         </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
-        </record>	
-		
+        </record>
+
 		<!--asset list view -->
 	    <record model="ir.ui.view" id="asset_tree_view">
 	         <field name="name">asset.tree</field>
@@ -199,8 +207,8 @@
 				 </tree>
 			 </field>
 	    </record>
-	
-		<!--asset search view --> 
+
+		<!--asset search view -->
 		<record model="ir.ui.view" id="asset_search_view">
 		     <field name="name">asset.search</field>
 			 <field name="model">asset_management.asset</field>
@@ -211,15 +219,15 @@
 				 </search>
 		     </field>
 		</record>
-			   
+
 	      <!--asset action window-->
-	
+
         <record model="ir.actions.act_window" id="asset_list_action">
             <field name="name">Asset</field>
             <field name="res_model">asset_management.asset</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="context" eval="{'search_default_my_asset': 1}"/>			
+            <field name="context" eval="{'search_default_my_asset': 1}"/>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the first asset
                 </p>
@@ -260,7 +268,6 @@
 					 <group>
                         <group>
                             <field name="asset_with_category" invisible="1"/>
-
                             <field name="depreciation_method" attrs="{'readonly':[('asset_with_category','=',True)]}"/>
                         </group>
                         <group>
@@ -284,12 +291,17 @@
                                     </tree>
                                 </field>
                             </page>
-                     </notebook>							
+                     </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
-        </record>	
-		
+        </record>
+
 		<!--category list view -->
 	    <record model="ir.ui.view" id="category_tree_view">
 	         <field name="name">category.tree</field>
@@ -301,8 +313,8 @@
 				 </tree>
 			 </field>
 	    </record>
-	
-		<!--category search view --> 
+
+		<!--category search view -->
 		<record model="ir.ui.view" id="category_search_view">
 		     <field name="name">category.search</field>
 			 <field name="model">asset_management.category</field>
@@ -313,15 +325,15 @@
 				 </search>
 		     </field>
 		</record>
-			   
+
 	      <!--category action window-->
-	
+
         <record model="ir.actions.act_window" id="category_list_action">
             <field name="name">Category</field>
             <field name="res_model">asset_management.category</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="context" eval="{'search_default_my_category': 1}"/>			
+            <field name="context" eval="{'search_default_my_category': 1}"/>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the first category
                 </p>
@@ -330,8 +342,8 @@
 
         <menuitem id="category_menu" name="Category" parent="asset_management_menu"
                   action="category_list_action"/>
-				  
-				  
+
+
                <!--book form view -->
         <record model="ir.ui.view" id="book_form_view">
             <field name="name">book.form</field>
@@ -351,31 +363,43 @@
                              </h1>
                         </div>
                         <group>
-                        <group>
-                            <field name="cost_of_removal_gain_account"  attrs="{'readonly':[('book_with_cate','=',True)]}" />
-                            <field name="cost_of_removal_loss_account"  attrs="{'readonly':[('book_with_cate','=',True)]}" />
-                             <field name="book_with_cate" invisible="1"/>
+                            <group>
+                                <field name="company_id" attrs="{'readonly':[('book_with_cate','=',True)]}"/>
+                                <field name="currency_id" invisible="1" attrs="{'readonly':[('book_with_cate','=',True)]}"/>
+                                <field name="calendar_id" attrs="{'readonly':[('id','!=',False)]}"/>
+                                <field name="calendar_line_id" attrs="{'readonly':['|',('id','!=',False),('calendar_id','=',False)]}"/>
+                                <field name="fiscal_year"/>
+                            </group>
+                            <group>
+                                <field name="cost_of_removal_gain_account"  attrs="{'readonly':[('company_id','=',False)]}" />
+                                <field name="gain_analytic_account_id"  attrs="{'readonly':[('company_id','=',False)]}"
+                                       groups="analytic.group_analytic_accounting" placeholder="cost of removal gain analytic account"/>
+                                <field name="gain_analytic_tag_ids"  attrs="{'readonly':[('company_id','=',False)]}"
+                                       groups="analytic.group_analytic_accounting" widget="many2many_tags" placeholder="cost of removal gain analytic tag"/>
+                                <field name="cost_of_removal_loss_account"  attrs="{'readonly':[('company_id','=',False)]}"/>
+                                <field name="loss_analytic_account_id"  attrs="{'readonly':[('company_id','=',False)]}"
+                                       groups="analytic.group_analytic_accounting" placeholder="cost of removal loss analytic account"/>
+                                <field name="loss_analytic_tag_ids"  attrs="{'readonly':[('company_id','=',False)]}"
+                                       groups="analytic.group_analytic_accounting" widget="many2many_tags" placeholder="cost of removal loss analytic tag"/>
+                                <field name="book_with_cate" invisible="1"/>
+                            </group>
                         </group>
-                        <group>
-                            <field name="company_id" attrs="{'readonly':[('book_with_cate','=',True)]}"/>
-                            <field name="currency_id" invisible="1" attrs="{'readonly':[('book_with_cate','=',True)]}"/>
-                            <label for="start_date" string="Fiscal Period Closing"/>
-                            <div>
-                                <field name="start_date" class="oe_inline"/> - <field name="end_date" class="oe_inline"/>
-                            </div>
-                            <field name="fiscal_year"/>
-                        </group>
-                        </group>
+
                      <notebook>
                             <page string="Description">
                                 <field name="description"/>
                             </page>
-                     </notebook>							
+                     </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
-        </record>	
-		
+        </record>
+
 		<!--book list view -->
 	    <record model="ir.ui.view" id="book_tree_view">
 	         <field name="name">book.tree</field>
@@ -388,8 +412,8 @@
 				 </tree>
 			 </field>
 	    </record>
-	
-		<!--book search view --> 
+
+		<!--book search view -->
 		<record model="ir.ui.view" id="book_search_view">
 		     <field name="name">book.search</field>
 			 <field name="model">asset_management.book</field>
@@ -400,15 +424,15 @@
 				 </search>
 		     </field>
 		</record>
-			   
+
 	      <!--book action window-->
-	
+
         <record model="ir.actions.act_window" id="book_list_action">
             <field name="name">Book</field>
             <field name="res_model">asset_management.book</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="context" eval="{'search_default_my_book': 1}"/>			
+            <field name="context" eval="{'search_default_my_book': 1}"/>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the first book
                 </p>
@@ -418,8 +442,8 @@
         <menuitem id="book_menu" name="Book" parent="asset_management_menu"
                   action="book_list_action"/>
 
-				  
-				  
+
+
                <!--book-assets form view -->
         <record model="ir.ui.view" id="book_assets_form_view">
             <field name="name">book_assets.form</field>
@@ -427,14 +451,17 @@
             <field name="arch" type="xml">
                 <form string="Book Asset Form" create="false">
                     <header>
-                        <button name="%(asset_dep_modify_action)d" string="Modify Depreciation" type="action" class="oe_highlight" attrs="{'invisible':['|','|',('depreciated_flag','=',False),
+                        <!--<button name="create_assignment" string="assignment" type="object"/>-->
+                        <button name="%(asset_dep_modify_action)d" string="Modify Depreciation" type="action" class="oe_highlight" attrs="{'invisible':['|','|',('depreciation_computation','=',False),
                                          ('state','!=','open'),('id','=',False)]}"/>
                         <button name="validate"  type="object" string="confirm" class="oe_highlight" attrs="{'invisible':['|',('state','!=','draft'),('id','=',False)]}"/>
-                        <button name="set_to_draft" string="Set to Draft" type="object" attrs="{'invisible': ['|','|',('state','!=','open'),('id','=',False)]}"/>
+                        <button name="set_to_draft" string="Set to Draft" type="object" attrs="{'invisible': ['|','|','|',
+                            ('state','!=','open'),('id','=',False),('depreciation_line_length','!=',0)]}"/>
                         <button name="compute_depreciation_board" string="Compute Depreciation" type="object" class="oe_highlight"
-                                attrs="{'invisible':['|','|',('depreciated_flag','=',False),('state','!=','draft'),('id','=',False)]}"/>
+                                attrs="{'invisible':['|','|',('depreciation_computation','=',False),('state','!=','draft'),('id','=',False)]}"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,open"/>
                     </header>
+
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button class="oe_stat_button" name="open_entries"  type="object" icon="fa-pencil">
@@ -444,40 +471,45 @@
 					    <group>
                             <group>
 						        <field name="name" invisible="1"/>
-                                <field name="book_id" options="{'no_create':True}" attrs="{'readonly':[('state','=','close')]}"/>
+                                <field name="book_id" options="{'no_create':True}"/>
                                 <field name="asset_id"/>
                                     <!--<label string="  Not Validate" class="oe_inline" attrs="{'invisible':[('asset_state','!=','draft')]}"/>-->
-                                <field name="category_id" attrs="{'readonly':[('state','!=','draft')]}"/>
-                                <field name="current_cost" attrs="{'readonly':[('state','=','close')]}"/>
+                                <field name="category_id"/>
+                                <field name="current_cost"/>
                                 <field name="original_cost" attrs="{'readonly':[('state','!=','draft')],'invisible':['|',('state','=','draft'),('id','=',False)]}"/>
-                                <field name="salvage_value_type" attrs="{'readonly':[('state','=','close')]}"/>
-                                <label for="salvage_value_amount"/>
+                                <field name="salvage_value_type"/>
+                                <label for="salvage_value"/>
                                 <dive>
-                                    <field name="salvage_value_amount" class="oe_inline" attrs="{'readonly':[('state','=','close')]}"/>
+                                    <field name="salvage_value" class="oe_inline" attrs="{'readonly':[('state','=','close')]}"/>
                                     <label string="%" class="oe_inline" attrs="{'invisible':[('salvage_value_type','=','amount')]}"/>
                                 </dive>
-                                <field name="salvage_value" />
-							    <field name="residual_value" attrs="{'readonly':[('state','=','close')]}"/>
+                                <field name="salvage_value_amount"/>
+							    <field name="residual_value"/>
+                                <field name="depreciation_computation" invisible="1"/>
                                 <field name="create_date" widget="date" readonly="1"/>
-                                <!--<field name="asset_state" invisible="1"/>-->
                             </group>
+
 						    <group>
-						        <field name="depreciated_flag" attrs="{'readonly':[('depreciation_line_length','!=',0)]}"/>
+						        <field name="depreciated_flag"/>
                                 <field name="depreciation_line_length" invisible="1"/>
-						        <field name="method" attrs="{'readonly':[('state','=','close')]}"/>
+                                <field name="allow_future_transaction"/>
+						        <field name="method"/>
                                 <field name="method_progress_factor" attrs="{'invisible':[('method','=','linear')]}"/>
-                                <field name="method_time" attrs="{'readonly':[('state','=','close')]}"/>
-							    <field name="date_in_service" attrs="{'readonly':[('state','=','close')]}"/>
+                                <field name="method_time"/>
+							    <field name="date_in_service"/>
 							    <field name="prorate_date"/>
 							    <!--<field name="prorate_convenction"/>-->
                                 <field name="method_number" attrs="{'invisible':[('method_time','=','end')],'required':[('method_time','=','number')],'readonly':[('state','=','close')]}"/>
 							    <field name="life_months" attrs="{'readonly':[('state','=','close')],'readonly':[('state','=','close')]}"/>
-                                <field name="end_date" attrs="{'invisible':[('method_time','=','number')],'readonly':[('state','=','close')]}"/>
+                                <field name="end_date" attrs="{'invisible':[('method_time','=','number')],'readonly':[('state','=','close')],'required':[('method_time','=','end')]}"/>
                                 <field name="accumulated_value"/>
                                 <field name="net_book_value"/>
                                 <field name="current_cost_from_retir" invisible="1"/>
-                                <field name="old_amount" invisible="1"/>
-                                <field name="new_amount" invisible="1"/>
+                                <field name="source_amount" invisible="1"/>
+                                <field name="assign_change_flag" invisible="1"/>
+                                <field name="percentage" invisible="1"/>
+                                <!--<field name="old_amount" invisible="1"/>-->
+                                <!--<field name="new_amount" invisible="1"/>-->
 						    </group>
 					    </group>
 
@@ -487,8 +519,10 @@
                                     <tree string="Assignment">
                                         <field name="responsible_id"/>
                                         <field name="location_id"/>
-                                        <field name="transfer_date"/>
+                                        <field name="date_from"/>
                                         <field name = "percentage"/>
+                                        <field name="date_to"/>
+                                        <field name="history_flag"/>
                                     </tree>
                                 </field>
                             </page>
@@ -497,16 +531,17 @@
                                 <field name="source_line_ids" widget="One2many_list" attrs="{'readonly':[('state','=','close')]}">
                                     <tree string="Source Line">
                                         <field name="source_type"/>
-                                        <field name="invoice_id"/>
-                                        <field name="invoice_line_ids"/>
-                                        <field name="amount"/>
+                                        <field name="description"/>
+                                        <!--<field name="invoice_id"/>-->
+                                        <!--<field name="invoice_line_ids"/>-->
+                                        <!--<field name="amount"/>-->
                                     </tree>
                                 </field>
                             </page>
 
                             <page name="depreciation" string="Depreciation">
-                                <field name="depreciation_line_ids" widget="One2many_list">
-                                    <tree string="Depreciation" create="false" edit="false">
+                                <field name="depreciation_line_ids" widget="One2many_list" readonly="1">
+                                    <tree string="Depreciation" create="false" edit="false" delete="false">
                                         <field name="depreciation_date"/>
                                         <field name="depreciated_value"/>
                                         <field name="amount"/>
@@ -517,9 +552,23 @@
                                     </tree>
                                 </field>
                             </page>
+
+                            <page string="Transactions" name="transactions" >
+                                <field name="transaction_id" widget="One2many_list" readonly="1">
+                                    <tree name="Transaction" create="false" edit="false" delete="false">
+                                        <field name="trx_type"/>
+                                        <field name="trx_date"/>
+                                    </tree>
+                                </field>
+                            </page>
                         </notebook>
                     </sheet>
-                </form>     
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
             </field>
         </record>
 
@@ -535,9 +584,25 @@
                      <field name="residual_value"/>
                      <field name="original_cost"/>
                      <field name="method"/>
+                     <field name="state"/>
 				 </tree>
 			 </field>
          </record>
+
+         <!--Book Assets Search-->
+       		<record model="ir.ui.view" id="book_asset_search_view">
+		     <field name="name">assignment.search</field>
+			 <field name="model">asset_management.book_assets</field>
+			 <field name="arch" type="xml">
+			     <search>
+				      <field name="book_id"/>
+                     <field name="asset_id"/>
+                     <field name="category_id"/>
+                     <field name="state"/>
+				 </search>
+		     </field>
+		</record>
+
 
     <!--book-assets action window-->
          <record model="ir.actions.act_window" id="book_assets_list_action">
@@ -556,7 +621,7 @@
         <menuitem id="book_assets_menu" name="Book Assets" parent="asset_management_report_menu"
                   action="book_assets_list_action"/>
 
-				 
+
                <!--assignment form view -->
         <record model="ir.ui.view" id="assignment_form_view">
             <field name="name">assignment.form</field>
@@ -569,24 +634,33 @@
                              <field name="asset_id"/>
                              <field name="book_id"/>
                              <field name="depreciation_expense_account"/>
-							 <field name="responsible_id"/>
-							 <field name="location_id"/>
+                             <field name="depreciation_expense_analytic_account_id"
+                                       groups="analytic.group_analytic_accounting" placeholder="depreciation expense analytic account"/>
+                             <field name="depreciation_expense_analytic_tag_ids"
+                                       groups="analytic.group_analytic_accounting" widget="many2many_tags" placeholder="depreciation expense analytic tag"/>
+
                         </group>
 						<group>
-						  <!-- <field name="units"/> 
-						   <field name="units_to_assign"/> -->
                             <field name="book_assets_id" invisible="1"/>
-                           <field name="percentage"/>
-						   <field name="transfer_date"/>
-                           <!--<field name="end_use_date"/>-->
+                            <field name="history_flag"/>
+                            <field name="percentage"/>
+                            <field name="responsible_id"/>
+                            <field name="location_id"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
 						   <field name="comments"/>
 						</group>
-					  </group>						
+					  </group>
                     </sheet>
-                </form>     
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
             </field>
-        </record>	
-		            <!--assignment list view --> 
+        </record>
+		            <!--assignment list view -->
 	    <record model="ir.ui.view" id="assignment_tree_view">
 	         <field name="name">assignment.tree</field>
 			 <field name="model">asset_management.assignment</field>
@@ -599,8 +673,8 @@
 				 </tree>
 			 </field>
 	    </record>
-		
-		<!--assignment search view --> 
+
+		<!--assignment search view -->
 		<record model="ir.ui.view" id="assignment_search_view">
 		     <field name="name">assignment.search</field>
 			 <field name="model">asset_management.assignment</field>
@@ -610,8 +684,8 @@
 					 <field name="responsible_id"/>
 				 </search>
 		     </field>
-		</record>	 
-		
+		</record>
+
 		         <!--assignment action window-->
         <record model="ir.actions.act_window" id="assignment_list_action">
             <field name="name">Assignment</field>
@@ -627,7 +701,7 @@
 
         <menuitem id="assignment_menu" name="Assignment" parent="asset_management_report_menu"
                   action="assignment_list_action"/>
-				  
+
                <!--source line form view -->
         <record model="ir.ui.view" id="source_line_form_view">
             <field name="name">source_line.form</field>
@@ -645,18 +719,26 @@
 
                         </group>
 						<group>
-                            <field name="invoice_id" attrs="{'required':[('source_type','=','invoice')],'invisible':[('source_type','=','null')]}"/>
-                            <field name="invoice_line_ids" attrs="{'required':[('source_type','=','invoice')],'invisible':[('source_type','=','null')]
+                            <field name="invoice_id" attrs="{'required':[('source_type','=','invoice')],'invisible':[('source_type','=','miscellaneous')]}"/>
+                            <field name="invoice_line_ids" attrs="{'required':[('source_type','=','invoice')],'invisible':[('source_type','=','miscellaneous')]
                                         ,'readonly':[('invoice_id','=',False)]}"/>
-						    <field name="amount" attrs="{'required':[('source_type','=','invoice')],'invisible':[('source_type','=','null')]}"/>
+						    <field name="amount" attrs="{'required':[('source_type','=','invoice')],'invisible':[('source_type','=','miscellaneous')]}"/>
+                            <field name="invoice_id_m_type" attrs="{'invisible':[('source_type','=','invoice')]}"/>
+                            <field name="invoice_line_ids_m_type" attrs="{'invisible':[('source_type','=','invoice')]}"/>
+						    <field name="amount_m_type" attrs="{'required':[('source_type','=','miscellaneous')],'invisible':[('source_type','=','invoice')]}"/>
 						    <field name="description"/>
 						</group>
-					  </group>						
+					  </group>
                     </sheet>
-                </form>     
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
             </field>
-        </record>	
-		            <!--source line list view --> 
+        </record>
+		            <!--source line list view -->
 	    <record model="ir.ui.view" id="source_line_tree_view">
 	         <field name="name">source_line.tree</field>
 			 <field name="model">asset_management.source_line</field>
@@ -668,8 +750,8 @@
 				 </tree>
 			 </field>
 	    </record>
-		
-		<!--source line search view --> 
+
+		<!--source line search view -->
 		<record model="ir.ui.view" id="source_line_search_view">
 		     <field name="name">source_line.search</field>
 			 <field name="model">asset_management.source_line</field>
@@ -679,15 +761,15 @@
 					 <field name="asset_id"/>
 				 </search>
 		     </field>
-		</record>	 
-		
+		</record>
+
 		         <!--source line action window-->
         <record model="ir.actions.act_window" id="source_line_list_action">
             <field name="name">Source Line</field>
             <field name="res_model">asset_management.source_line</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="context" eval="{'search_default_my_source line': 1}"/>			
+            <field name="context" eval="{'search_default_my_source line': 1}"/>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the first source line
                 </p>
@@ -696,7 +778,7 @@
 
         <menuitem id="source_line_menu" name="Source Line" parent="asset_management_report_menu"
                   action="source_line_list_action"/>
-				  
+
                <!--transaction  form view -->
         <record model="ir.ui.view" id="transaction_form_view">
             <field name="name">transaction.form</field>
@@ -707,9 +789,10 @@
 					  <group>
                         <group>
 						    <!--<field name="name"/>-->
+                            <field name="book_assets_id"/>
                             <field name="asset_id"/>
 							<field name="book_id"/>
-                            <field name="old_category" invisible="1"/>
+                            <field name="old_category" attrs="{'invisible':[('old_category','=',False)]}" />
                             <field name= "category_id"/>
                             <field name="trx_type"/>
                         </group>
@@ -720,16 +803,22 @@
                             <field name="move_posted_check"/>
                         </group>
                         <group>
-                            <field name="cost" invisible="1"/>
+                            <field name="cost"/>
+                            <field name="old_cost"  attrs="{'invisible':[('old_cost','=',0.0)]}"/>
                             <field name="retirement_id" attrs="{'invisible':[('retirement_id','=',False)]}"/>
                             <field name="trx_details"/>
                         </group>
-					  </group>						
+					  </group>
                     </sheet>
-                </form>     
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
             </field>
-        </record>	
-		            <!--transaction list view --> 
+        </record>
+		            <!--transaction list view -->
 	    <record model="ir.ui.view" id="transaction_tree_view">
 	         <field name="name">transaction.tree</field>
 			 <field name="model">asset_management.transaction</field>
@@ -751,15 +840,15 @@
 					 <field name="trx_type"/>
 				 </search>
 		     </field>
-		</record>	 
-		
+		</record>
+
 		         <!--transaction action window-->
         <record model="ir.actions.act_window" id="transaction_list_action">
             <field name="name">Transaction</field>
             <field name="res_model">asset_management.transaction</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="context" eval="{'search_default_my_transaction': 1}"/>			
+            <field name="context" eval="{'search_default_my_transaction': 1}"/>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the first transaction
                 </p>
@@ -769,7 +858,7 @@
         <menuitem id="transaction_menu" name="Transaction" parent="asset_management_report_menu"
                   action="transaction_list_action"/>
 
-				  
+
                <!--Depreciation  form view -->
         <record model="ir.ui.view" id="depreciation_form_view">
             <field name="name">depreciation.form</field>
@@ -796,8 +885,17 @@
                             <field name="depreciated_value"/>
 						    <field name="remaining_value"/>
 						</group>
+                          <group>
+                              <field name="dep_run_process_id"/>
+                              <field name="period_id"/>
+                          </group>
 					  </group>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
         </record>
@@ -855,25 +953,55 @@
 						    <field name="name" invisible="1"/>
                             <field name="category_id"/>
 							<field name="book_id"/>
-                            <field name="depreciation_method"/>
-                            <field name="method_time"/>
-                            <field name="method_number" attrs="{'invisible':[('method_time','!=','number')],'required':[('method_time','=','number')]}"/>
-                            <field name="life_months"/>
+                            <field name="journal_id"/>
                             <field name="group_entries"/>
                             <field name="book_with_cate" invisible="1"/>
                         </group>
 
 						<group>
-                            <field name="journal_id"/>
-						    <field name="asset_cost_account"/>
-						    <field name="asset_clearing_account"/>
+                            <field name="depreciation_method"/>
+                            <field name="method_time"/>
+                            <field name="method_number" attrs="{'invisible':[('method_time','!=','number')],'required':[('method_time','=','number')]}"/>
+                            <field name="life_months"/>
+                        </group>
+                          <group>
+                            <field name="asset_cost_account" attrs="{'readonly':[('book_id','=',False)]}"/>
+						    <field name="asset_clearing_account" attrs="{'readonly':[('book_id','=',False)]}"/>
 							<field name="depreciation_expense_account"/>
-							<field name="accumulated_depreciation_account"/>
-						</group>
+							<field name="accumulated_depreciation_account" attrs="{'readonly':[('book_id','=',False)]}"/>
+                          </group>
+                            <group>
 
-					  </group>						  
+                                <field name="asset_cost_analytic_account_id"  attrs="{'readonly':[('book_id','=',False)]}"
+                                       groups="analytic.group_analytic_accounting" placeholder="asset cost analytic account"/>
+                                <field name="asset_cost_analytic_tag_ids"  attrs="{'readonly':[('book_id','=',False)]}"
+                                       groups="analytic.group_analytic_accounting" widget="many2many_tags" placeholder="asset cost analytic tag"/>
+
+                                <field name="asset_clearing_analytic_account_id"  attrs="{'readonly':[('book_id','=',False)]}"
+                                       groups="analytic.group_analytic_accounting" placeholder="asset clearing analytic account"/>
+                                <field name="asset_clearing_analytic_tag_ids"  attrs="{'readonly':[('book_id','=',False)]}"
+                                       groups="analytic.group_analytic_accounting" widget="many2many_tags" placeholder="asset clearing analytic tag"/>
+
+                                <field name="depreciation_expense_analytic_account_id"  attrs="{'readonly':[('book_id','=',False)]}"
+                                       groups="analytic.group_analytic_accounting" placeholder="depreciation expense analytic account"/>
+                                <field name="depreciation_expense_analytic_tag_ids"  attrs="{'readonly':[('book_id','=',False)]}"
+                                       groups="analytic.group_analytic_accounting" widget="many2many_tags" placeholder="depreciation expense analytic tag"/>
+
+                                <field name="accumulated_depreciation_analytic_account_id"  attrs="{'readonly':[('book_id','=',False)]}"
+                                       groups="analytic.group_analytic_accounting" placeholder="accumulated depreciation analytic account"/>
+                                <field name="accumulated_depreciation_analytic_tag_ids" attrs="{'readonly':[('book_id','=',False)]}"
+                                       groups="analytic.group_analytic_accounting" widget="many2many_tags" placeholder="accumulated depreciation analytic tag"/>
+
+                            </group>
+
+					  </group>
                     </sheet>
-                </form>     
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
             </field>
         </record>
 
@@ -929,6 +1057,11 @@
                              </div>
                          </group>
                      </sheet>
+                     <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                  </form>
              </field>
          </record>
@@ -973,13 +1106,16 @@
                      <!--Asset Location menu item-->
         <menuitem id="asset_location_menu" name="Location"
                       parent="main_assetmanagement_menu"/>
+
                          <!--Asset Location menu item child-->
         <menuitem name="Location" action="asset_management_location_action"
             id="asset_management_location_meun"
             parent="asset_location_menu"/>
+
                      <!--retirement menu item-->
         <menuitem id="retirement_menu" name="Retirement" parent="asset_management_menu"
           action="retirement_list_action"/>
+
                      <!--retirement type form view-->
          <record id="asset_management_retirement_type_view_form" model="ir.ui.view">
                  <field name="name">Retirement Type  Form</field>
@@ -987,17 +1123,41 @@
                  <field name="arch" type="xml">
                      <form string="Retirement Type Form">
                          <sheet>
-                            <group>
-                                <field name="name"/>
-                            </group>
+                             <div class="oe_left oe_title">
+                                <lable for="name" class="oe_edit_only"/>
+                                <h1>
+                                    <field name="name" placeholder="Calendar's Name"/>
+                                </h1>
+                            </div>
                              <group>
-                                 <field name="proceeds_of_sale_account"/>
-                                 <field name="cost_of_removal_account"/>
+                                <group>
+                                    <field name="company_id"/>
+                                    <field name="proceeds_of_sale_account"/>
+                                     <field name="proceeds_of_sale_analytic_account_id" attrs="{'readonly':[('company_id','=',False)]}"
+                                           groups="analytic.group_analytic_accounting" placeholder="proceeds of sale analytic account"/>
+                                    <field name="proceeds_of_sale_analytic_tag_ids"
+                                           groups="analytic.group_analytic_accounting" widget="many2many_tags" placeholder="proceeds of sale analytic tag"/>
+
+                                </group>
+                                 <group>
+                                    <field name="cost_of_removal_account"/>
+                                    <field name="cost_of_removal_analytic_account_id" attrs="{'readonly':[('company_id','=',False)]}"
+                                       groups="analytic.group_analytic_accounting" placeholder="cost of removal analytic account"/>
+                                    <field name="cost_of_removal_analytic_tag_ids"
+                                       groups="analytic.group_analytic_accounting" widget="many2many_tags" placeholder="cost of removal analytic tag"/>
+
+                                 </group>
                              </group>
                          </sheet>
+                         <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="activity_ids" widget="mail_activity"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </div>
                      </form>
                  </field>
              </record>
+
              <!--retirement type list view-->
        <record id="asset_management_retirement_type_tree" model="ir.ui.view">
            <field name="name">Retirement Type  Tree</field>
@@ -1010,6 +1170,7 @@
                </tree>
            </field>
        </record>
+
                  <!--retirement type search view-->
        <record id="asset_management_retirement_type_search" model="ir.ui.view">
           <field name="name">Retirement Type  search</field>
@@ -1022,6 +1183,7 @@
            </search>
           </field>
        </record>
+
                      <!--retirement type action -->
        <record id="asset_management_retirement_type_action" model="ir.actions.act_window">
            <field name="name">Retirement Type  Action</field>
@@ -1034,13 +1196,240 @@
              </p>
            </field>
        </record>
+
                  <!--retirement type menu item-->
        <menuitem id="retirement_type_menu" name="Retirement Type"  parent="asset_management_menu"  action="asset_management_retirement_type_action"/>
+
+
+       <!--calendar form view-->
+       <record id="calender_form_view" model="ir.ui.view">
+           <field name="name">Calendar Form View</field>
+           <field name="model">asset_management.calendar</field>
+           <field name="arch" type="xml">
+               <form string="Calendar Form">
+                   <!--<header>-->
+                       <!--<button name="check_periods" string="check_periods" type="object"/>-->
+                   <!--</header>-->
+                   <sheet>
+                        <div class="oe_left oe_title">
+                            <lable for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="Calendar's Name"/>
+                            </h1>
+                        </div>
+                       <notebook>
+                           <page string="Calendar Lines">
+                               <field name="calendar_lines_id" widget="One2many_list">
+                                   <tree string="Calendar Lines"  editable="bottom">
+                                       <field name="name"/>
+                                       <field name="start_date"/>
+                                       <field name="end_date"/>
+                                   </tree>
+                               </field>
+                           </page>
+                       </notebook>
+                   </sheet>
+                   <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+               </form>
+           </field>
+       </record>
+
+       <record id="asset_management_calendar_action" model="ir.actions.act_window">
+            <field name="name">Asset Calendar</field>
+            <field name="res_model">asset_management.calendar</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context" eval="{'search_default_my_calendar': 1}"/>
+            <field name="help" type="html">
+                    <p class="oe_view_nocontent_create">Create the first calendar
+                    </p>
+            </field>
+        </record>
+
+       <!--calendar list view-->
+       <record id="calendar_tree_view" model="ir.ui.view">
+           <field name="name">Calendar List</field>
+           <field name="model">asset_management.calendar</field>
+           <field name="arch" type="xml">
+               <tree name="calendar tree">
+                    <field name="name"/>
+               </tree>
+           </field>
+       </record>
+
+       <!--calendar search view-->
+       <record id="calendar_search_view" model="ir.ui.view">
+          <field name="name">Calendar Search</field>
+          <field name="model">asset_management.calendar</field>
+           <field name="arch" type="xml">
+               <search string="Calendar Search">
+                    <field name="name" />
+               </search>
+          </field>
+       </record>
+
+       <!--calendar line form -->
+       <record id="calendar_line_form_view" model="ir.ui.view">
+           <field name="name">Calendar line Form</field>
+           <field name="model">asset_management.calendar_line</field>
+           <field name="arch" type="xml">
+               <form name="calendar line form ">
+                    <sheet>
+                        <div class="oe_left oe_title">
+                            <lable for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="Calendar's Name"/>
+                            </h1>
+                        </div>
+                       <group>
+                           <group>
+                                <field name="start_date"/>
+                           </group>
+                           <group>
+                               <field name="end_date"/>
+                           </group>
+                       </group>
+                   </sheet>
+                   <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+               </form>
+           </field>
+       </record>
+
+
+                    <!--calendar menu item-->
+        <menuitem id="calendar_menu" name="Calendar"
+                      parent="main_assetmanagement_menu"/>
+                         <!--calendar menu item child-->
+        <menuitem name="Calendar" action="asset_management_calendar_action"
+            id="asset_management_calendar_meun"
+            parent="calendar_menu"/>
+
+       <!--dep run process form-->
+       <record id="dep_run_process_form_view" model="ir.ui.view">
+           <field name="name">dep run process form</field>
+           <field name="model">asset_management.deprunprocess</field>
+           <field name="arch" type="xml">
+               <form string="Depreciation Run Process Form">
+                     <header>
+                        <button name="reinstall" string="Reinstall" type="object" class="oe_highlight" attrs="{'invisible':['|',('id','=',False),
+                                                            ('reinstall_flag','=',True)]}"/>
+                     </header>
+                   <sheet>
+                       <group>
+                           <group>
+                               <field name="name"/>
+                               <field name="process_date"/>
+                           </group>
+                            <group>
+                               <field name="process_period_id"/>
+                               <field name="book_id"/>
+                                <field name="reinstall_flag" invisible="1"/>
+                           </group>
+                       </group>
+                       <notebook>
+                           <page string="Depreciation Run Process lines">
+                               <field name="dep_run_process_lines" widget="One2many_list" readonly="1">
+                               <tree string="depreciation line" edit="false" create="false" delete="false">
+                                   <field name="sequence"/>
+                                   <field name="depreciation_id"/>
+                               </tree>
+                               </field>
+                           </page>
+                       </notebook>
+                   </sheet>
+                   <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+               </form>
+           </field>
+       </record>
+
+        <!--dep run process tree-->
+       <record id="dep_run_process_list_view" model="ir.ui.view">
+           <field name="name">dep run process tree</field>
+           <field name="model">asset_management.deprunprocess</field>
+           <field name="arch" type="xml">
+               <tree string="Depreciation Run Process tree">
+                   <field name="name"/>
+                   <field name="process_date"/>
+                   <field name="process_period_id"/>
+                   <field name="book_id"/>
+               </tree>
+           </field>
+       </record>
+
+       <!--dep run process search-->
+       <record id="dep_run_process_search_view" model="ir.ui.view">
+          <field name="name">dep run process Search</field>
+          <field name="model">asset_management.deprunprocess</field>
+           <field name="arch" type="xml">
+               <search string="Depreciation Run Process Search">
+                    <field name="name"/>
+                   <field name="process_date"/>
+                   <field name="process_period_id"/>
+               </search>
+          </field>
+       </record>
+
+        <!--dep run process action-->
+        <record id="dep_run_process_action" model="ir.actions.act_window">
+            <field name="name">dep_run_process action</field>
+            <field name="res_model">asset_management.deprunprocess</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context" eval="{'search_default_my_deprunprocess': 1}"/>
+            <field name="help" type="html">
+                    <p class="oe_view_nocontent_create">Create the first depreciation run process
+                    </p>
+            </field>
+        </record>
+
+              <!--dep run process line  form -->
+       <record id="dep_run_process_line_form_view" model="ir.ui.view">
+           <field name="name">dep run process line form view</field>
+           <field name="model">asset_management.deprunprocess_line</field>
+           <field name="arch" type="xml">
+               <form name="Depreciation Run Process  line form ">
+                    <sheet>
+                       <group>
+                           <group>
+                                <field name="sequence"/>
+                           </group>
+                           <group>
+                               <field name="dep_run_process_id"/>
+                               <field name="depreciation_id"/>
+                           </group>
+                       </group>
+                   </sheet>
+                   <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+               </form>
+           </field>
+       </record>
+
+
+            <!--dep run process menu-->
+        <menuitem name="Depreciation Run Process" action="dep_run_process_action"
+            id="dep_run_process_meun"
+            parent="calendar_menu"/>
 
         </data>
 
 
-    <data noupdate="1">
+    <data >
 
       <record model="ir.sequence" id="seq_asset">
         <field name="name">asset_sequence</field>
@@ -1058,13 +1447,13 @@
         <field name="implementation">no_gap</field>
       </record>
 
-      <record model="ir.sequence" id="seq_assignment">
-        <field name="name">assignment_sequence</field>
-        <field name="code">asset_management.assignment.Assignment</field>
-        <field name="padding">3</field>
-        <field name="number_increment">1</field>
-        <field name="implementation">no_gap</field>
-      </record>
+      <!--<record model="ir.sequence" id="seq_assignment">-->
+        <!--<field name="name">assignment_sequence</field>-->
+        <!--<field name="code">asset_management.assignment.Assignment</field>-->
+        <!--<field name="padding">3</field>-->
+        <!--<field name="number_increment">1</field>-->
+        <!--<field name="implementation">no_gap</field>-->
+      <!--</record>-->
 
       <record model="ir.sequence" id="seq_transaction">
             <field name="name">transaction_sequence</field>
@@ -1108,6 +1497,14 @@
       <record model="ir.sequence" id="seq_source_line">
             <field name="name">source_line_sequence</field>
             <field name="code">asset_management.source_line.SourceLine</field>
+            <field name="padding">3</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">no_gap</field>
+      </record>
+
+        <record model="ir.sequence" id="seq_run_dep_process">
+            <field name="name">run_dep_process</field>
+            <field name="code">asset_management.deprunprocess.DepRunProcess</field>
             <field name="padding">3</field>
             <field name="number_increment">1</field>
             <field name="implementation">no_gap</field>
