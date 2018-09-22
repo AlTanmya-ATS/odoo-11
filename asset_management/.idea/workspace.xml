@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bc75f719-69d3-4ba9-843c-90cdf38bf8ab" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/models/models.py" afterPath="$PROJECT_DIR$/models/models.py" />
-      <change beforePath="$PROJECT_DIR$/views/views.xml" afterPath="$PROJECT_DIR$/views/views.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -505,7 +503,14 @@
       <option name="project" value="LOCAL" />
       <updated>1537454159325</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="new asset 3">
+      <created>1537610198983</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1537610198983</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -549,7 +554,8 @@
     <MESSAGE value="new asset" />
     <MESSAGE value="new asset2" />
     <MESSAGE value="new asset 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="new asset 2" />
+    <MESSAGE value="new asset 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="new asset 3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
