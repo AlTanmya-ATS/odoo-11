@@ -281,7 +281,7 @@ class BookAssets (models.Model):
     life_months = fields.Integer(required=True,track_visibility='onchange')
     end_date=fields.Date(track_visibility='onchange')
     original_cost = fields.Float(string='Original cost', required=True,track_visibility='onchange')
-    current_cost=fields.Float(required=True,track_visibility='onchange')
+    current_cost=fields.Float(required=True,track_visibility='onchange',readonly=True)
     salvage_value_type = fields.Selection(
         [('amount','Amount'),('percentage','Percentage')],default='amount',readonly=True, states={'draft': [('readonly', False)],'open':[('readonly',False)]},
         track_visibility='onchange' )
@@ -1067,6 +1067,26 @@ class BookAssets (models.Model):
             raise ValidationError(_('Asset can not be deleted '))
         super(BookAssets, self).unlink()
 
+    # @api.multi
+    # def delete_source(self):
+    #     text = 'Are you sure you want to delete a source line'
+    #     value = self.env['asset_management.confirmation_wizard'].sudo().create({'text': text,
+    #                                                                  })
+    #     return {
+    #                 'type': 'ir.actions.act_window',
+    #                 'name': _('Warning'),
+    #                 'view_type': 'form',
+    #                 'view_mode': 'form',
+    #                 'res_model': 'asset_management.confirmation_wizard',
+    #                 'res_id': value.id,
+    #                 'target': 'new',
+    #                 'view_id': self.env.ref('asset_management.confirmation_wizard_form', False).id,
+    #                 'context': {'active_id':self.id,
+    #                             }
+    #     }
+    #
+
+
 
 class Assignment(models.Model):
     _name = 'asset_management.assignment'
@@ -1293,7 +1313,6 @@ class SourceLine(models.Model):
             #             }
 
         return super(SourceLine, self).unlink()
-
 
 
 class Depreciation(models.Model):

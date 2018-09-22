@@ -459,6 +459,7 @@
                             ('state','!=','open'),('id','=',False),('depreciation_line_length','!=',0)]}"/>
                         <button name="compute_depreciation_board" string="Compute Depreciation" type="object" class="oe_highlight"
                                 attrs="{'invisible':['|','|',('depreciation_computation','=',False),('state','!=','draft'),('id','=',False)]}"/>
+                        <!--<button name="delete_source" type="object" string="delete source"/>-->
                         <field name="state" widget="statusbar" statusbar_visible="draft,open"/>
                     </header>
 
@@ -475,7 +476,7 @@
                                 <field name="asset_id"/>
                                     <!--<label string="  Not Validate" class="oe_inline" attrs="{'invisible':[('asset_state','!=','draft')]}"/>-->
                                 <field name="category_id"/>
-                                <field name="current_cost"/>
+                                <field name="current_cost" force_save="1"/>
                                 <field name="original_cost" attrs="{'readonly':[('state','!=','draft')],'invisible':['|',('state','=','draft'),('id','=',False)]}"/>
                                 <field name="salvage_value_type"/>
                                 <label for="salvage_value"/>
