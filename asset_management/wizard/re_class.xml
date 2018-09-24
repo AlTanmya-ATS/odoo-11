@@ -8,14 +8,7 @@
             <form string="Re Class Wizard">
                 <sheet>
                     <group>
-                        <!--<group>-->
-                            <!--<field name="book_id"/>-->
-                        <!--</group>-->
-                        <!--<group>-->
-                            <!--<field name="asset_id" attrs="{'readonly':[('book_id','=',False)]}"/>-->
-                            <!--<field name="category_id"/>-->
-                            <field name="new_category_id"/>
-                        <!--</group>-->
+                        <field name="new_category_id"/>
                         <label for="model_id" string="Recipients"/>
                             <div>
                                 <field name="model_id"/>

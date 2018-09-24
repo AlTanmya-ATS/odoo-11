@@ -305,7 +305,7 @@ class BookAssets (models.Model):
                                   "You can manually close an asset when the depreciation is over. If the last line of depreciation is posted, the asset automatically goes in that status.")
     assignment_id=fields.One2many(comodel_name='asset_management.assignment',inverse_name='book_assets_id',on_delete='cascade')
     percentage = fields.Float(compute='_modify_percentage',store = True)
-    category_id = fields.Many2one('asset_management.category',readonly = True,states = {'draft': [('readonly', False)]},track_visibility='onchange')
+    category_id = fields.Many2one('asset_management.category',readonly = True,states = {'draft': [('readonly', False)],'open': [('readonly', False)]},track_visibility='onchange')
     source_line_ids=fields.One2many('asset_management.source_line','book_assets_id',on_delete='cascade',)
     # old_amount=fields.Float(compute="_amount_in_source_line")
     source_amount = fields.Float(compute="_amount_in_source_line",store=True)
@@ -502,6 +502,7 @@ class BookAssets (models.Model):
                          ('category_id', '=', self.category_id.id)]).depreciation_expense_account
                     for assignment in self.assignment_id:
                         assignment.depreciation_expense_account = new_depreciation_expense_account
+                        self.compute_depreciation_board()
             if 'current_cost' in values:
                 self.compute_depreciation_board()
 
@@ -524,6 +525,12 @@ class BookAssets (models.Model):
 
                 if 'category_id' in values:
                     if self.category_id != old_category:
+                        new_depreciation_expense_account = self.env['asset_management.category_books'].search(
+                            [('book_id', '=', self.book_id.id),
+                             ('category_id', '=', self.category_id.id)]).depreciation_expense_account
+                        for assignment in self.assignment_id:
+                            assignment.depreciation_expense_account = new_depreciation_expense_account
+
                         record.env['asset_management.transaction'].create({
                             'book_assets_id':record.id,
                             'asset_id': record.asset_id.id,
@@ -537,6 +544,8 @@ class BookAssets (models.Model):
 
 
                         })
+                        self.compute_depreciation_board()
+
                 if 'assignment_id' in values:
                     if not self.assign_change_flag:
                         responsable = []
@@ -1188,8 +1197,11 @@ class Assignment(models.Model):
     @api.multi
     def unlink(self):
         for record in self:
-            if record.history_flag or record.date_to:
-                raise ValidationError(_('Assignment history can not be deleted '))
+            if record.book_assets_id.state != 'close':
+                if record.history_flag or record.date_to:
+                    raise ValidationError(_('Assignment history can not be deleted '))
+            else:
+                raise ValidationError(_('Asset is closed'))
         super(Assignment, self).unlink()
 
 #create transaction when changing responsible or location in capitalize asset
@@ -1284,17 +1296,21 @@ class SourceLine(models.Model):
     @api.multi
     def unlink(self):
         for line in self:
-            if line.source_type == 'invoice':
-                if line.book_assets_id.net_book_value < line.amount :
-                    raise ValidationError(_('You can not delete a source line from '+line.book_id.name))
-                elif line.book_assets_id.net_book_value == line.amount :
-                    raise ValidationError(_('Net book value equals 0 ,add source line in Miscellaneous type with the required amount '))
-            elif line.source_type == 'miscellaneous':
-                if line.book_assets_id.net_book_value < line.amount_m_type :
-                    raise ValidationError(_('You can not delete a source line from '+line.book_id.name))
-                elif line.book_assets_id.net_book_value == line.amount_m_type :
-                    raise ValidationError(_('Net book value equals 0 ,add source line in Miscellaneous type with the required amount '))
-            # else:
+            if line.book_assets_id.state != 'close':
+                if line.source_type == 'invoice':
+                    if line.book_assets_id.net_book_value - line.amount < 0:
+                        raise ValidationError(_('You can not delete a source line from '+line.book_id.name))
+                    elif line.book_assets_id.net_book_value - line.amount == 0:
+                        raise ValidationError(_('Net book value equals 0 ,add source line in Miscellaneous type with the required amount '))
+                elif line.source_type == 'miscellaneous':
+                    if line.book_assets_id.net_book_value - line.amount_m_type < 0 :
+                        raise ValidationError(_('You can not delete a source line from '+line.book_id.name))
+                    elif line.book_assets_id.net_book_value - line.amount_m_type == 0:
+                        raise ValidationError(_('Net book value equals 0 ,add source line in Miscellaneous type with the required amount '))
+
+            else:
+                raise ValidationError(_('Asset is closed'))
+                # else:
             #     text = 'Are you sure you want to delete a source line'
             #     value = self.env['asset_management.confirmation_wizard'].sudo().create({'text': text,
             #                                                                  })
@@ -1458,15 +1474,15 @@ class Retirement (models.Model):
     asset_id = fields.Many2one('asset_management.asset', on_delete='cascade',required=True,track_visibility='always')
     retire_date = fields.Date(string = 'Retire Date',default=datetime.today(),track_visibility='onchange')
     comments = fields.Text(string = "Comments",track_visibility='onchange')
-    gain_loss_amount=fields.Float(track_visibility='onchange')
+    gain_loss_amount=fields.Float(track_visibility='onchange',readonly = True)
     proceeds_of_sale = fields.Float(track_visibility='onchange')
     cost_of_removal= fields.Float(track_visibility='onchange')
     partner_id = fields.Many2one(comodel_name="res.partner", string="Sold To",track_visibility='onchange')
     check_invoice= fields.Char(track_visibility='onchange')
     retired_cost=fields.Float(required=True,track_visibility='onchange')
-    current_asset_cost=fields.Float(string="Current Cost",readonly=True,track_visibility='onchange')
-    net_book_value=fields.Float(string="Original Net Book Value",track_visibility='onchange')
-    accumulated_value=fields.Float(track_visibility='onchange')
+    current_asset_cost=fields.Float(string="Current Cost", readonly = True ,track_visibility = 'onchange')
+    net_book_value=fields.Float(string="Original Net Book Value",track_visibility='onchange',readonly = True)
+    accumulated_value=fields.Float(track_visibility='onchange' , readonly =True)
     retirement_type_id=fields.Many2one('asset_management.retirement_type',on_delete="set_null",track_visibility='onchange')
     prorate_date = fields.Date(string='Prorate Date', compute="_compute_prorate_date",track_visibility='onchange')
     state=fields.Selection([('draft','Draft'),('complete','Complete'),('reinstall','Reinstall')],
@@ -1549,14 +1565,14 @@ class Retirement (models.Model):
         for record in self:
             if record.retired_cost == 0 :
                 raise ValidationError(_('Retired cost must be entered.'))
-            current_cost=record.book_assets_id.current_cost
-            net_book_value=record.book_assets_id.net_book_value
+            # current_cost=record.book_assets_id.current_cost
+            # net_book_value=record.book_assets_id.net_book_value
             record.gain_loss_amount = record.retired_cost - record.accumulated_value
             if record.retired_cost <= record.accumulated_value :
-                net_book = (net_book_value - record.retired_cost) - (record.accumulated_value - record.retired_cost)
-            elif record.retired_cost > record.accumulated_value or record.retired_cost == current_cost:
-                net_book = net_book_value- record.retired_cost
-            record.current_asset_cost=current_cost
+                net_book = (record.net_book_value - record.retired_cost) - (record.accumulated_value - record.retired_cost)
+            elif record.retired_cost > record.accumulated_value or record.retired_cost == record.current_asset_cost:
+                net_book = record.net_book_value- record.retired_cost
+            # record.current_asset_cost=current_cost
             record.book_assets_id.write({'current_cost':net_book,
                                          'current_cost_from_retir':True,
                                          'accumulated_value':0.0})
@@ -1703,7 +1719,7 @@ class Transaction (models.Model):
     )
     trx_date = fields.Date('Transaction Date',track_visibility='onchange')
     trx_details = fields.Text('Transaction Details',track_visibility='onchange')
-    old_category=fields.Many2one("asset_management.category", string="Category",on_delete='cascade',track_visibility='onchange')
+    old_category=fields.Many2one("asset_management.category", string=" Old Category",on_delete='cascade',track_visibility='onchange')
     move_id = fields.Many2one('account.move', string='Transaction Entry',track_visibility='onchange')
     move_check = fields.Boolean(compute='_get_move_check', string='Linked (Account)', track_visibility='always', store=True)
     move_posted_check = fields.Boolean(compute='_get_move_posted_check', string='Posted', track_visibility='always',store=True)
@@ -1860,7 +1876,7 @@ class Transaction (models.Model):
 
                 move_vals = {
                     'ref': self.asset_id.name,
-                    'date': line.book_id.calendar_lines_id.end_date or False,
+                    'date': line.book_id.calendar_line_id.end_date or False,
                     'journal_id': journal_id.id,
                     'line_ids': [(0, 0, move_line_1), (0, 0, move_line_2),(0,0,move_line_3),(0,0,move_line_4)],
                 }

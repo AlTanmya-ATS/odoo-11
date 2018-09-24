@@ -14,7 +14,7 @@ class ReClass(models.TransientModel):
     # asset_id=fields.Many2one('asset_management.asset')
     # book_id=fields.Many2one('asset_management.book',domain=[('active','=',True)])
     # category_id=fields.Many2one('asset_management.category',compute="_get_book_category")
-    new_category_id=fields.Many2one('asset_management.category')
+    new_category_id=fields.Many2one('asset_management.category',domain=[('active','=',True)])
 
     # mailing_model_real = fields.Char(compute='_compute_model', string='Recipients Real Model', default='mail.mass_mailing.contact', required=True)
     model_id = fields.Many2one('ir.model', string='Recipients Model', domain=[('model', '=', MASS_re_class_MODELS)],

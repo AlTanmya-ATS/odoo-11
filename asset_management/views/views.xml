@@ -30,13 +30,13 @@
 
 						<group>
                             <field name="retired_cost" attrs="{'readonly':[('id','!=',False)]}"/>
-                            <field name="current_asset_cost"/>
-						    <field name="gain_loss_amount" attrs="{'readonly':[('id','!=',False)]}"/>
-                            <field name="net_book_value" attrs="{'readonly':[('id','!=',False)]}"/>
+                            <field name="current_asset_cost" force_save="1"/>
+						    <field name="gain_loss_amount" force_save="1"/>
+                            <field name="net_book_value" force_save="1" />
 						    <field name="proceeds_of_sale" attrs="{'readonly':[('id','!=',False)]}"/>
 							<field name="partner_id" attrs="{'readonly':[('id','!=',False)]}"/>
 							<field name="cost_of_removal" attrs="{'readonly':[('id','!=',False)]}"/>
-                            <field name="accumulated_value" invisible="1"/>
+                            <field name="accumulated_value" invisible="1" force_save="1"/>
                             <!--<field name="jl_is_posted" invisible="1"/>-->
 						</group>
 					  </group>
@@ -494,15 +494,17 @@
 						        <field name="depreciated_flag"/>
                                 <field name="depreciation_line_length" invisible="1"/>
                                 <field name="allow_future_transaction"/>
-						        <field name="method"/>
-                                <field name="method_progress_factor" attrs="{'invisible':[('method','=','linear')]}"/>
-                                <field name="method_time"/>
+						        <field name="method" force_save="1"/>
+                                <field name="method_progress_factor" attrs="{'invisible':[('method','=','linear')],'readonly':[('state','!=','draft')]}" force_save="1"/>
+                                <field name="method_time" force_save="1"/>
 							    <field name="date_in_service"/>
 							    <field name="prorate_date"/>
 							    <!--<field name="prorate_convenction"/>-->
-                                <field name="method_number" attrs="{'invisible':[('method_time','=','end')],'required':[('method_time','=','number')],'readonly':[('state','=','close')]}"/>
-							    <field name="life_months" attrs="{'readonly':[('state','=','close')],'readonly':[('state','=','close')]}"/>
-                                <field name="end_date" attrs="{'invisible':[('method_time','=','number')],'readonly':[('state','=','close')],'required':[('method_time','=','end')]}"/>
+                                <field name="method_number" attrs="{'invisible':[('method_time','=','end')],
+                                                'required':[('method_time','=','number')],'readonly':[('state','!=','draft')]}" force_save="1"/>
+							    <field name="life_months" attrs="{'readonly':[('state','!=','draft')]}" force_save="1"/>
+                                <field name="end_date" attrs="{'invisible':[('method_time','=','number')],
+                                                'readonly':[('state','!=','draft')],'required':[('method_time','=','end')]}" force_save="1"/>
                                 <field name="accumulated_value"/>
                                 <field name="net_book_value"/>
                                 <field name="current_cost_from_retir" invisible="1"/>
