@@ -366,13 +366,16 @@ class BookAssets (models.Model):
     #
     #         }
 
-    @api.constrains('method_progress_factor','date_in_service')
+    @api.constrains('method_progress_factor','date_in_service','current_cost')
     def _check_constraints(self):
         if self.date_in_service > self.book_id.calendar_line_id.end_date and not self.allow_future_transaction :
             raise ValidationError(_('In order to add assets in future period Allow future transaction must set to True'))
 
         if self.method_progress_factor < 0:
             raise ValidationError(_('Degressive Factor must be positive'))
+
+        if self.current_cost < 0:
+            raise ValidationError(_('Current Cost can not be negative'))
 
 
     @api.depends('accumulated_value','current_cost')
@@ -1569,10 +1572,12 @@ class Retirement (models.Model):
             # net_book_value=record.book_assets_id.net_book_value
             record.gain_loss_amount = record.retired_cost - record.accumulated_value
             if record.retired_cost <= record.accumulated_value :
-                net_book = (record.net_book_value - record.retired_cost) - (record.accumulated_value - record.retired_cost)
+                net_book = (record.current_asset_cost - record.retired_cost) - (record.accumulated_value - record.retired_cost)
             elif record.retired_cost > record.accumulated_value or record.retired_cost == record.current_asset_cost:
-                net_book = record.net_book_value- record.retired_cost
+                net_book = record.current_asset_cost- record.retired_cost
             # record.current_asset_cost=current_cost
+            if net_book < 0 :
+                net_book = 0.0
             record.book_assets_id.write({'current_cost':net_book,
                                          'current_cost_from_retir':True,
                                          'accumulated_value':0.0})
@@ -1682,10 +1687,10 @@ class CategoryBooks(models.Model):
                               'asset_clearing_account':[('company_id','=',self.book_id.company_id.id),('user_type_id','=','Fixed Assets')],
                               'depreciation_expense_account':[('company_id','=',self.book_id.company_id.id),('user_type_id','=','Depreciation')],
                               'accumulated_depreciation_account':[('company_id','=',self.book_id.company_id.id),('user_type_id','=','Fixed Assets')],
-                              'asset_cost_analytic_account_id':[('company_id','=',self.book_id.company_id.id),('user_type_id','=','Fixed Assets')],
-                              'asset_clearing_analytic_account_id':[('company_id','=',self.book_id.company_id.id),('user_type_id','=','Fixed Assets')],
-                              'depreciation_expense_analytic_account_id':[('company_id','=',self.book_id.company_id.id),('user_type_id','=','Fixed Assets')],
-                              'accumulated_depreciation_analytic_account_id':[('company_id','=',self.book_id.company_id.id),('user_type_id','=','Fixed Assets')],
+                              'asset_cost_analytic_account_id':[('company_id','=',self.book_id.company_id.id)],
+                              'asset_clearing_analytic_account_id':[('company_id','=',self.book_id.company_id.id)],
+                              'depreciation_expense_analytic_account_id':[('company_id','=',self.book_id.company_id.id)],
+                              'accumulated_depreciation_analytic_account_id':[('company_id','=',self.book_id.company_id.id)],
                               'journal_id':[('company_id','=',self.book_id.company_id.id)]
                               }}
 

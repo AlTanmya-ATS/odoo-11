@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bc75f719-69d3-4ba9-843c-90cdf38bf8ab" name="Default" comment="new asset 4">
+    <list default="true" id="bc75f719-69d3-4ba9-843c-90cdf38bf8ab" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/models/models.py" afterPath="$PROJECT_DIR$/models/models.py" />
       <change beforePath="$PROJECT_DIR$/views/views.xml" afterPath="$PROJECT_DIR$/views/views.xml" />
-      <change beforePath="$PROJECT_DIR$/wizard/re_class.py" afterPath="$PROJECT_DIR$/wizard/re_class.py" />
-      <change beforePath="$PROJECT_DIR$/wizard/re_class.xml" afterPath="$PROJECT_DIR$/wizard/re_class.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,11 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="607">
-              <caret line="1892" column="75" lean-forward="true" selection-start-line="1892" selection-start-column="75" selection-end-line="1892" selection-end-column="75" />
+            <state relative-caret-position="211">
+              <caret line="1570" column="61" lean-forward="true" selection-start-line="1570" selection-start-column="61" selection-end-line="1570" selection-end-column="61" />
               <folding>
                 <element signature="e#24#40#0" expanded="true" />
               </folding>
@@ -29,10 +27,20 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.926/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="392">
+              <caret line="1012" column="40" lean-forward="false" selection-start-line="1012" selection-start-column="28" selection-end-line="1012" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="re_class.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wizard/re_class.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1449">
+            <state relative-caret-position="801">
               <caret line="70" column="8" lean-forward="true" selection-start-line="70" selection-start-column="8" selection-end-line="70" selection-end-column="8" />
               <folding />
             </state>
@@ -42,8 +50,8 @@
       <file leaf-file-name="re_class.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wizard/re_class.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="8" column="23" lean-forward="true" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
+            <state relative-caret-position="269">
+              <caret line="28" column="27" lean-forward="false" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -52,17 +60,17 @@
       <file leaf-file-name="views.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/views.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="798">
-              <caret line="512" column="72" lean-forward="true" selection-start-line="512" selection-start-column="72" selection-end-line="512" selection-end-column="72" />
+            <state relative-caret-position="384">
+              <caret line="992" column="89" lean-forward="false" selection-start-line="992" selection-start-column="45" selection-end-line="992" selection-end-column="89" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="asset_management.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="asset_management.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/src/js/asset_management.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="703">
+            <state relative-caret-position="2001">
               <caret line="87" column="0" lean-forward="true" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
               <folding />
             </state>
@@ -92,7 +100,7 @@
       <file leaf-file-name="modify_dep.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wizard/modify_dep.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
+            <state relative-caret-position="322">
               <caret line="15" column="56" lean-forward="false" selection-start-line="15" selection-start-column="56" selection-end-line="15" selection-end-column="56" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
@@ -122,18 +130,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>_compute_current_cost</find>
-      <find>set_to_dr</find>
-      <find>posted_de</find>
-      <find>post_lines_and_close_asset</find>
-      <find>depreciation_line_length</find>
-      <find>confirmation</find>
-      <find>class boo</find>
-      <find>DELET</find>
-      <find>readonly</find>
-      <find>CURRENT_COST</find>
-      <find>current_cost_from_retir</find>
-      <find>current_cost</find>
       <find>source_amou</find>
       <find>class ret</find>
       <find>asset_management.tag</find>
@@ -149,9 +145,21 @@
       <find>You can not delete a source line from</find>
       <find>old_cate</find>
       <find>book asset</find>
-      <find>class book</find>
       <find>'date': line.book_id.calendar_line_id</find>
       <find>life_months</find>
+      <find>one2man</find>
+      <find>retire_date</find>
+      <find>user_type</find>
+      <find>depreciation_expense_account</find>
+      <find>create_as</find>
+      <find>full_retirement</find>
+      <find>generate_retirement_journal</find>
+      <find>current cost</find>
+      <find>class book</find>
+      <find>current_cost</find>
+      <find>factor</find>
+      <find>class retire</find>
+      <find>domain</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -206,11 +214,11 @@
         <option value="$PROJECT_DIR$/wizard/mas_entries.py" />
         <option value="$PROJECT_DIR$/wizard/mas_entries.xml" />
         <option value="$PROJECT_DIR$/wizard/re_class.py" />
+        <option value="$PROJECT_DIR$/static/src/less/asset_management.less" />
+        <option value="$PROJECT_DIR$/static/src/js/asset_management.js" />
+        <option value="$PROJECT_DIR$/wizard/re_class.xml" />
         <option value="$PROJECT_DIR$/views/views.xml" />
         <option value="$PROJECT_DIR$/models/models.py" />
-        <option value="$PROJECT_DIR$/static/src/less/asset_management.less" />
-        <option value="$PROJECT_DIR$/wizard/re_class.xml" />
-        <option value="$PROJECT_DIR$/static/src/js/asset_management.js" />
       </list>
     </option>
   </component>
@@ -235,7 +243,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -278,11 +285,12 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.file-colors" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../extend_event_track" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://E:/odoo/newclone/odoo-11/asset_management/views/views.xml" />
   </component>
   <component name="RunDashboard">
@@ -534,23 +542,30 @@
       <option name="project" value="LOCAL" />
       <updated>1537610268494</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="new asset 4">
+      <created>1537793258803</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1537793258803</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13802083" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.053645834" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15801105" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15801105" sideWeight="0.49791667" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -579,7 +594,8 @@
     <MESSAGE value="new asset2" />
     <MESSAGE value="new asset 2" />
     <MESSAGE value="new asset 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="new asset 3" />
+    <MESSAGE value="new asset 4" />
+    <option name="LAST_COMMIT_MESSAGE" value="new asset 4" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -596,7 +612,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/models/models.py</url>
-          <line>465</line>
+          <line>468</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
@@ -605,20 +621,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../../web/controllers/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../website/views/website_views.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4529">
-          <caret line="2" column="9" lean-forward="false" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../website/views/snippets.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4048">
@@ -728,7 +730,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="92">
           <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -752,17 +753,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1196">
           <caret line="55" column="41" lean-forward="false" selection-start-line="55" selection-start-column="25" selection-end-line="55" selection-end-column="41" />
-          <folding>
-            <element signature="e#25#64#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wizard/confirmation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="16" column="86" lean-forward="false" selection-start-line="16" selection-start-column="80" selection-end-line="16" selection-end-column="86" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -770,6 +760,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="828">
           <caret line="36" column="33" lean-forward="false" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/sys_ui_action_935576563dd76100eb792c11a8c6b342.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/src/js/asset_management.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2001">
+          <caret line="87" column="0" lean-forward="true" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -782,17 +786,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Downloads/sys_ui_action_935576563dd76100eb792c11a8c6b342.xml">
+    <entry file="file://$PROJECT_DIR$/wizard/confirmation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="322">
+          <caret line="16" column="86" lean-forward="false" selection-start-line="16" selection-start-column="80" selection-end-line="16" selection-end-column="86" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wizard/modify_dep.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
+        <state relative-caret-position="322">
           <caret line="15" column="56" lean-forward="false" selection-start-line="15" selection-start-column="56" selection-end-line="15" selection-end-column="56" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
@@ -808,45 +812,53 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/models.py">
+    <entry file="file://$PROJECT_DIR$/wizard/re_class.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="607">
-          <caret line="1892" column="75" lean-forward="true" selection-start-line="1892" selection-start-column="75" selection-end-line="1892" selection-end-column="75" />
-          <folding>
-            <element signature="e#24#40#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="269">
+          <caret line="28" column="27" lean-forward="false" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wizard/re_class.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1449">
+        <state relative-caret-position="801">
           <caret line="70" column="8" lean-forward="true" selection-start-line="70" selection-start-column="8" selection-end-line="70" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wizard/re_class.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="8" column="23" lean-forward="true" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/views.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="798">
-          <caret line="512" column="72" lean-forward="true" selection-start-line="512" selection-start-column="72" selection-end-line="512" selection-end-column="72" />
+        <state relative-caret-position="384">
+          <caret line="992" column="89" lean-forward="false" selection-start-line="992" selection-start-column="45" selection-end-line="992" selection-end-column="89" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/src/js/asset_management.js">
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.005/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="703">
-          <caret line="87" column="0" lean-forward="true" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.926/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="1012" column="40" lean-forward="false" selection-start-line="1012" selection-start-column="28" selection-end-line="1012" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="1570" column="61" lean-forward="true" selection-start-line="1570" selection-start-column="61" selection-end-line="1570" selection-end-column="61" />
+          <folding>
+            <element signature="e#24#40#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
